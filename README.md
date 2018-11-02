@@ -221,6 +221,10 @@ The outbox set of services receives request from the actors, usually through the
 ### HistoryQuerier
 - **Role :** This query service handle the distribution of previous versions of data. To be implemented.
 
+### UserInterface
+- **Role :** This service handle the display of the user interface. It is subscribed to all topics as to update its data dynamically. It could be divided in multiple sub-services, to be determined.
+
+
 ## Delivery and other details
 	
 An activity is delivered to the inboxes of all the actors mentionned in the to, bto, cc, bcc and audience fields of the activity. We must also always deliver an activity to the sender's follower collection (de-duplication needed). If an activity is sent to the "public" collection, it is not delivered to any actors but viewable by all in the actor's outbox. An activity in an outbox is always delivered to the appropriate inboxes but also added in the sender's outbox collection (through the OutboxCollection API).
