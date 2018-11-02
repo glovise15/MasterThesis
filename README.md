@@ -7,11 +7,11 @@
 - **Role :** This service handles the authentication of users as well the creation. According to the CQRS pattern, I will probably need to create a separate API for the creation of users. I will need to familiarize myslef with the OpenID protocol before decinding on how to proceed.
 - **Technologies :** [OpenID Connect 1.0](https://openid.net/connect/) is a simple identity layer on top of the OAuth 2.0 protocol. It allows Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner. The node.js implementation can foud [here](https://www.npmjs.com/package/oidc-provider#get-started).
 - **API :**
-	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
-	| POST | /user | username=[string] & password=[string] | Authentication token | Register a new user |
-	| GET | /user/:username/:password | - | Authentication token | Log in a user |
-	| GET | /user/:username/:token/authorization | - | - | Checks if an authentication token is still valid |
+| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
+|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
+| POST | /user | username=[string] & password=[string] | Authentication token | Register a new user |
+| GET | /user/:username/:password | - | Authentication token | Log in a user |
+| GET | /user/:username/:token/authorization | - | - | Checks if an authentication token is still valid |
 - **Additional information :** This service will be among the last to be implemented as the priority is on the ActivityPub protocol implementation.	Depending on the protocol this might be divided in two protocols to follow the CQRS pattern.
 
 ### ActorCommand
@@ -19,7 +19,7 @@
 - **Role :** This command service handles the CRUD operations on actors.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /actor/create | actorname=[string] & username=[string] & information=[activityStreams] | - | Create a new actor for an user |
 	| POST | /actor/update | actorname=[string] & information=[activityStreams] | - | Update an existing actor |
 	| POST | /actor/delete | actorname=[string] | - | Delete an existing actor |	
@@ -33,7 +33,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /outbox/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
 	| POST | /outbox/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
 	| POST | /outbox/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
@@ -44,7 +44,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox for like objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /outbox/like | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Like an object.
 	| POST | /outbox/like/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous like.
 	
@@ -53,7 +53,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox for follow objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /outbox/follow | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Subscribe to the activities of another actor.
 	| POST | /outbox/follow/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous follow.
 	
@@ -62,7 +62,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox for share objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /outbox/share | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Share/repost the actvity of another actor.
 	| POST | /outbox/share/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous share.
 	
@@ -71,7 +71,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox for block objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /outbox/block | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Block another actor from interacting with the objects we posted (not delivered to the targeted actor).
 	| POST | /outbox/block/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous block.
 
@@ -86,7 +86,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
 	| POST | /inbox/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
 	| POST | /inbox/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
@@ -97,7 +97,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox for like objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/like | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Like an object.
 	| POST | /inbox/like/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous like.
 	
@@ -106,7 +106,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox for follow objects. When actor A follow actor B, A is added to the following collection of B and B is added to the followed collection of A.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/follow | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Subscribe to the activities of another actor.
 	| POST | /inbox/follow/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous follow.
 	| POST | /inbox/follow/accept | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Accept a following  for a follow activity sent previously.
@@ -116,7 +116,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox for share objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/share | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Share/repost the actvity of another actor.
 	| POST | /inbox/share/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous share.
 	
@@ -125,7 +125,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox for block objects.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/block | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Block another actor from interacting with the objects we posted (not delivered to the targeted actor).
 	| POST | /inbox/block/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous block.
 	
@@ -134,7 +134,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the inbox collection containing all activities received by the actor.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/in/add | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Add the object in the collection specified in the target property.
 	| POST | /inbox/in/remove | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Remove the object in the collection specified in the target property.
 	| POST | /inbox/in/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous add or remove operations.
@@ -145,7 +145,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This command service handles the outbox collection containing all activities sent by the actor.
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| POST | /inbox/out/add | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Add the object in the collection specified in the target property.
 	| POST | /inbox/out/remove | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Remove the object in the collection specified in the target property.
 	| POST | /inbox/out/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous add or remove operations.	
@@ -161,7 +161,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This query service is subscribed to the "Note" topic. 
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| GET | /noteDB/object/:actorname/:objectId/:token | - | jsonObject[activityStreams] | Get the last state of [objectId] (all if not specified).
 
 #### LikeQuerier
@@ -169,7 +169,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This query service is subscribed to the "Like" topic. 
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| GET | /inbox/like/:actorname/:token | - | jsonObject[activityStreams] | Get the list of liked objects.
 	
 #### FollowQuerier
@@ -177,7 +177,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This query service is subscribed to the "Follow" topic. 
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| GET | /inbox/followed/:actorname/:token | - | jsonObject[activityStreams] | Get the list of followed actors.
 	| GET | /inbox/following/:actorname/:token | - | jsonObject[activityStreams] | Get the list of following actors.
 	
@@ -186,7 +186,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This query service is subscribed to the "Share" topic. 
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| GET | /inbox/Share/:actorname/:token | - | jsonObject[activityStreams] | Get the list of shared objects.
 	
 #### BlockQuerier
@@ -194,7 +194,7 @@ The outbox set of services receives request from the actors, usually through the
 - **Role :** This query service is subscribed to the "Block" topic. 
 - **API :**
 	| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-	|------|-----------------------------|-------------------------------------|--------------------|--------------------------------------------------|
+	|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 	| GET | /inbox/block/:actorname/:token | - | jsonObject[activityStreams] | Get the list of blocked actors.
 	
 	
