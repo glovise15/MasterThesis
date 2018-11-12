@@ -25,7 +25,17 @@
 | POST | /actor/create | actorname=[string] & username=[string] & information=[activityStreams] | - | Create a new actor for an user |
 | POST | /actor/update | actorname=[string] & information=[activityStreams] | - | Update an existing actor |
 | POST | /actor/delete | actorname=[string] | - | Delete an existing actor |	
-	
+
+### ActorQuery
+
+- **Role :** This service handles the querying of actors' information.
+- **API :**
+
+| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |	
+|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
+| GET | /actor/all/:username | Authentication token | jsonObject[ActivityStreams] | Get all of the actors available to [username] |
+| GET | /actor/:actorname | Authentication token | jsonObject[ActivityStreams] | Get the information relative for [actorname] |
+
 ### Outbox
 
 The outbox set of services receives request from the actors, usually through the front-end service, to send activities to other actors. In short, the client send data to the server to handle the delivery.
