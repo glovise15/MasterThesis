@@ -1,19 +1,38 @@
 # ActivityPub protocol implementation 2.0
 
+## Wolkenkit events
+
+In wolkenkit, services are subscribed  to events that are published by specific commands :
+
+- post -> posted : creation of a note.
+- like -> liked : like of a note.
+- share -> shared : share of a note.
+- follow -> followed : follow an actor.
+- block -> blocked : block an actor.
+
 ## Services documentation
 	
 ### 1. User
 	
-- **Role :** This service handles the authentication of users as well the creation. According to the CQRS pattern, I will probably need to create a separate API for the creation of users. I will need to familiarize myslef with the OpenID protocol before decinding on how to proceed.
+- **Role :** This service handles the authentication of users as well the creation.
 - **Technologies :** [OpenID Connect 1.0](https://openid.net/connect/) is a simple identity layer on top of the OAuth 2.0 protocol. It allows Clients to verify the identity of the End-User based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the End-User in an interoperable and REST-like manner. The node.js implementation can foud [here](https://www.npmjs.com/package/oidc-provider#get-started).
+
+#### 1.1 UserCommand
+
 - **API :**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /user | username=[string] & password=[string] | Authentication token | Register a new user |
+
+#### 1.2 UserQuery
+
+- **API :**
+
+| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
+|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /user/:username/:password | - | Authentication token | Log in a user |
 | GET | /user/:username/:token/authorization | - | - | Checks if an authentication token is still valid |
-- **Additional information :** This service will be among the last to be implemented as the priority is on the ActivityPub protocol implementation.	Depending on the protocol this might be divided in two protocols to follow the CQRS pattern.
 
 ### 2. ActorCommand
 	
@@ -151,18 +170,6 @@ The outbox set of services receives request from the actors, usually through the
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /inbox/block | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Block another actor from interacting with the objects we posted (not delivered to the targeted actor).
 | POST | /inbox/block/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous block.
-	
-#### 5.6 InboxCollection
-
-- **Role :** This command service handles the inbox collection containing all activities received by the actor.
-- **API :**
-
-| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
-|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
-| POST | /inbox/in/add | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Add the object in the collection specified in the target property.
-| POST | /inbox/in/remove | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Remove the object in the collection specified in the target property.
-| POST | /inbox/in/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous add or remove operations.
-- **Additional information :** This service handle the inbox property of an actor, containing all the activities that he received in his inbox. This is basically an aggregate of the all the database in the Inbox set of service.
 
 #### 5.7 OutboxCollection
 
@@ -238,10 +245,3 @@ The outbox set of services receives request from the actors, usually through the
 ## Delivery and other details
 	
 An activity is delivered to the inboxes of all the actors mentionned in the to, bto, cc, bcc and audience fields of the activity. We must also always deliver an activity to the sender's follower collection (de-duplication needed). If an activity is sent to the "public" collection, it is not delivered to any actors but viewable by all in the actor's outbox. An activity in an outbox is always delivered to the appropriate inboxes but also added in the sender's outbox collection (through the OutboxCollection API).
-
-## Doubts
-I haven't really thought about how to implement the filter feature, I have to look into it a bit more (Mastodon's API seems to also be using a filter, I plan on doing some research on that).
-
-Whenever someone want to see the whole inbox of an actor we can either aggregate all the data in the databases of the Inbox's set of service for that actor or we can have the service InboxCollection which is a redudant database storing all the activities received by that actor. I'm not sure which of these two solutions is the best.
-
-The userinterface can either be subscribed to event store or the outbox's set of service can be responsible for sending the new data.
