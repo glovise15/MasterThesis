@@ -1,0 +1,21 @@
+{
+  "name": "ActivityPub",
+  "version": "1.0",
+  "wolkenkit": {
+    "application": "activity-pub",
+    "runtime": {
+      "version": "2.0.0"
+    },
+    "environments": {
+      "default": {
+        "api": {
+          "address": {
+            "host": "local.wolkenkit.io",
+            "port": 3000
+          },
+          "allowAccessFrom": "*"
+        }
+      }
+    }
+  }
+}
