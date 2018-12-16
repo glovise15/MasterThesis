@@ -1,0 +1,190 @@
+version: '3.3'
+
+services:
+
+#------------------------User------------------------------
+
+  user-command-service:
+    container_name: user-command-service
+    build: ./user/userCommand
+    volumes:
+      - './user/userCommand:/app/src'
+    ports:
+      - '3101:3100'
+
+  user-query-service:
+    container_name: user-query-service
+    build: ./user/userQuery
+    volumes:
+      - './user/userQuery:/app/src'
+    ports:
+      - '3102:3100'
+
+#------------------------Actor------------------------------
+
+  actor-command-service:
+    container_name: actor-command-service
+    build: ./actor/actorCommand
+    volumes:
+      - './actor/actorCommand:/app/src'
+    ports:
+      - '3104:3100'
+
+  actor-query-service:
+    container_name: actor-query-service
+    build: ./actor/actorQuery
+    volumes:
+      - './actor/actorQuery:/app/src'
+    ports:
+      - '3105:3100'
+
+#------------------------Block------------------------------
+
+  block-outbox-service:
+    container_name : block-outbox-service
+    build: ./outbox/blockOutbox
+    volumes:
+      - './outbox/blockOutbox:/app/src'
+    ports:
+      - '3107:3100'
+
+  block-inbox-command-service:
+    container_name : block-inbox-command-service
+    build: ./inbox/command/blockInbox
+    volumes:
+      - './inbox/command/blockInbox:/app/src'
+    ports:
+      - '3108:3100'
+
+  block-inbox-query-service:
+    container_name : block-inbox-query-service
+    build: ./inbox/databaseQuerier/blockQuerier
+    volumes:
+      - './inbox/databaseQuerier/blockQuerier:/app/src'
+    ports:
+      - '3109:3100'
+
+#------------------------Follow------------------------------
+
+  follow-outbox-service:
+    container_name : follow-outbox-service
+    build: ./outbox/followOutbox
+    volumes:
+      - './outbox/followOutbox:/app/src'
+    ports:
+      - '3111:3100'
+
+  follow-inbox-command-service:
+    container_name : follow-inbox-command-service
+    build: ./inbox/command/followInbox
+    volumes:
+      - './inbox/command/followInbox:/app/src'
+    ports:
+      - '3112:3100'
+
+  follow-inbox-query-service:
+    container_name : follow-inbox-query-service
+    build: ./inbox/databaseQuerier/followQuerier
+    volumes:
+      - './inbox/databaseQuerier/followQuerier:/app/src'
+    ports:
+      - '3113:3100'
+
+#------------------------Like------------------------------
+
+  like-outbox-service:
+    container_name : like-outbox-service
+    build: ./outbox/likeOutbox
+    volumes:
+      - './outbox/likeOutbox:/app/src'
+    ports:
+      - '3115:3100'
+
+  like-inbox-command-service:
+    container_name : like-inbox-command-service
+    build: ./inbox/command/likeInbox
+    volumes:
+      - './inbox/command/likeInbox:/app/src'
+    ports:
+      - '3116:3100'
+
+  like-inbox-query-service:
+    container_name : like-inbox-query-service
+    build: ./inbox/databaseQuerier/likeQuerier
+    volumes:
+      - './inbox/databaseQuerier/likeQuerier:/app/src'
+    ports:
+      - '3117:3100'
+
+#------------------------Note------------------------------
+
+  note-outbox-service:
+    container_name : note-outbox-service
+    build: ./outbox/noteOutbox
+    volumes:
+      - './outbox/noteOutbox:/app/src'
+    ports:
+      - '3119:3100'
+
+  note-inbox-command-service:
+    container_name : note-inbox-command-service
+    build: ./inbox/command/noteInbox
+    volumes:
+      - './inbox/command/noteInbox:/app/src'
+    ports:
+      - '3120:3100'
+
+  note-inbox-query-service:
+    container_name : note-inbox-query-service
+    build: ./inbox/databaseQuerier/noteQuerier
+    volumes:
+      - './inbox/databaseQuerier/noteQuerier:/app/src'
+    ports:
+      - '3121:3100'
+
+#------------------------Share------------------------------
+
+  share-outbox-service:
+    container_name : share-outbox-service
+    build: ./outbox/shareOutbox
+    volumes:
+      - './outbox/shareOutbox:/app/src'
+    ports:
+      - '3123:3100'
+
+  share-inbox-command-service:
+    container_name : share-inbox-command-service
+    build: ./inbox/command/shareInbox
+    volumes:
+      - './inbox/command/shareInbox:/app/src'
+    ports:
+      - '3124:3100'
+
+  share-inbox-query-service:
+    container_name : share-inbox-query-service
+    build: ./inbox/databaseQuerier/shareQuerier
+    volumes:
+      - './inbox/databaseQuerier/shareQuerier:/app/src'
+    ports:
+      - '3125:3100'
+
+#------------------------OutboxCollection------------------------------
+
+  outbox-collection-inbox-command-service:
+    container_name : outbox-collection-inbox-command-service
+    build: ./inbox/command/outboxCollectionInbox
+    volumes:
+      - './inbox/command/outboxCollectionInbox:/app/src'
+    ports:
+      - '3127:3100'
+
+  outbox-collection-inbox-query-service:
+    container_name : outbox-collection-inbox-query-service
+    build: ./inbox/databaseQuerier/outboxCollectionQuerier
+    volumes:
+      - './inbox/databaseQuerier/outboxCollectionQuerier:/app/src'
+    ports:
+      - '3128:3100'
+
+
+
