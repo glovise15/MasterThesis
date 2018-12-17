@@ -263,3 +263,4 @@ An activity is delivered to the inboxes of all the actors mentionned in the to, 
 
 Implementation of gateway ?
 Merge actors and users ?
+Routes names ?
