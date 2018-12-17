@@ -262,5 +262,6 @@ An activity is delivered to the inboxes of all the actors mentionned in the to, 
 ## To discuss
 
 Implementation of gateway ?
-Merge actors and users ?
+Merge actors and users ? (voir mastodon et autre osn) token retourne role, valide token et role au même moment.
+Rajouter des droits aux acteurs.
 Routes names ?
