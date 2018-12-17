@@ -19,7 +19,7 @@ In wolkenkit, services are subscribed  to events that are published by specific 
 
 #### 1.1 UserCommand
 
-- **API :**
+- **API : 3101**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -27,17 +27,20 @@ In wolkenkit, services are subscribed  to events that are published by specific 
 
 #### 1.2 UserQuery
 
-- **API :**
+- **API : 3102**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /user/:username/:password | - | Authentication token | Log in a user |
 | GET | /user/:username/:token/authorization | - | - | Checks if an authentication token is still valid |
 
-### 2. ActorCommand
+### 2. Actor
+	
+- **Role :** This service handles the actors which are sort of public identities of users.
+#### 2.1 ActorCommand
 	
 - **Role :** This command service handles the CRUD operations on actors.
-- **API :**
+- **API : 3104**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |	
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -45,24 +48,24 @@ In wolkenkit, services are subscribed  to events that are published by specific 
 | POST | /actor/update | actorname=[string] & information=[activityStreams] | - | Update an existing actor |
 | POST | /actor/delete | actorname=[string] | - | Delete an existing actor |	
 
-### 3. ActorQuery
+#### 2.2 ActorQuery
 
 - **Role :** This service handles the querying of actors' information.
-- **API :**
+- **API : 3105**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |	
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /actor/all/:username | Authentication token | jsonObject[ActivityStreams] | Get all of the actors available to [username] |
 | GET | /actor/:actorname | Authentication token | jsonObject[ActivityStreams] | Get the information relative for [actorname] |
 
-### 4. Outbox
+### 3. Outbox
 
 The outbox set of services receives request from the actors, usually through the front-end service, to send activities to other actors. In short, the client send data to the server to handle the delivery.
 
-#### 4.1 NoteOutbox
+#### 3.1 NoteOutbox
 
 - **Role :** This command service handles the outbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
-- **API :**
+- **API : 3119**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |	
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -71,40 +74,40 @@ The outbox set of services receives request from the actors, usually through the
 | POST | /outbox/note/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
 | POST | /outbox/note/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a note.
 	
-#### 4.2 LikeOutbox
+#### 3.2 LikeOutbox
 
 - **Role :** This command service handles the outbox for like objects.
-- **API :**
+- **API : 3115**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /outbox/like | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Like an object.
 | POST | /outbox/like/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous like.
 	
-#### 4.3 FollowOutbox
+#### 3.3 FollowOutbox
 
 - **Role :** This command service handles the outbox for follow objects.
-- **API :**
+- **API : 3111**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /outbox/follow | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Subscribe to the activities of another actor.
 | POST | /outbox/follow/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous follow.
 	
-#### 4.4 ShareOutbox
+#### 3.4 ShareOutbox
 
 - **Role :** This command service handles the outbox for share objects.
-- **API :**
+- **API : 3123**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /outbox/share | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Share/repost the actvity of another actor.
 | POST | /outbox/share/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous share.
 	
-#### 4.5 BlockOutbox
+#### 3.5 BlockOutbox
 
 - **Role :** This command service handles the outbox for block objects.
-- **API :**
+- **API : 3107**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -112,15 +115,15 @@ The outbox set of services receives request from the actors, usually through the
 | POST | /outbox/block/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous block.
 
 
-### 5. Inbox
+### 4. Inbox
 
 - **Role :** The inbox set of services receives request from the servers, usually through their outbox services, to deliver activties to actors' inboxes. Once a request is processed, these services all publish them on the event bus to be persisted in the event store.
 - **Technologies :** [Wolkenkit](https://www.wolkenkit.io/)
 
-#### 5.1 NoteInbox
+#### 4.1 NoteInbox
 	
 - **Role :** This command service handles the inbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
-- **API :**
+- **API : 3120**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -129,20 +132,20 @@ The outbox set of services receives request from the actors, usually through the
 | POST | /inbox/note/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
 | POST | /inbox/note/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a note.	
 	
-#### 5.2 LikeInbox
+#### 4.2 LikeInbox
 
 - **Role :** This command service handles the inbox for like objects.
-- **API :**
+- **API : 3116**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /inbox/like | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Like an object.
 | POST | /inbox/like/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous like.
 	
-#### 5.3 FollowInbox
+#### 4.3 FollowInbox
 
 - **Role :** This command service handles the inbox for follow objects. When actor A follow actor B, A is added to the following collection of B and B is added to the followed collection of A.
-- **API :**
+- **API : 3112**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -151,30 +154,30 @@ The outbox set of services receives request from the actors, usually through the
 | POST | /inbox/follow/accept | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Accept a following  for a follow activity sent previously.
 | POST | /inbox/follow/reject | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Reject a following for a follow activity sent previously.
 
-#### 5.4 ShareInbox
+#### 4.4 ShareInbox
 
 - **Role :** This command service handles the inbox for share objects.
-- **API :**
+- **API : 3124**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /inbox/share | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Share/repost the actvity of another actor.
 | POST | /inbox/share/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous share.
 	
-#### 5.5 BlockInbox
+#### 4.5 BlockInbox
 
 - **Role :** This command service handles the inbox for block objects.
-- **API :**
+- **API : 3108**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | POST | /inbox/block | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Block another actor from interacting with the objects we posted (not delivered to the targeted actor).
 | POST | /inbox/block/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous block.
 
-#### 5.7 OutboxCollection
+#### 4.6 OutboxCollection
 
 - **Role :** This command service handles the outbox collection containing all activities sent by the actor.
-- **API :**
+- **API : 3127**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
@@ -183,65 +186,80 @@ The outbox set of services receives request from the actors, usually through the
 | POST | /inbox/out/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo a previous add or remove operations.	
 - **Additional information :** This service handle the outbox property of an actor, containing all the activities that he put in his outbox. 
 	
-### 6. DatabaseQuerier
+### 5. DatabaseQuerier
 
 - **Role :** This query service handles the storage of last known state of each objects in a database. Each services in this set is subscribed to a specific topic. When a new event for an object is received, these services will reconstruct the object based on all the events in the event store and then persist it in the database.
 - **Technologies :** [Wolkenkit](https://www.wolkenkit.io/)
 	
-#### 6.1 NoteQuerier
+#### 5.1 NoteQuerier
 
 - **Role :** This query service is subscribed to the "Note" topic. 
-- **API :**
+- **API : 3121**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /noteDB/object/:actorname/:objectId/:token | - | jsonObject[activityStreams] | Get the last state of [objectId] (all if not specified).
 
-#### 6.2 LikeQuerier
+#### 5.2 LikeQuerier
 
 - **Role :** This query service is subscribed to the "Like" topic. 
-- **API :**
+- **API : 3117**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /likeDB/:actorname/:token | - | jsonObject[activityStreams] | Get the list of liked objects.
 	
-#### 6.3 FollowQuerier
+#### 5.3 FollowQuerier
 
 - **Role :** This query service is subscribed to the "Follow" topic. 
-- **API :**
+- **API : 3113**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /followDB/followed/:actorname/:token | - | jsonObject[activityStreams] | Get the list of followed actors.
 | GET | /followDB/following/:actorname/:token | - | jsonObject[activityStreams] | Get the list of following actors.
 	
-#### 6.4 ShareQuerier
+#### 5.4 ShareQuerier
 
 - **Role :** This query service is subscribed to the "Share" topic. 
-- **API :**
+- **API : 3125**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /shareDB/:actorname/:token | - | jsonObject[activityStreams] | Get the list of shared objects.
 	
-#### 6.5 BlockQuerier
+#### 5.5 BlockQuerier
 
 - **Role :** This query service is subscribed to the "Block" topic. 
-- **API :**
+- **API : 3109**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
 | GET | /blockDB/:actorname/:token | - | jsonObject[activityStreams] | Get the list of blocked actors.
 	
+
+#### 5.6 OutboxCollectionQuerier
+
+- **Role :** This query service is subscribed to the "Outbox" topic.
+- **API : 3128**
+
+| Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
+|:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
+| POST | /outboxDB/:actorname/:token | - | jsonObject[activityStreams] | Get all the actions done by actors.	
+- **Additional information :** This service handle the outbox property of an actor, containing all the activities that he put in his outbox. 	
 	
-### 7. HistoryQuerier
+### 6. HistoryQuerier
 - **Role :** This query service handle the distribution of previous versions of data. To be implemented.
 
-### 8. UserInterface
+### 7. UserInterface
 - **Role :** This service handle the display of the user interface. It is subscribed to all topics as to update its data dynamically. It could be divided in multiple sub-services, to be determined.
 
 
 ## Delivery and other details
 	
 An activity is delivered to the inboxes of all the actors mentionned in the to, bto, cc, bcc and audience fields of the activity. We must also always deliver an activity to the sender's follower collection (de-duplication needed). If an activity is sent to the "public" collection, it is not delivered to any actors but viewable by all in the actor's outbox. An activity in an outbox is always delivered to the appropriate inboxes but also added in the sender's outbox collection (through the OutboxCollection API).
+
+## To discuss
+
+Implementation of gateway ?
+Merge actors and users ?
