@@ -7,6 +7,7 @@
     "test": "tests"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
@@ -18,7 +19,9 @@
     "gulp-nodemon": "^2.4.2",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
+    "nano": "^6.4.3",
     "nodemon": "^1.18.7",
+    "oidc-provider": "^5.5.3",
     "sinon": "^7.1.1",
     "supertest": "^3.3.0",
     "winston": "^3.1.0"

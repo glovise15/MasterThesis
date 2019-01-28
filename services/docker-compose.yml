@@ -4,13 +4,30 @@ services:
 
 #------------------------User------------------------------
 
+  user-db:
+    container_name: user-db
+    build: ./user/userDB
+    volumes:
+      - './user/userDB:/app/src'
+    ports:
+      - '3101:5984'
+
+  user-init-db:
+    container_name: user-init-db
+    build: ./user/userDB/init_db
+    command: [ "./wait-for-couchdb.sh" ]
+    volumes:
+      - './user/userDB/init_db:/app/src'
+    depends_on: [ "user-db" ]
+
+
   user-command-service:
     container_name: user-command-service
     build: ./user/userCommand
     volumes:
       - './user/userCommand:/app/src'
     ports:
-      - '3101:3100'
+      - '3102:3100'
 
   user-query-service:
     container_name: user-query-service
@@ -18,7 +35,7 @@ services:
     volumes:
       - './user/userQuery:/app/src'
     ports:
-      - '3102:3100'
+      - '3103:3100'
 
 #------------------------Actor------------------------------
 
@@ -28,7 +45,7 @@ services:
     volumes:
       - './actor/actorCommand:/app/src'
     ports:
-      - '3104:3100'
+      - '3105:3100'
 
   actor-query-service:
     container_name: actor-query-service
@@ -36,7 +53,7 @@ services:
     volumes:
       - './actor/actorQuery:/app/src'
     ports:
-      - '3105:3100'
+      - '3106:3100'
 
 #------------------------Block------------------------------
 
