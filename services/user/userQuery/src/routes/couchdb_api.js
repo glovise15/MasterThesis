@@ -1,7 +1,11 @@
 const log = require('debug')('user-db')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken');
 const userDB = require('nano')(process.env.COUCHDB_DB_URL)
+const key = "secret"
 
+
+//LOGIN
 function getUser (username) {
     return new Promise((resolve, reject) => {
         userDB.get(username, (ko, ok) => {
@@ -15,26 +19,25 @@ function getUser (username) {
 
 function comparePass (userPassword, databasePassword) {
     return bcrypt.compareSync(userPassword, databasePassword)
+
 }
 
 function ensureAuthenticated (req) {
     return new Promise((resolve, reject) => {
+        var username = req.params.username
         var token = req.params.token
-        if (!token) {
+
+        if (!token || !username) {
             log('user request has no token')
             reject(new Error(`No token for user ${req.params.username}`))
         }
-        /*if (err) {
-            log('token has expired')
-            reject(new Error(`Token for ${req.params.username} has expired`))
-        }*/
 
-        userDB.get(parseInt(payload.sub, 10), (ko, ok) => {
-            if (ko) {
-                log(ko)
-                reject(ko.reason)
-            } else resolve()
-        })
+        jwt.verify(token,key, function(err, decoded) {
+            if (err) {
+                console.log(err)
+                reject(new Error(`Token for ${req.params.username} is not valid`));
+            } else resolve(true)
+        });
     })
 }
 
@@ -42,5 +45,6 @@ function ensureAuthenticated (req) {
 module.exports = {
     getUser,
     comparePass,
-    ensureAuthenticated
+    ensureAuthenticated,
+    key
 }

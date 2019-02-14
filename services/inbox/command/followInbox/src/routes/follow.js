@@ -1,12 +1,18 @@
 const express = require('express');
-
 const router = express.Router();
+const wolkenkit = require("../eventStore");
 
 router.get('/', (req, res) => {
-    var object = {logo: "hello", name: "polo"}
+
+    wolkenkit.then((eventStore) => {
+        eventStore.activityPub.activity().follow({text:"new follow"}).failed(console.log);
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+
     res.status(200).json({
-        status: 'success, service follow',
-        object
+        status: 'success, service follow'
     })
 });
 

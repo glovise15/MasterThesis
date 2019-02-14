@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const wolkenkit = require('wolkenkit-client');
 
 
 const routes = require('./routes/note');

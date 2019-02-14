@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const wolkenkit = require('wolkenkit-client');
 
 const routes = require('./routes/note');
 
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-if (process.env.NODE_ENV !== 'test') { app.use(logger('dev')); }
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -38,5 +38,8 @@ app.use((err, req, res, next) => {
     });
 });
 /* eslint-enable no-unused-vars */
+
+
+
 
 module.exports = app;

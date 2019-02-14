@@ -1,12 +1,18 @@
 const express = require('express');
-
 const router = express.Router();
+const wolkenkit = require("../eventStore");
 
 router.get('/', (req, res) => {
-    var object = {logo: "hello", name: "polo"}
+
+    wolkenkit.then((eventStore) => {
+        eventStore.activityPub.activity().share({text:"new share"}).failed(console.log);
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+
     res.status(200).json({
-        status: 'success, service share',
-        object
+        status: 'success, service share'
     })
 });
 

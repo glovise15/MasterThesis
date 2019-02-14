@@ -21,7 +21,9 @@
     "nodemon": "^1.18.7",
     "sinon": "^7.1.1",
     "supertest": "^3.3.0",
-    "winston": "^3.1.0"
+    "winston": "^3.1.0",
+    "wolkenkit": "^3.1.0",
+    "wolkenkit-client": "^3.1.0"
   },
   "devDependencies": {},
   "scripts": {

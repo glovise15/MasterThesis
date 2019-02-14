@@ -3,7 +3,6 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-
 const routes = require('./routes/actor');
 
 const app = express();
@@ -37,6 +36,7 @@ app.use((err, req, res, next) => {
         message: err,
     });
 });
+
 /* eslint-enable no-unused-vars */
 
 module.exports = app;

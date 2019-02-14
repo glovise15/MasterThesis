@@ -4,9 +4,9 @@
 
 In wolkenkit, services are subscribed  to events that are published by specific commands :
 
-- post -> posted : creation of a note.
-- like -> liked : like of a note.
-- share -> shared : share of a note.
+- post -> posted : creation of a activity.
+- like -> liked : like of a activity.
+- share -> shared : share of a activity.
 - follow -> followed : follow an actor.
 - block -> blocked : block an actor.
 
@@ -64,15 +64,15 @@ The outbox set of services receives request from the actors, usually through the
 
 #### 3.1 NoteOutbox
 
-- **Role :** This command service handles the outbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
+- **Role :** This command service handles the outbox for CRUD operations on a activity object. A activity is the synonym for a post on twitter.
 - **API : 3119**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |	
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
-| POST | /note/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
-| POST | /note/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
-| POST | /note/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
-| POST | /note/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a note.
+| POST | /activity/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
+| POST | /activity/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
+| POST | /activity/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
+| POST | /activity/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a activity.
 	
 #### 3.2 LikeOutbox
 
@@ -122,15 +122,15 @@ The outbox set of services receives request from the actors, usually through the
 
 #### 4.1 NoteInbox
 	
-- **Role :** This command service handles the inbox for CRUD operations on a note object. A note is the synonym for a post on twitter.
+- **Role :** This command service handles the inbox for CRUD operations on a activity object. A activity is the synonym for a post on twitter.
 - **API : 3120**
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
-| POST | /note/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
-| POST | /note/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
-| POST | /note/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
-| POST | /note/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a note.	
+| POST | /activity/create | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Creation of an activity.
+| POST | /activity/update | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Update of an activity already existing.
+| POST | /activity/delete | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Removal of an activity already existing.
+| POST | /activity/undo | actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] | - | Undo the last action on a activity.	
 	
 #### 4.2 LikeInbox
 
@@ -198,7 +198,7 @@ The outbox set of services receives request from the actors, usually through the
 
 | Method | Uniform Resource Name (URN) | Required  parameters | Output | Description |
 |:------:|:-----------------------------|:-------------------------------------:|:--------------------:|:--------------------------------------------------|
-| GET | /note/object/:actorname/:objectId/:token | - | jsonObject[activityStreams] | Get the last state of [objectId] (all if not specified).
+| GET | /activity/object/:actorname/:objectId/:token | - | jsonObject[activityStreams] | Get the last state of [objectId] (all if not specified).
 
 #### 5.2 LikeQuerier
 

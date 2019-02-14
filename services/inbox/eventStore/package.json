@@ -1,0 +1,24 @@
+{
+  "name": "wolkenkit-activityPub",
+  "version": "1.0.0",
+  "wolkenkit": {
+    "application": "chat",
+    "runtime": {
+      "version": "2.0.0"
+    },
+    "environments": {
+      "default": {
+        "api": {
+          "address": {
+            "host": "local.wolkenkit.io",
+            "port": 3000
+          },
+          "allowAccessFrom": "*"
+        },
+        "node": {
+          "environment": "development"
+        }
+      }
+    }
+  }
+}

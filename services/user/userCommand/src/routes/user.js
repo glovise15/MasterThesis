@@ -9,9 +9,10 @@ router.post('/', (req, res) => {
     let password = req.body.password
     console.log(`try to add user :: username=${username}&password=${password}`)
     return userHelpers.createUser(req)
-        .then(() => {
+        .then((data) => {
             res.status(200).json({
-                status: 'success'
+                status: 'success',
+                data
             })
         })
         .catch((err) => {
