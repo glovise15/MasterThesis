@@ -31,39 +31,39 @@ const commands = {
             text: command.data.text
         });
     },
-    like (note, command){
+    like (activity, command){
         if (!command.data.text){
             return command.reject('Text is missing.');
         }
 
-        note.events.publish ('liked', {
+        activity.events.publish ('liked', {
             text: command.data.text
         });
     },
-    share (note, command){
+    share (activity, command){
         if (!command.data.text){
             return command.reject('Text is missing.');
         }
 
-        note.events.publish ('shared', {
+        activity.events.publish ('shared', {
             text: command.data.text
         });
     },
-    follow (note, command){
+    follow (activity, command){
         if (!command.data.text){
             return command.reject('Text is missing.');
         }
 
-        note.events.publish ('followed', {
+        activity.events.publish ('followed', {
             text: command.data.text
         });
     },
-    block (note, command){
+    block (activity, command){
         if (!command.data.text){
             return command.reject('Text is missing.');
         }
 
-        note.events.publish ('blocked', {
+        activity.events.publish ('blocked', {
             text: command.data.text
         });
     }
@@ -71,28 +71,28 @@ const commands = {
 };
 
 const events = {
-    posted (note,event) {
-        note.setState({
+    posted (activity,event) {
+        activity.setState({
             text: event.data.text
         });
     },
-    liked (note,event) {
-        note.setState({
+    liked (activity,event) {
+        activity.setState({
             text: event.data.text
         });
     },
-    shared (note,event) {
-        note.setState({
+    shared (activity,event) {
+        activity.setState({
             text: event.data.text
         });
     },
-    followed (note,event) {
-        note.setState({
+    followed (activity,event) {
+        activity.setState({
             text: event.data.text
         });
     },
-    blocked (note,event) {
-        note.setState({
+    blocked (activity,event) {
+        activity.setState({
             text: event.data.text
         });
     }

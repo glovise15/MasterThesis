@@ -43,8 +43,8 @@ router.get('/:username/:password', (req, res) => {
         })
         .catch((err) => {
             res.status(500).json({
-                status: 'error',
-                message: String(err)
+                status: 'error found',
+                message: String(err),
             })
         })
 })

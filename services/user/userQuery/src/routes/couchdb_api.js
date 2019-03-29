@@ -2,7 +2,7 @@ const log = require('debug')('user-db')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const userDB = require('nano')(process.env.COUCHDB_DB_URL)
-const key = "secret"
+const key = "2URIWeWGe5s14OptNidOyP"
 
 
 //LOGIN

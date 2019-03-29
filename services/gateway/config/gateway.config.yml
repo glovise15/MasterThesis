@@ -1,0 +1,363 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  host: localhost
+
+apiEndpoints:
+  user-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths: ['/user','/user/*']
+  user-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/user/*'
+  actor-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/actor'
+  actor-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/actor/*'
+  block-outbox-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/block/*'
+  block-inbox-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/block/*'
+  block-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/block/*'
+  follow-outbox-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/follow/*'
+  follow-inbox-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/follow/*'
+  follow-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/follow/*'
+  like-outbox-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/like/*'
+  like-inbox-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/like/*'
+  like-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/like/*'
+  note-outbox-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/note/*'
+  note-inbox-command-api:
+    methods: 'POST'
+    host: 'localhost'
+    paths:
+      - '/note/*'
+  note-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/note/*'
+  share-outbox-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/share/*'
+  share-inbox-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/share/*'
+  share-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/share/*'
+  outbox-collection-inbox-command-api:
+    host: 'localhost'
+    methods: 'POST'
+    paths:
+      - '/outbox/*'
+  outbox-collection-inbox-query-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/outbox/*'
+
+serviceEndpoints:
+  user-command-service:
+    url: 'http://localhost:3102'
+  user-query-service:
+    url: 'http://localhost:3103'
+  actor-command-service:
+    url: 'http://localhost:3105'
+  actor-query-service:
+    url: 'http://localhost:3106'
+  block-outbox-service:
+    url: 'http://localhost:3107'
+  block-inbox-command-service:
+    url: 'http://localhost:3108'
+  block-inbox-query-service:
+    url: 'http://localhost:3109'
+  follow-outbox-service:
+    url: 'http://localhost:3111'
+  follow-inbox-command-service:
+    url: 'http://localhost:3112'
+  follow-inbox-query-service:
+    url: 'http://localhost:3113'
+  like-outbox-service:
+    url: 'http://localhost:3115'
+  like-inbox-command-service:
+    url: 'http://localhost:3116'
+  like-inbox-query-service:
+    url: 'http://localhost:3117'
+  note-outbox-service:
+    url: 'http://localhost:3119'
+  note-inbox-command-service:
+    url: 'http://localhost:3120'
+  note-inbox-query-service:
+    url: 'http://localhost:3121'
+  share-outbox-service:
+    url: 'http://localhost:3123'
+  share-inbox-command-service:
+    url: 'http://localhost:3124'
+  share-inbox-query-service:
+    url: 'http://localhost:3125'
+  outbox-collection-inbox-command-service:
+    url: 'http://localhost:3127'
+  outbox-collection-inbox-query-service:
+    url: 'http://localhost:3128'
+
+policies:
+  - basic-auth
+  - jwt
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+
+pipelines:
+  user-command:
+    apiEndpoints:
+      - user-command-api
+    policies:
+      jwt:
+        action:
+          secretOrPublicKey: 2URIWeWGe5s14OptNidOyP
+          checkCredentialExistence: false
+      proxy:
+        action:
+            serviceEndpoint: user-command-service
+            changeOrigin: true
+
+  user-query:
+    apiEndpoints:
+      - user-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: user-query-service
+            changeOrigin: true
+
+  actor-command:
+    apiEndpoints:
+      - actor-command-api
+    policies:
+      jwt:
+        action:
+          secretOrPublicKey: 2URIWeWGe5s14OptNidOyP
+          checkCredentialExistence: false
+      proxy:
+        action:
+            serviceEndpoint: actor-command-service
+            changeOrigin: true
+
+  actor-query:
+    apiEndpoints:
+      - actor-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: actor-query-service
+            changeOrigin: true
+
+  block-outbox:
+    apiEndpoints:
+      - block-outbox-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: block-outbox-service
+            changeOrigin: true
+
+  block-inbox-command:
+    apiEndpoints:
+      - block-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: block-inbox-command-service
+            changeOrigin: true
+
+  block-inbox-query:
+    apiEndpoints:
+      - block-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: block-inbox-query-service
+            changeOrigin: true
+
+  follow-outbox:
+    apiEndpoints:
+      - follow-outbox-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: follow-outbox-service
+            changeOrigin: true
+
+  follow-inbox-command:
+    apiEndpoints:
+      - follow-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: follow-inbox-command-service
+            changeOrigin: true
+
+  follow-inbox-query:
+    apiEndpoints:
+      - follow-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: follow-inbox-query-service
+            changeOrigin: true
+
+  like-outbox:
+    apiEndpoints:
+      - like-outbox-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: like-outbox-service
+            changeOrigin: true
+
+  like-inbox-command:
+    apiEndpoints:
+      - like-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: like-inbox-command-service
+            changeOrigin: true
+
+  like-inbox-query:
+    apiEndpoints:
+      - like-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: like-inbox-query-service
+            changeOrigin: true
+
+  note-outbox:
+    apiEndpoints:
+      - note-outbox-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: note-outbox-service
+            changeOrigin: true
+
+  note-inbox-command:
+    apiEndpoints:
+      - note-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: note-inbox-command-service
+            changeOrigin: true
+
+  note-inbox-query:
+    apiEndpoints:
+      - note-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: note-inbox-query-service
+            changeOrigin: true
+
+  share-outbox:
+    apiEndpoints:
+      - share-outbox-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: share-outbox-service
+            changeOrigin: true
+
+  share-inbox-command:
+    apiEndpoints:
+      - share-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: share-inbox-command-service
+            changeOrigin: true
+
+  share-inbox-query:
+    apiEndpoints:
+      - share-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: share-inbox-query-service
+            changeOrigin: true
+
+  outbox-collection-inbox-command:
+    apiEndpoints:
+      - outbox-collection-inbox-command-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: outbox-collection-inbox-command-service
+            changeOrigin: true
+  outbox-collection-inbox-query:
+    apiEndpoints:
+      - outbox-collection-inbox-query-api
+    policies:
+      proxy:
+        action:
+            serviceEndpoint: outbox-collection-inbox-query-service
+            changeOrigin: true
