@@ -1,18 +1,109 @@
 const express = require('express');
-
+const inboxApi = require('./inbox_api')
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    var object = {logo: "hello", name: "polo"}
-    res.status(200).json({
-        status: 'success, service note',
-        object
-    })
-});
+router.post('/create', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note create activity required'
+        });
+    }else{
+        console.log(`try to create note for :: actorname=${actorname}`)
+        return inboxApi.createNote(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
-// POST 	/outbox/note/create 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Creation of an activity.
-// POST 	/outbox/note/update 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Update of an activity already existing.
-// POST 	/outbox/note/delete 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Removal of an activity already existing.
-// POST 	/outbox/note/undo 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Undo the last action on a note.
+router.post('/update', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note update activity required'
+        });
+    }else{
+        console.log(`try to update note for :: actorname=${actorname}`)
+        return inboxApi.updateNote(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
+
+router.post('/remove', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note remove activity required'
+        });
+    }else{
+        console.log(`try to remove note for :: actorname=${actorname}`)
+        return inboxApi.removeNote(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
+
+router.post('/undo', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note undo activity required'
+        });
+    }else{
+        console.log(`try to undo note for :: actorname=${actorname}`)
+        return inboxApi.undoNote(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
 module.exports = router;

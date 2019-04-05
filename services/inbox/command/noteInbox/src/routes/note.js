@@ -1,24 +1,109 @@
 const express = require('express');
 const router = express.Router();
-const wolkenkit = require("../eventStore");
+const event_handler = require('./event_handler')
 
-router.get('/', (req, res) => {
+router.get('/create', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note create activity required'
+        });
+    }else{
+        console.log(`try to create note for :: actorname=${actorname}`)
+        return event_handler.publishNoteEvent(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
-    wolkenkit.then((eventStore) => {
-        eventStore.activityPub.activity().post({text:"new note"}).failed(console.log);
-    })
-    .catch((err) => {
-        console.log(err)
-    });
+router.get('/update', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note update activity required'
+        });
+    }else{
+        console.log(`try to update note for :: actorname=${actorname}`)
+        return event_handler.publishNoteEvent(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
-    res.status(200).json({
-        status: 'success, service note'
-    })
-});
+router.get('/remove', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note remove activity required'
+        });
+    }else{
+        console.log(`try to remove note for :: actorname=${actorname}`)
+        return event_handler.publishNoteEvent(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
-// POST /inbox/note/create 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Creation of an activity.
-// POST /inbox/note/update 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Update of an activity already existing.
-// POST /inbox/note/delete 	actorname=[string] & activity=[activityStream] & token=[string] & contenttype=[string] 	- 	Removal of an activity already existing.
-// POST /inbox/note/undo
+router.get('/undo', (req, res) => {
+    let actorname = req.body.actorname
+    let activity = req.body.activity
+    if(req.body === undefined || !Object.keys(req.body).length){
+        return res.status(500).json({
+            status: 'error',
+            message: 'Actorname and note undo activity required'
+        });
+    }else{
+        console.log(`try to undo note for :: actorname=${actorname}`)
+        return event_handler.publishNoteEvent(req)
+            .then((data) => {
+                res.status(200).json({
+                    status: 'success',
+                    data
+                })
+            })
+            .catch((err) => {
+                res.status(500).json({
+                    status: 'error',
+                    message: String(err)
+                })
+            })
+    }
+})
 
 module.exports = router;

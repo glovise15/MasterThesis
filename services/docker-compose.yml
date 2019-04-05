@@ -39,6 +39,22 @@ services:
 
 #------------------------Actor------------------------------
 
+  actor-db:
+    container_name: actor-db
+    build: ./actor/actorDB
+    volumes:
+      - './actor/actorDB:/app/src'
+    ports:
+      - '3104:5984'
+
+  actor-init-db:
+    container_name: actor-init-db
+    build: ./actor/actorDB/init_db
+    command: [ "./wait-for-couchdb.sh" ]
+    volumes:
+      - './actor/actorDB/init_db:/app/src'
+    depends_on: [ "actor-db" ]
+
   actor-command-service:
     container_name: actor-command-service
     build: ./actor/actorCommand
