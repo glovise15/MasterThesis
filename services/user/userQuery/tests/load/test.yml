@@ -1,0 +1,23 @@
+config:
+  target: 'http://localhost:3103/user'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+    - duration: 600
+      arrivalRate: 50
+  defaults:
+    headers:
+      content-type: 'application/json'
+      authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBvbG8iLCJpYXQiOjE1NTU0ODU2NjIsImV4cCI6MTU1NjA5MDQ2Mn0.8BYtTAI1B_ERZK9U_SQ9vcTc096YFrbnfJY6vCdkQRc'
+scenarios:
+  - flow:
+    - get:
+        url: "/Polo/michel"
+        capture:
+          json: "$.response.token"
+          as: "data"
+    - log: "Result of query : {{ data }}"
+

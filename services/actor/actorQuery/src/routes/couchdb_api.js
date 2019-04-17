@@ -1,6 +1,7 @@
 const log = require('debug')('actor-db')
-const actorDB = require('nano')(process.env.COUCHDB_DB_URL)
-console.log(process.env.COUCHDB_DB_URL)
+//const actorDB = require('nano')(process.env.COUCHDB_DB_URL)
+//console.log(process.env.COUCHDB_DB_URL)
+const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
 
 function getAll (req) {
     var username = req.body.username

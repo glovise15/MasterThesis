@@ -1,16 +1,18 @@
 {
-  "name": "actor",
+  "name": "user",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "directories": {
-    "test": "tests"
+    "test": "tests/unit"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
     "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
     "debug": "^4.1.0",
     "express": "^4.16.4",
     "gulp": "^3.9.1",
@@ -18,8 +20,9 @@
     "gulp-nodemon": "^2.4.2",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
+    "nano": "^6.4.3",
     "nodemon": "^1.18.7",
-    "passport": "^0.4.0",
+    "oidc-provider": "^5.5.3",
     "sinon": "^7.1.1",
     "supertest": "^3.3.0",
     "winston": "^3.1.0"
@@ -27,7 +30,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "gulp --gulpfile gulpfile.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC"

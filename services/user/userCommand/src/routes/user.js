@@ -4,7 +4,7 @@ const router = express.Router();
 const userHelpers = require('./couchdb_api')
 
 
-router.post('/', (req, res) => {
+router.post('/create', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     if(req.body === undefined || !Object.keys(req.body).length){

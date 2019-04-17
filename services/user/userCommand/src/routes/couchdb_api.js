@@ -1,8 +1,9 @@
 const log = require('debug')('user-db')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
-const userDB = require('nano')(process.env.COUCHDB_DB_URL)
-console.log(process.env.COUCHDB_DB_URL)
+//const userDB = require('nano')(process.env.COUCHDB_DB_URL)
+//console.log(process.env.COUCHDB_DB_URL)
+const userDB = require('nano')("http://admin:admin@user-db:5984/user")
 
 function createUser (req) {
     var username = req.body.username
