@@ -41,8 +41,6 @@ describe('routes : actor', () => {
                     res.status.should.equal(500)
                     res.type.should.equal('application/json');
                     res.body.status.should.eql("error");
-                    res.body.should.have.property("message"),
-                    res.body.message.should.eql("Fields required : user, type, id, name, preferredUsername, summary, inbox, outbox, followers, following, liked"),
                     done();
                 });
         });
@@ -61,8 +59,6 @@ describe('routes : actor', () => {
                     res.status.should.equal(500)
                     res.type.should.equal('application/json');
                     res.body.status.should.eql("error");
-                    res.body.should.have.property("message"),
-                    res.body.message.should.eql("Fields required : user, type, id, name, preferredUsername, summary, inbox, outbox, followers, following, liked")
                     done();
                 });
         });
@@ -90,8 +86,6 @@ describe('routes : actor', () => {
                     res.status.should.equal(500)
                     res.type.should.equal('application/json');
                     res.body.status.should.eql("error");
-                    res.body.should.have.property("message"),
-                        res.body.message.should.eql("Fields required : user, type, id, name, preferredUsername, summary, inbox, outbox, followers, following, liked")
                     done();
                 });
         });
@@ -122,6 +116,142 @@ describe('routes : actor', () => {
                     done();
                 });
         });
+
+        it('[/update] empty', (done) => {
+            chai.request(server)
+                .post('/actor/update')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(500)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("error");
+                        done();
+                });
+        });
+
+        it('[/update] missing fields', (done) => {
+            chai.request(server)
+                .post('/actor/update')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+                    id: "https://social.example/alyssa/"
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(500)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("error");
+                    done();
+                });
+        });
+
+        it('[/update] incorrect names', (done) => {
+            chai.request(server)
+                .post('/actor/update')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+
+                    id: "https://social.example/alyssa/",
+                    wrong: "fjvbcs",
+
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(500)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("error");
+                    done();
+                });
+        });
+
+        it('[/update] valid update', (done) => {
+            chai.request(server)
+                .post('/actor/update')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+                    user: "Michel",
+                    type: "Person",
+                    id: "https://social.example/alyssa/",
+                    name: "NewName",
+                    preferredUsername: "Alys",
+                    summary: "Lisp enthusiast hailing from MIT",
+                    inbox: "https://social.example/alyssa/inbox/",
+                    outbox: "https://social.example/alyssa/outbox/",
+                    followers: "https://social.example/alyssa/followers/",
+                    following: "https://social.example/alyssa/following/",
+                    liked: "https://social.example/alyssa/liked/"
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(200)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("success");
+                    done();
+                });
+        });
+
+        it('[/remove] empty', (done) => {
+            chai.request(server)
+                .post('/actor/remove')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(500)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("error");
+                    done();
+                });
+        });
+
+
+        it('[/remove] incorrect names', (done) => {
+            chai.request(server)
+                .post('/actor/remove')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+
+                    wrong: "https://social.example/alyssa/"
+
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(500)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("error");
+                    done();
+                });
+        });
+
+        it('[/remove] valid remove', (done) => {
+            chai.request(server)
+                .post('/actor/remove')
+                .set('content-type', 'application/json')
+                .set('Authorization', 'bearer xxx')
+                .send({
+                    id: "https://social.example/alyssa/"
+                })
+                .end((err, res) => {
+                    should.not.exist(err);
+                    res.status.should.equal(200)
+                    res.type.should.equal('application/json');
+                    res.body.status.should.eql("success");
+                    done();
+                });
+        });
+
 
     });
 

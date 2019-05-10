@@ -1,0 +1,21 @@
+config:
+  target: 'http://localhost:3102/user'
+  phases:
+    - duration: 60
+      arrivalRate: 500
+  defaults:
+    headers:
+      content-type: 'application/json'
+      authorization: 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBvbG8iLCJpYXQiOjE1NTU0ODU2NjIsImV4cCI6MTU1NjA5MDQ2Mn0.8BYtTAI1B_ERZK9U_SQ9vcTc096YFrbnfJY6vCdkQRc'
+scenarios:
+  - flow:
+    - post:
+        url: "/create"
+        json:
+          username: "Polo"
+          password: "Michel"
+        capture:
+          json: "$.response"
+          as: "data"
+    - log: "Result of query : {{ data }}"
+

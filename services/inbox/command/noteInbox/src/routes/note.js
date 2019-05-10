@@ -2,95 +2,72 @@ const express = require('express');
 const router = express.Router();
 const event_handler = require('./event_handler')
 
-router.get('/create', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and note create activity required'
-        });
-    }else{
-        console.log(`try to create note for :: actorname=${actorname}`)
-        return event_handler.publishNoteEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
+const fields = ['type','id','actor','object']
 
-router.get('/update', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and note update activity required'
-        });
-    }else{
-        console.log(`try to update note for :: actorname=${actorname}`)
-        return event_handler.publishNoteEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
+/*
+    Publish the create note  to the eventStore
+        String type : type of activity (Create)
+        String id : unique identifier
+        String actor : the author of the note
+        String object : the  note
+    @return -> success or error
+ */
+router.post('/create', (req, res) => {
+    return publish(req.body,res)
+});
 
-router.get('/remove', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and note remove activity required'
-        });
-    }else{
-        console.log(`try to remove note for :: actorname=${actorname}`)
-        return event_handler.publishNoteEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
+/*
+    Publish the update note  to the eventStore
+        String type : type of activity (Update)
+        String id : unique identifier
+        String actor : the author of the note
+        String object : the  note
+    @return -> success or error
+ */
+router.post('/update', (req, res) => {
+    return publish(req.body,res)
+});
 
-router.get('/undo', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
+
+/*
+    Publish the remove note  to the eventStore
+        String type : type of activity (Remove)
+        String id : unique identifier
+        String actor : the author of the note
+        String object : the  note
+    @return -> success or error
+ */
+router.post('/remove', (req, res) => {
+    return publish(req.body,res)
+});
+
+
+/*
+    Publish the undo note  to the eventStore
+        String type : type of activity (Undo)
+        String id : unique identifier
+        String actor : the author of the note
+        String object : the  note
+    @return -> success or error
+ */
+router.post('/undo', (req, res) => {
+    return publish(req.body,res)
+});
+
+/*
+        Publish a note activity to the eventStore
+            Object activity : note activity
+            Object res : request result
+ */
+function publish(activity, res){
+    if(activity === undefined || Object.keys(activity).length < 4 || !fields.every(field => activity.hasOwnProperty(field))){
         return res.status(500).json({
             status: 'error',
-            message: 'Actorname and note undo activity required'
+            message: "Fields required : " + fields
         });
     }else{
-        console.log(`try to undo note for :: actorname=${actorname}`)
-        return event_handler.publishNoteEvent(req)
+        console.log(`try to create note for :: actorname=${activity.actor}`)
+        return event_handler.publishNoteEvent(activity)
             .then((data) => {
                 res.status(200).json({
                     status: 'success',
@@ -104,6 +81,6 @@ router.get('/undo', (req, res) => {
                 })
             })
     }
-})
+}
 
 module.exports = router;

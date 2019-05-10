@@ -2,7 +2,6 @@ const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const wolkenkit = require('wolkenkit-client');
 
 
 const routes = require('./routes/note');
@@ -24,20 +23,11 @@ app.use(cookieParser());
 app.use('/note', routes);
 
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-/* eslint-disable no-unused-vars */
-app.use((err, req, res, next) => {
-    const message = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
+    res.status(404);
     res.json({
         status: 'error',
-        message: err,
+        message: "The note inbox query service does not have this API call",
     });
 });
-/* eslint-enable no-unused-vars */
 
 module.exports = app;

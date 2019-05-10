@@ -26,7 +26,7 @@ describe('routes : actor', () => {
         console.log("The date for that one was", date);
     });
 
-    describe('GET /actor', () => {
+    describe('POST /actor', () => {
         it('should get the actor service', (done) => {
             chai.request(server)
                 .get('/actor')

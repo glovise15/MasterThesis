@@ -23,78 +23,59 @@ const initialState = {
 
 const commands = {
     post (activity, command){
-        if (!command.data.text){
-            return command.reject('Text is missing.');
+        if (!command.data){
+            return command.reject('Activity is missing.');
         }
 
-        activity.events.publish ('posted', {
-            text: command.data.text
-        });
+        activity.events.publish ('posted', command.data);
     },
     like (activity, command){
-        if (!command.data.text){
-            return command.reject('Text is missing.');
+        if (!command.data){
+            return command.reject('Activity is missing.');
         }
 
-        activity.events.publish ('liked', {
-            text: command.data.text
-        });
+        activity.events.publish ('liked', command.data);
     },
     share (activity, command){
-        if (!command.data.text){
-            return command.reject('Text is missing.');
+        if (!command.data){
+            return command.reject('Activity is missing.');
         }
 
-        activity.events.publish ('shared', {
-            text: command.data.text
-        });
+        activity.events.publish ('shared', command.data);
     },
     follow (activity, command){
-        if (!command.data.text){
-            return command.reject('Text is missing.');
+        console.log(command.data)
+        if (!command.data){
+            return command.reject('Activity is missing.');
         }
 
-        activity.events.publish ('followed', {
-            text: command.data.text
-        });
+        activity.events.publish ('followed', command.data);
     },
     block (activity, command){
-        if (!command.data.text){
-            return command.reject('Text is missing.');
+        if (!command.data){
+            return command.reject('Activity is missing.');
         }
 
-        activity.events.publish ('blocked', {
-            text: command.data.text
-        });
+        activity.events.publish ('blocked', command.data);
     }
 
 };
 
 const events = {
     posted (activity,event) {
-        activity.setState({
-            text: event.data.text
-        });
+        activity.setState(event.data);
     },
     liked (activity,event) {
-        activity.setState({
-            text: event.data.text
-        });
+        activity.setState(event.data);
     },
     shared (activity,event) {
-        activity.setState({
-            text: event.data.text
-        });
+        activity.setState(event.data);
     },
     followed (activity,event) {
-        activity.setState({
-            text: event.data.text
-        });
+        activity.setState(event.data);
     },
     blocked (activity,event) {
-        activity.setState({
-            text: event.data.text
-        });
+        activity.setState(event.data);
     }
 };
 

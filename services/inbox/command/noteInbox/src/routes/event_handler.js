@@ -1,19 +1,24 @@
 const wolkenkit = require("../eventStore");
 
-function publishNoteEvent (req) {
-    var actorname = req.body.actorname
-    var activity = req.body.activity
-    console.log('publishNoteEvent()')
 
+/*
+    Publish an activity in the wolkenkit event store as a note event
+        String type : type of activity
+        String id : unique identifier
+        String actor : the actor sharing the object
+        String object : the relationship object
+    @return -> success or error
+ */
+function publishNoteEvent (activity) {
+    console.log('publishNoteEvent()')
     return new Promise((resolve, reject) => {
-        wolkenkit.then((eventStore), (ko, ok) => {
-            eventStore.activityPub.activity().note({actorname: actorname, activity:activity}).failed(console.log);
-        })
-            .catch((err) => {
-                console.log(err)
-                reject(err)
-            }).then(() => {
-            resolve("ok");
+        wolkenkit
+            .then((eventStore) => {
+                eventStore.activityPub.activity().post(activity)
+                    .failed(err => reject(err))
+                    .delivered(() => resolve("Note activity published"));
+            }).catch((error) => {
+            console.log(error);
         })
     });
 }

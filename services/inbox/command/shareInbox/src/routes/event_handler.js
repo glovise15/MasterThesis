@@ -1,19 +1,24 @@
 const wolkenkit = require("../eventStore");
 
-function publishShareEvent (req) {
-    var actorname = req.body.actorname
-    var activity = req.body.activity
-    console.log('publishShareEvent()')
 
+/*
+    Publish an activity in the wolkenkit event store as a share event
+        String type : type of activity
+        String id : unique identifier
+        String actor : the actor sharing the object
+        String object : the relationship object
+    @return -> success or error
+ */
+function publishShareEvent (activity) {
+    console.log('publishShareEvent()')
     return new Promise((resolve, reject) => {
-        wolkenkit.then((eventStore), (ko, ok) => {
-            eventStore.activityPub.activity().share({actorname: actorname, activity:activity}).failed(console.log);
-        })
-            .catch((err) => {
-                console.log(err)
-                reject(err)
-            }).then(() => {
-            resolve("ok");
+        wolkenkit
+            .then((eventStore) => {
+                eventStore.activityPub.activity().share(activity)
+                    .failed(err => reject(err))
+                    .delivered(() => resolve("Share activity published"));
+            }).catch((error) => {
+            console.log(error);
         })
     });
 }

@@ -23,20 +23,11 @@ app.use(cookieParser());
 app.use('/follow', routes);
 
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-/* eslint-disable no-unused-vars */
-app.use((err, req, res, next) => {
-    const message = req.app.get('env') === 'development' ? err : {};
-    res.status(err.status || 500);
+    res.status(404);
     res.json({
         status: 'error',
-        message: err,
+        message: "The follow outbox service does not have this API call",
     });
 });
-/* eslint-enable no-unused-vars */
 
 module.exports = app;

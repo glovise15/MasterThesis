@@ -1,19 +1,24 @@
 const wolkenkit = require("../eventStore");
 
-function publishLikeEvent (req) {
-    var actorname = req.body.actorname
-    var activity = req.body.activity
-    console.log('publishLikeEvent()')
 
+/*
+    Publish an activity in the wolkenkit event store as a like event
+        String type : type of activity
+        String id : unique identifier
+        String actor : the likeer actor
+        String object : the relationship object
+    @return -> success or error
+ */
+function publishLikeEvent (activity) {
+    console.log('publishLikeEvent()')
     return new Promise((resolve, reject) => {
-        wolkenkit.then((eventStore), (ko, ok) => {
-            eventStore.activityPub.activity().like({actorname: actorname, activity:activity}).failed(console.log);
-        })
-            .catch((err) => {
-                console.log(err)
-                reject(err)
-            }).then(() => {
-            resolve("ok");
+        wolkenkit
+            .then((eventStore) => {
+                eventStore.activityPub.activity().like(activity)
+                    .failed(err => reject(err))
+                    .delivered(() => resolve("Like activity published"));
+            }).catch((error) => {
+            console.log(error);
         })
     });
 }

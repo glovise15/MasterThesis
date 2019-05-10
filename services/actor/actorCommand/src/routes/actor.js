@@ -2,17 +2,30 @@ const express = require('express');
 const log = require('debug')('actor-db')
 const router = express.Router();
 const actorHelpers = require('./couchdb_api')
-const fields = ['user', 'type', 'id','name','preferredUsername','summary','inbox','outbox','followers','following','liked'];
 
+// MUST HAVE fields for an actor
+const fields = ['user', 'type', 'id','name','summary','inbox','outbox','followers','following','liked'];
 
-
+/*
+    Create a new actor
+        String user: id of the user
+        String type: type of the actor (Application, Group, Organization, Person, Service)
+        String id: actor's unique global identifier
+        String name: name of the actor
+        String summary: quick summary or bio by the user about themselves.
+        [ActivityStreams] OrderedCollection inbox: reference to an ordered collection comprised of all the messages received by the actor
+        [ActivityStreams] OrderedCollection outbox: reference to an ordered collection comprised of all the messages produced by the actor
+        [ActivityStreams] Collection followers: reference to a collection comprised of all the actors that follow this actor
+        [ActivityStreams] Collection following: reference to a collection comprised of all the actors that this actor is following
+        [ActivityStreams] Collection liked: reference to a collection of objects this actor  has liked
+        + additional fields
+   @return -> success or error
+ */
 router.post('/create', (req, res) => {
-
-
-    if(req.body === undefined || Object.keys(req.body).length < 11 || !fields.every(field => req.body.hasOwnProperty(field))){
+    if(req.body === undefined || Object.keys(req.body).length < 10 || !fields.every(field => req.body.hasOwnProperty(field))) {
         return res.status(500).json({
             status: 'error',
-            message: 'Fields required : user, type, id, name, preferredUsername, summary, inbox, outbox, followers, following, liked'
+            message: "Fields required : " + fields
         });
     }else{
         console.log(`Try to create new actor`)
@@ -31,20 +44,25 @@ router.post('/create', (req, res) => {
             })
     }
 
+});
 
-})
-
-
+/*
+    Update an existing actor
+        String id : actor's unique global identifier
+        Different combinations of parameters possible between preferredUsername, type, name and summary
+   @return -> success or error
+ */
 router.post('/update', (req, res) => {
-    let username = req.body.username
-    let actorname = req.body.actorname
-    if(req.body === undefined || !Object.keys(req.body).length){
+
+    if(req.body === undefined || Object.keys(req.body).length < 2 || !req.body.hasOwnProperty("id") ){
         return res.status(500).json({
             status: 'error',
-            message: 'Username and actorname required'
+            message: 'Id required and at least one field to modify'
         });
     }else{
-        console.log(`try to update actor :: username=${username}&actorname=${actorname}`)
+
+        if(!objectsKeysAreValid(req.body)) throw new Error("Fields can only be preferredUsername, type, name and summary")
+
         return actorHelpers.updateActor(req)
             .then((data) => {
                 res.status(200).json({
@@ -61,18 +79,36 @@ router.post('/update', (req, res) => {
     }
 
 
-})
+});
 
+/*
+    Verifies that all the keys of [obj] are present in the fields array
+        Object ob : object containing keys
+    @return -> boolean
+ */
+function objectsKeysAreValid(obj){
+    if(!obj) return false;
+    Object.keys(obj).forEach(function(property){
+        if(!fields.includes(property)) return false;
+    })
 
+    return true;
+}
+
+/*
+    Remove an existing actor
+        String id : actor's unique global identifier
+   @return -> success or error
+ */
 router.post('/remove', (req, res) => {
-    let actorname = req.body.actorname
-    if(req.body === undefined || !Object.keys(req.body).length){
+    var id = req.body.id
+    if(req.body === undefined || !Object.keys(req.body).length || !req.body.hasOwnProperty("id")){
         return res.status(500).json({
             status: 'error',
-            message: 'Actorname required'
+            message: 'Id of actor required'
         });
     }else{
-        console.log(`try to remove actor :: actorname=${actorname}`)
+        console.log(`try to remove actor :: actor=${id}`)
         return actorHelpers.removeActor(req)
             .then((data) => {
                 res.status(200).json({
@@ -89,7 +125,8 @@ router.post('/remove', (req, res) => {
     }
 
 
-})
+});
+
 
 
 module.exports = router;

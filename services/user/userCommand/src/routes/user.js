@@ -3,17 +3,23 @@ const log = require('debug')('user-db')
 const router = express.Router();
 const userHelpers = require('./couchdb_api')
 
+const fields = ['username', 'password'];
 
+/*
+    Register a new user
+        String username : the name of the new user
+        String password : the password of the new user
+    @return -> success or error
+ */
 router.post('/create', (req, res) => {
-    let username = req.body.username
-    let password = req.body.password
-    if(req.body === undefined || !Object.keys(req.body).length){
+    if(req.body === undefined || Object.keys(req.body).length < 2 || !fields.every(field => req.body.hasOwnProperty(field))){
         return res.status(500).json({
             status: 'error',
-            message: 'Username and password required'
+            message: 'Fields required : username, password'
         });
     }else{
         console.log(`try to add user :: username=${username}&password=${password}`)
+        // Insert into the database
         return userHelpers.createUser(req)
             .then((data) => {
                 res.status(200).json({
@@ -23,7 +29,7 @@ router.post('/create', (req, res) => {
             })
             .catch((err) => {
                 res.status(500).json({
-                    status: 'error FD',
+                    status: 'error',
                     message: String(err)
                 })
             })

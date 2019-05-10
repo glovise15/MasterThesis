@@ -1,20 +1,25 @@
 const wolkenkit = require("../eventStore");
 
-function publishFollowEvent (req) {
-    var actorname = req.body.actorname
-    var activity = req.body.activity
-    console.log('publishFollowEvent()')
 
+/*
+    Publish an activity in the wolkenkit event store as a follow event
+        String type : type of activity
+        String id : unique identifier
+        String actor : the follower actor
+        String object : the relationship object
+    @return -> success or error
+ */
+function publishFollowEvent (activity) {
+    console.log('publishFollowEvent()')
     return new Promise((resolve, reject) => {
-        wolkenkit.then((eventStore), (ko, ok) => {
-            eventStore.activityPub.activity().follow({actorname: actorname, activity:activity}).failed(console.log);
-        })
-            .catch((err) => {
-                console.log(err)
-                reject(err)
-            }).then(() => {
-            resolve("ok");
-        })
+        wolkenkit
+            .then((eventStore) => {
+                eventStore.activityPub.activity().follow(activity)
+                    .failed(err => reject(err))
+                    .delivered(() => resolve("Follow activity published"));
+            }).catch((error) => {
+                console.log(error);
+            })
     });
 }
 

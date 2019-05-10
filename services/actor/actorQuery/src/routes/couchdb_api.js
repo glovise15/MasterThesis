@@ -4,28 +4,28 @@ const log = require('debug')('actor-db')
 const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
 
 function getAll (req) {
-    var username = req.body.username
     console.log('getAll actors()')
     return new Promise((resolve, reject) => {
-        actorDB.find(username, (ko, ok) => {
+        actorDB.find({ selector: { user: req.params.user } }, (ko, ok) => {
             if (ko) {
                 log(ko)
                 reject(ko.reason)
-            } else resolve(username)
+            } else {
+                if (ok.docs.length === 0) reject("user not found")
+                else resolve(ok)
+            }
         })
     })
 }
 
 function get (req) {
-    var username = req.body.username
-    var actorname = req.body.actorname
     console.log('get actor()')
     return new Promise((resolve, reject) => {
-        actorDB.find(actorname, (ko, ok) => {
+        actorDB.get(req.params.id, (ko, ok) => {
             if (ko) {
                 log(ko)
                 reject(ko.reason)
-            } else resolve(username)
+            } else resolve(ok)
         })
     })
 }

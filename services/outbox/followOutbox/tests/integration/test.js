@@ -1,10 +1,8 @@
-const chai = require('chai');
+cconst chai = require('chai');
 const chaiHttp = require('chai-http');
 
 const should = chai.should()
 const server = require('../../src/app');
-
-const BASE = "http://localhost:3103"
 
 chai.use(chaiHttp)
 
@@ -20,7 +18,7 @@ describe('routes : follow', () => {
 
     // Called after all of the tests in this block complete.
     after(function() {
-        console.log("Our applicationa tests done!");
+        console.log("Our application tests done!");
     });
 
     // Called once after each of the tests in this block.
@@ -28,22 +26,21 @@ describe('routes : follow', () => {
         console.log("The date for that one was", date);
     });
 
-    describe('GET /follow', () => {
-        it('should get the follow service', (done) => {
+    describe('POST /follow', () => {
+        it('should get the actor service', (done) => {
             chai.request(server)
-                .get('/follow')
+                .get('/actor')
                 .end((err, res) => {
                     should.not.exist(err);
-                    res.status.should.equal(200)
+                    res.status.should.equal(404)
                     res.type.should.equal('application/json');
-                    res.body.status.should.eql('success, service follow');
+                    res.body.status.should.eql("error");
+                    res.body.message.should.eql("The follow outbox service does not have this API call")
                     done();
                 });
         });
     });
 
 })
-
-
 
 

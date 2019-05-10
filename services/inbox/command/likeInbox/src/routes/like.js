@@ -2,95 +2,60 @@ const express = require('express');
 const router = express.Router();
 const event_handler = require('./event_handler')
 
-router.get('/create', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and like create activity required'
-        });
-    }else{
-        console.log(`try to create like for :: actorname=${actorname}`)
-        return event_handler.publishLikeEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
+const fields = ['type','id','actor','object']
 
-router.get('/update', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and like update activity required'
-        });
-    }else{
-        console.log(`try to update like for :: actorname=${actorname}`)
-        return event_handler.publishLikeEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
+/*
+    Publish the create like  to the eventStore
+        String type : type of activity (Create)
+        String id : unique identifier
+        String actor : the actor performing the like
+        String object : the  object
+    @return -> success or error
+ */
+router.post('/create', (req, res) => {
+    return publish(req.body,res)
+});
 
-router.get('/remove', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
-        return res.status(500).json({
-            status: 'error',
-            message: 'Actorname and like remove activity required'
-        });
-    }else{
-        console.log(`try to remove like for :: actorname=${actorname}`)
-        return event_handler.publishLikeEvent(req)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
-            })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
-            })
-    }
-})
 
-router.get('/undo', (req, res) => {
-    let actorname = req.body.actorname
-    let activity = req.body.activity
-    if(req.body === undefined || !Object.keys(req.body).length){
+/*
+    Publish the remove like  to the eventStore
+        String type : type of activity (Remove)
+        String id : unique identifier
+        String actor : the actor performing the like
+        String object : the  object
+    @return -> success or error
+ */
+router.post('/remove', (req, res) => {
+    return publish(req.body,res)
+});
+
+/*
+    Publish the undo like  to the eventStore
+        String type : type of activity (Undo)
+        String id : unique identifier
+        String actor : the actor performing the like
+        String object : the  object
+    @return -> success or error
+ */
+router.post('/undo', (req, res) => {
+    return publish(req.body,res)
+});
+
+/*
+        Publish a like activity to the eventStore
+            Object activity : like  activity
+            Object res : request result
+ */
+function publish(activity, res){
+    console.log(activity)
+    if(activity === undefined || Object.keys(activity).length < 4 || !fields.every(field => activity.hasOwnProperty(field))){
         return res.status(500).json({
             status: 'error',
-            message: 'Actorname and like undo activity required'
+            message: "Fields required : " + fields
         });
     }else{
-        console.log(`try to undo like for :: actorname=${actorname}`)
-        return event_handler.publishLikeEvent(req)
+        console.log(`try to create like for :: actorname=${activity.actor}`)
+        return event_handler.publishLikeEvent(activity)
             .then((data) => {
                 res.status(200).json({
                     status: 'success',
@@ -104,6 +69,6 @@ router.get('/undo', (req, res) => {
                 })
             })
     }
-})
+}
 
 module.exports = router;
