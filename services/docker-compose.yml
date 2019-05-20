@@ -221,25 +221,7 @@ services:
     extra_hosts:
       - "local.wolkenkit.io:172.25.0.1"
 
-#------------------------OutboxCollection------------------------------
 
-  outbox-collection-inbox-command-service:
-    container_name : outbox-collection-inbox-command-service
-    build: ./inbox/command/outboxCollectionInbox
-    volumes:
-      - './inbox/command/outboxCollectionInbox:/app/src'
-    ports:
-      - '3127:3100'
-
-  outbox-collection-inbox-query-service:
-    container_name : outbox-collection-inbox-query-service
-    build: ./inbox/databaseQuerier/outboxCollectionQuerier
-    volumes:
-      - './inbox/databaseQuerier/outboxCollectionQuerier:/app/src'
-    ports:
-      - '3128:3100'
-    extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
 
 
 

@@ -1,0 +1,67 @@
+config:
+  target: 'http://localhost:3119/note'
+  phases:
+    - duration: 1
+      arrivalRate: 1
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+    - post:
+        url: "/create"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "Note_{{$randomNumber(1,10000)}}"
+          actor: "Actor"
+          content: "Content of the note"
+        capture:
+          json: "$.data.id"
+          as: "id"
+
+    - post:
+        url: "/update"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"
+
+    - post:
+        url: "/update"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"
+
+
+    - post:
+        url: "/update"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"
+
+
+    - post:
+        url: "/update"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"
+
+
+

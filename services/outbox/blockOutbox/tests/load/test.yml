@@ -23,5 +23,5 @@ scenarios:
         capture:
           json: "$.status"
           as: "data"
-   # - log: "Result of query : {{ data }}"
+    - log: "Result of query : {{ data }}"
 

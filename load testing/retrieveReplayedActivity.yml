@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost:3121/note'
+  phases:
+    - duration: 1
+      arrivalRate: 1
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+    - get:
+        url: "/from/Updater"
+
+
+
+
+

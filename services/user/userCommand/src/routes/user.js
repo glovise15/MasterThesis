@@ -18,7 +18,6 @@ router.post('/create', (req, res) => {
             message: 'Fields required : username, password'
         });
     }else{
-        console.log(`try to add user :: username=${username}&password=${password}`)
         // Insert into the database
         return userHelpers.createUser(req)
             .then((data) => {

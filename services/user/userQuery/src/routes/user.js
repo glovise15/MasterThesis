@@ -64,16 +64,14 @@ function comparePass (userPassword, databasePassword) {
 }
 
 /*
-    Checks if an user is authenticated through its token
+    Checks if an user is authenticated through its token in the header
          String username : name of the user
-         String token : bearer token of the user
      @return -> success or error
  */
-router.get('/authorization/:username/:token', (req, res) => {
+router.get('/authorization/:username', (req, res) => {
     var username = req.params.username
-    var token = req.params.token
-    console.log(`checks wether the token of ${username} is valid`);
-    if (!token || !username) {
+    console.log(`checks whether the token of ${username} is valid`);
+    if (req.headers['authorization'] === undefined || !req.headers['authorization'] || !username) {
         throw new Error(`Missing user or token value`);
     }
     return ensureAuthenticated(req)
@@ -97,11 +95,11 @@ router.get('/authorization/:username/:token', (req, res) => {
  */
 function ensureAuthenticated (req) {
     return new Promise((resolve, reject) => {
-        var token = req.params.token
+        var token = req.headers['authorization'];
         jwt.verify(token,key, function(err, decoded) {
             if (err) {
                 console.log(err)
-                reject(new Error(`Token for ${req.params.username} is not valid`));
+                reject(new Error(`Token for ${req.params.username} is not valid : ${token}`));
             } else resolve(true)
         });
     })
