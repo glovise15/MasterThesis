@@ -1,10 +1,10 @@
 {
-  "name": "user",
+  "name": "actor",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "directories": {
-    "test": "tests/unit"
+    "test": "tests"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -15,9 +15,10 @@
     "crypto": "^1.0.1",
     "debug": "^4.1.0",
     "express": "^4.16.4",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-eslint": "^5.0.0",
     "gulp-nodemon": "^2.4.2",
+    "jsonwebtoken": "^8.4.0",
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nano": "^6.4.3",
@@ -30,7 +31,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "gulp --gulpfile gulpfile.js",
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC"
