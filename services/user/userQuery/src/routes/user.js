@@ -90,7 +90,7 @@ router.get('/authorization/:username', (req, res) => {
 
 /*
     Checks if an authentication token is still valid
-        String token : bearer token
+        String token : jwt token
     @return -> boolean
  */
 function ensureAuthenticated (req) {

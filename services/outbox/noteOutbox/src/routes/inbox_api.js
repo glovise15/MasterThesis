@@ -1,140 +1,101 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3120/note'
-
+const host = 'http://172.25.0.1:3120/note/';
+const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*
-    Send the create activity to the note inbox service
-        String name : title of the note
-        String type : Note
-        String id : unique identifier
-        String actor : the author of the note
-        String content : the text of the note
+    Send the activity to the note inbox service
+        String req : the request containing the activity to send
+        String urn : create , update or remove
     @return -> success or error
  */
-function createNote (req) {
-    console.log('createNote()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Create") ;
-    return new Promise((resolve, reject) => {
-        request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/create',
-            body: activity,
-            json: true
-        }, function (error, response, body){
-            if (!error) resolve(response)
-            else reject(error)
-        });
-    });
-
+function sendActivity(req, urn){
+    console.log('send '+req.body.type+' activity : '+ req.body.id);
+    return postToAllRecipients(req, urn)
 }
 
 /*
-    Send the update activity to the note inbox service
-        String name : title of the note
-        String type : Note
-        String id : unique identifier
-        String actor : the author of the note
-        String content : the text of the note
-    @return -> success or error
+    Send a POST request to all the recipients of an activity
+        Request req : the request containing the activity to send
+        String urn : create, delete or undo
+    @return -> array of promises
  */
-function updateNote (req) {
-    console.log('updateNote()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Update") ;
-    return new Promise((resolve, reject) => {
-        request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/update',
-            body: activity,
-            json: true
-        }, function (error, response, body){
-            if (!error) resolve(response)
-            else reject(error)
+function postToAllRecipients(req, urn){
+    let regExp = /https?:\/\/([0-9]{1,3}\.){3,3}[0-9]:[0-9]+\/([A-Z]*[a-z]*)+\/inbox/gi;
+    return getRecipientsList(req)
+        .then((recipients) => {
+            let promises = [];
+            recipients.forEach((recipient) => {
+                let inbox = recipient.data.inbox.match(regExp) ? host + '' + urn : recipient.data.inbox;
+                promises.push(postTo(inbox, req))
+            });
+            return Promise.all(promises);
+        })
+        .catch((err) => {
+            console.log("Error while posting to recipients : " + err)
         });
-    });
-
 }
 
 /*
-    Send the remove activity to the note inbox service
-        String name : title of the note
-        String type : Note
-        String id : unique identifier
-        String actor : the author of the note
-        String content : the text of the note
-    @return -> success or error
+    Send a POST request to [location]
+        String location : the URL of the service
+        Request req : the request containing the activity to send
+    @return -> promise
  */
-function removeNote (req) {
-    console.log('removeNote()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Remove") ;
+function postTo(location, req){
     return new Promise((resolve, reject) => {
         request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/remove',
-            body: activity,
+            headers: {"Content-Type": 'application/json', Authorization: req.headers.authorization},
+            url: location,
+            body: req.body,
             json: true
         }, function (error, response, body){
-            if (!error) resolve(response)
+            if (!error) resolve(response);
             else reject(error)
         });
     });
 }
 
+
 /*
-    Send the undo activity to the note inbox service
-        String name : title of the note
-        String type : Note
-        String id : unique identifier
-        String actor : the author of the note
-        String content : the text of the note
-    @return -> success or error
+    Retrieve all the recipients from their address in the to, bto, cc, bcc and audience fields of the activity
+        Request req : the request containing the activity to send
+    @return -> array of promises
  */
-function undoNote (req) {
-    console.log('undoNote()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Undo") ;
+function getRecipientsList(req){
+    let token = req.headers.authorization;
+    let activity = req.body;
+    let promises = [];
+    recipientsField.forEach((field) => {
+        if(activity[field] !== undefined) {
+            let array = [].concat(activity[field] || []);
+            array.forEach((recipient) => {
+                promises.push(getFrom(token, recipient))
+            })
+        }
+    });
+    return Promise.all(promises);
+}
+
+/*
+    Send a GET request to [location]
+        String token : jwt bearer token
+        String location : the URL of the service
+    @return -> promise
+
+ */
+function getFrom(token, location){
     return new Promise((resolve, reject) => {
-        request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/undo',
-            body: activity,
+        request.get({
+            headers: {"Content-Type": 'application/json', Authorization: token},
+            url: location,
             json: true
         }, function (error, response, body){
-            if (!error) resolve(response)
+            if (!error) resolve(body);
             else reject(error)
         });
     });
-}
-
-/*
-    Encapsulate an object into an activity
-        Object object : the object to include in the activity
-        String type : the type of activity (Create, Remove, Undo, ....)
-    @return -> the new activity
- */
-function toActivity(object, type){
-    return {
-        "@context": object['@context'],
-        type: type,
-        id: Date.now(),
-        actor: object['actor'],
-        object: object,
-        published : Date.now()
-    };
-
-}
-
-/*
-    Verifies if [object] is already an activity
-        Object object : the object to check
-    @return -> boolean
- */
-function isActivity(object){
-    return object.hasOwnProperty("type") && object.hasOwnProperty("id") && object.hasOwnProperty("actor") && object.hasOwnProperty("object") && object['type'] !== 'Announce'
 }
 
 module.exports = {
-    createNote,
-    updateNote,
-    removeNote,
-    undoNote,
-    isActivity
-}
+    sendActivity
+};

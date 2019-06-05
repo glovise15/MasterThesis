@@ -3,10 +3,7 @@ const wolkenkit = require("../eventStore");
 
 /*
     Publish an activity in the wolkenkit event store as a like event
-        String type : type of activity
-        String id : unique identifier
-        String actor : the likeer actor
-        String object : the relationship object
+        Activity activity : the activity to publish
     @return -> success or error
  */
 function publishLikeEvent (activity) {

@@ -2,7 +2,7 @@ config:
   target: 'http:/'
   phases:
     - duration: 60
-      arrivalRate: 50
+      arrivalRate: 16
   defaults:
     headers:
       content-type: 'application/json'

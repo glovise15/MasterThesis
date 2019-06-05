@@ -3,10 +3,7 @@ const wolkenkit = require("../eventStore");
 
 /*
     Publish an activity in the wolkenkit event store as a share event
-        String type : type of activity
-        String id : unique identifier
-        String actor : the actor sharing the object
-        String object : the relationship object
+        Activity activity : the activity to publish
     @return -> success or error
  */
 function publishShareEvent (activity) {

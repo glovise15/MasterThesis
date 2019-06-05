@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const event_handler = require('./event_handler')
-
-const fields = ['type','id','actor','object']
+const supportedTypes = ['Create', 'Update', 'Delete'];
+const fields = ['type','id','actor','object', 'to'];
 
 /*
     Publish the create note  to the eventStore
-        String type : type of activity (Create)
-        String id : unique identifier
+        String type : Create
+        String id : unique url identifier
         String actor : the author of the note
-        String object : the  note
+        Object object : the note object
+        String to : recipient address
+        String summary : quick summary about the activity
     @return -> success or error
  */
 router.post('/create', (req, res) => {
@@ -18,10 +20,12 @@ router.post('/create', (req, res) => {
 
 /*
     Publish the update note  to the eventStore
-        String type : type of activity (Update)
-        String id : unique identifier
+        String type : Update
+        String id : unique url identifier
         String actor : the author of the note
-        String object : the  note
+        Object object : the note object
+        String to : recipient address
+        String summary : quick summary about the activity
     @return -> success or error
  */
 router.post('/update', (req, res) => {
@@ -30,57 +34,66 @@ router.post('/update', (req, res) => {
 
 
 /*
-    Publish the remove note  to the eventStore
-        String type : type of activity (Remove)
-        String id : unique identifier
+    Publish the delete note  to the eventStore
+        String type : Delete
+        String id : unique url identifier
         String actor : the author of the note
-        String object : the  note
+        Object object : the note object
+        String to : recipient address
+        String summary : quick summary about the activity
     @return -> success or error
  */
-router.post('/remove', (req, res) => {
-    return publish(req.body,res)
-});
-
-
-/*
-    Publish the undo note  to the eventStore
-        String type : type of activity (Undo)
-        String id : unique identifier
-        String actor : the author of the note
-        String object : the  note
-    @return -> success or error
- */
-router.post('/undo', (req, res) => {
+router.post('/delete', (req, res) => {
     return publish(req.body,res)
 });
 
 /*
-        Publish a note activity to the eventStore
-            Object activity : note activity
-            Object res : request result
+    Checks that an activity is valid
+        Request req : the request containing the activity
+    @return -> boolean
+ */
+function isActivityValid(activity){
+    return !(activity === undefined
+        || Object.keys(activity).length < 5
+        || !supportedTypes.includes(activity.type)
+        || !fields.every(field => activity.hasOwnProperty(field)));
+}
+
+/*
+    Publish a note activity to the eventStore
+        Activity activity : the activity containing the note
+        Response res : request response
+    @return -> success or error
  */
 function publish(activity, res){
-    if(activity === undefined || Object.keys(activity).length < 4 || !fields.every(field => activity.hasOwnProperty(field))){
+    if(!isActivityValid(activity)){
         return res.status(500).json({
             status: 'error',
-            message: "Fields required : " + fields
+            message: "Fields missing (" + fields + ") or incorrect activity type ("+supportedTypes+")"
         });
-    }else{
-        console.log(`try to create note for :: actorname=${activity.actor}`)
-        return event_handler.publishNoteEvent(activity)
-            .then((data) => {
-                res.status(200).json({
-                    status: 'success',
-                    data
-                })
+    }else return forwardRequest(activity, res);
+}
+
+/*
+    Forward the activity to all recipients
+        Activity activity : the activity containing the note
+        Request res : request response
+    @return -> success or error
+ */
+function forwardRequest(activity, res){
+    return event_handler.publishNoteEvent(activity)
+        .then((data) => {
+            res.status(200).json({
+                status: 'success',
+                data
             })
-            .catch((err) => {
-                res.status(500).json({
-                    status: 'error',
-                    message: String(err)
-                })
+        })
+        .catch((err) => {
+            res.status(500).json({
+                status: 'error',
+                message: String(err)
             })
-    }
+        })
 }
 
 module.exports = router;

@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3119/note'
   phases:
-    - duration: 1
-      arrivalRate: 1
+    - duration: 60
+      arrivalRate: 50
   defaults:
     headers:
       content-type: 'application/json'
@@ -15,52 +15,56 @@ scenarios:
           name: "Note title"
           type: "Note"
           id: "Note_{{$randomNumber(1,10000)}}"
-          actor: "Actor"
+          actor: "Issuer"
           content: "Content of the note"
         capture:
-          json: "$.data.id"
+          json: "$.data.body.data.id"
           as: "id"
 
     - post:
         url: "/update"
+        async: true
         json:
           '@context': ""
           name: "Note title"
           type: "Note"
           id: "{{id}}"
-          actor: "Updater"
+          actor: "Issuer"
           content: "Updated content of the note"
 
     - post:
         url: "/update"
+        async: true
         json:
           '@context': ""
           name: "Note title"
           type: "Note"
           id: "{{id}}"
-          actor: "Updater"
-          content: "Updated content of the note"
-
-
-    - post:
-        url: "/update"
-        json:
-          '@context': ""
-          name: "Note title"
-          type: "Note"
-          id: "{{id}}"
-          actor: "Updater"
+          actor: "Issuer"
           content: "Updated content of the note"
 
 
     - post:
         url: "/update"
+        async: true
         json:
           '@context': ""
           name: "Note title"
           type: "Note"
           id: "{{id}}"
-          actor: "Updater"
+          actor: "Issuer"
+          content: "Updated content of the note"
+
+
+    - post:
+        url: "/update"
+        async: true
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Issuer"
           content: "Updated content of the note"
 
 

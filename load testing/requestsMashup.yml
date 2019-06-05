@@ -1,0 +1,94 @@
+config:
+  target: 'http:/'
+  phases:
+    - duration: 60
+      arrivalRate: 15
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "User_{{$randomNumber(1,10000)}}"
+          password: "mdp"
+        capture:
+          json: "$.data"
+          as: "username"
+
+    - post:
+        url: "/localhost:3119/note/create"
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "Note_{{$randomNumber(1,10000)}}"
+          actor: "Actor"
+          content: "Content of the note"
+        capture:
+          json: "$.data.body.data.id"
+          as: "id"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        async: true
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "https://social.example/actor_{{$randomNumber(1,10000)}}/"
+          name: "Alyssa P. Hacker"
+          preferredUsername: "jeanclaude"
+          summary: "Lisp enthusiast hailing from MIT"
+          inbox: "https://social.example/alyssa/inbox/"
+          outbox: "https://social.example/alyssa/outbox/"
+          followers: "https://social.example/alyssa/followers/"
+          following: "https://social.example/alyssa/following/"
+          liked: "https://social.example/alyssa/liked/"
+
+    - get:
+        url: "/localhost:3121/note/from/Updater"
+        asyc: true
+
+    - post:
+        url: "/localhost:3119/note/update"
+        asyc: true
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"
+
+    - post:
+        url: "/localhost:3115/like/create"
+        async: true
+        json:
+          '@context': ""
+          summary: "Like of a note"
+          type: "Like"
+          id: "Like_{{$randomNumber(1,10000)}}"
+          actor: "Actor"
+          object: "{{id}}"
+        capture:
+          json: "$.data.id"
+          as: "likeId"
+
+    - get:
+        url: "/localhost:3103/user/authenticate/{{username}}/mdp"
+        asycnc: true
+        capture:
+          json: "$.response.token"
+          as: "token"
+
+    - post:
+        url: "/localhost:3119/note/update"
+        asyc: true
+        json:
+          '@context': ""
+          name: "Note title"
+          type: "Note"
+          id: "{{id}}"
+          actor: "Updater"
+          content: "Updated content of the note"

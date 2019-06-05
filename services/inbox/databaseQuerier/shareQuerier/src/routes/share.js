@@ -30,12 +30,25 @@ router.get('/sharedBy/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
-                $and: [
-                    { 'activity.actor' : { $contains: req.params.actor }},
-                    { 'activity.object.type': { $contains: "Announce" }}
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Announce" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Announce" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    }
+
                 ]
+
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -71,12 +84,25 @@ router.get('/sharedWith/:object', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
-                $and: [
-                    { 'activity.object.object.id' : { $contains: req.params.object }},
-                    { 'activity.object.type': { $contains: "Announce" }}
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Announce" }},
+                            { 'activity.object.id' : { $contains: req.params.object }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Announce" }},
+                            { 'activity.object.object.id' : { $contains: req.params.object }}
+                        ]
+                    }
+
                 ]
+
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -101,6 +127,55 @@ router.get('/sharedWith/:object', (req, res) => {
             console.log(err)
         });
 
+});
+
+/*
+    Retrieve a share activity
+        String object : id of a block activity
+    @return -> share activity
+ */
+router.get('/get/:object', (req, res) => {
+    wolkenkit.then((eventStore) => {
+        eventStore.lists.activities.read({
+            where: {
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Announce" }},
+                            { 'activity.id' : { $contains: req.params.object }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Announce" }},
+                            { 'activity.object.id' : { $contains: req.params.object }}
+                        ]
+                    }
+
+                ]
+
+            },
+            orderBy: { 'activity.published': 'ascending'}
+        }).
+        failed(err =>{
+            res.status(500).json({
+                status: 'error',
+                err
+            });
+        }).
+        finished(events => {
+            if(!Array.isArray(events)) return events.activity;
+            let replayedEvent = replayShare(array);
+            res.status(200).json({
+                status: 'success',
+                replayedEvent
+            });
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 });
 
 /*
@@ -149,13 +224,9 @@ function replayShare(events){
 
     events.forEach(event => {
         switch(event.activity.type){
-            case 'Create' :
+            case 'Announce' :
                 currentState = event.activity.object;
-                prevAction = 'Create';
-                break;
-            case 'Remove' :
-                remove = true;
-                prevAction = 'Remove';
+                prevAction = 'Announce';
                 break;
             case 'Undo' :
                 remove = !remove;

@@ -24,18 +24,31 @@ wolkenkit.then((eventStore) => {
 /*
     Retrieve all the actors that have blocked [actor]
         String actor : id of an actor
-    @return -> array of blockers
+    @return -> block activity
  */
 router.get('/blockedFrom/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
-                $and: [
-                    { 'activity.object.object' : { $contains: req.params.actor }},
-                    { 'activity.object.relationship': { $contains: "Block" }}
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Block" }},
+                            { 'activity.object' : { $contains: req.params.actor }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Block" }},
+                            { 'activity.object.object' : { $contains: req.params.actor }}
+                        ]
+                    }
+
                 ]
+
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -46,7 +59,7 @@ router.get('/blockedFrom/:actor', (req, res) => {
         finished(events => {
             let blocked = [];
             groupById(events).forEach(array => {
-                let replayedEvent = replayBlock(array);
+                let replayedEvent = replayBlock(events);
                 if (replayedEvent != null) blocked.push(replayedEvent);
             });
             res.status(200).json({
@@ -70,12 +83,25 @@ router.get('/blocked/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
-                $and: [
-                    { 'activity.actor' : { $contains: req.params.actor }},
-                    { 'activity.object.relationship': { $contains: "Block" }}
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Block" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Block" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    }
+
                 ]
+
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -92,6 +118,55 @@ router.get('/blocked/:actor', (req, res) => {
             res.status(200).json({
                 status: 'success',
                 blocked
+            });
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
+});
+
+/*
+    Retrieve a block activity
+        String object : id of a block activity
+    @return -> block activity
+ */
+router.get('/get/:object', (req, res) => {
+    wolkenkit.then((eventStore) => {
+        eventStore.lists.activities.read({
+            where: {
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Block" }},
+                            { 'activity.id' : { $contains: req.params.object }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Block" }},
+                            { 'activity.object.id' : { $contains: req.params.object }}
+                        ]
+                    }
+
+                ]
+
+            },
+orderBy: { 'activity.published': 'ascending'}
+        }).
+        failed(err =>{
+            res.status(500).json({
+                status: 'error',
+                err
+            });
+        }).
+        finished(events => {
+            if(!Array.isArray(events)) return events.activity;
+            let replayedEvent = replayBlock(array);
+            res.status(200).json({
+                status: 'success',
+                replayedEvent
             });
         });
     })
@@ -146,13 +221,9 @@ function replayBlock(events){
 
     events.forEach(event => {
         switch(event.activity.type){
-            case 'Create' :
+            case 'Block' :
                 currentState = event.activity.object;
-                prevAction = 'Create';
-                break;
-            case 'Remove' :
-                remove = true;
-                prevAction = 'Remove';
+                prevAction = 'Block';
                 break;
             case 'Undo' :
                 remove = !remove;

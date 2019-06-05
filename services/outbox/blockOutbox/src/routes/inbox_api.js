@@ -1,116 +1,102 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3108/block'
-
+const host = 'http://172.25.0.1:3108/block/';
+const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*
-    Send the create activity to the block inbox service
-        String summary : quick summary about the relationship
-        String type : relationship
-        String id : unique identifier
-        String subject : the follower actor
-        String relationship : type of the relationship (Block)
-        String object : the followed actor
+    Send the activity to the note inbox service
+        String req : the request containing the activity to send
+        String urn : create or undo
     @return -> success or error
  */
-function createBlock (req) {
-    console.log('createBlock()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Create") ;
-    return new Promise((resolve, reject) => {
-        request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/create',
-            body: activity,
-            json: true
-        }, function (error, response, body){
-            if (!error) resolve(response)
-            else reject(error)
-        });
-    });
-
+function sendActivity(req, urn){
+    console.log('send '+req.body.type+' activity');
+    return postToAllRecipients(req, urn)
 }
 
 /*
-    Send the remove activity to the block inbox service
-        String summary : quick summary about the relationship
-        String type : relationship
-        String id : unique identifier
-        String subject : the follower actor
-        String relationship : type of the relationship (Block)
-        String object : the followed actor
-    @return -> success or error
+    Send a POST request to all the recipients of an activity
+        Request req : the request containing the activity to send
+        String urn : create or undo
+    @return -> array of promises
  */
-function removeBlock (req) {
-    console.log('removeBlock()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Remove") ;
-    return new Promise((resolve, reject) => {
-        request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/remove',
-            body: activity,
-            json: true
-        }, function (error, response, body){
-            if (!error) resolve(response)
-            else reject(error)
+function postToAllRecipients(req, urn){
+    let regExp = /https?:\/\/([0-9]{1,3}\.){3,3}[0-9]:[0-9]+\/([A-Z]*[a-z]*)+\/inbox/gi;
+    return getRecipientsList(req)
+        .then((recipients) => {
+            let promises = [];
+            recipients.forEach((recipient) => {
+                let inbox = recipient.data.inbox.match(regExp) ? host + '' + urn : recipient.data.inbox;
+                promises.push(postTo(inbox, req))
+            });
+            return Promise.all(promises);
+        })
+        .catch((err) => {
+            console.log("Error while posting to recipients : " + err)
         });
-    });
 }
 
 /*
-    Send the undo activity to the block inbox service
-        String summary : quick summary about the relationship
-        String type : relationship
-        String id : unique identifier
-        String subject : the follower actor
-        String relationship : type of the relationship (Block)
-        String object : the followed actor
-    @return -> success or error
+    Send a POST request to [location]
+        String location : the URL of the service
+        Request req : the request containing the activity to send
+    @return -> promise
  */
-function undoBlock (req) {
-    console.log('undoBlock()')
-    var activity = isActivity(req.body) ? req.body : toActivity(req.body, "Undo") ;
+function postTo(location, req){
+    console.log(req.body)
     return new Promise((resolve, reject) => {
         request.post({
-            headers: {"Content-Type": 'application/json', Authorization: req.headers['authorization']},
-            url: host + '/undo',
-            body: activity,
+            headers: {"Content-Type": 'application/json', Authorization: req.headers.authorization},
+            url: location,
+            body: req.body,
             json: true
         }, function (error, response, body){
-            if (!error) resolve(response)
+            if (!error) resolve(response);
             else reject(error)
         });
     });
 }
 
-/*
-    Encapsulate an object into an activity
-        Object object : the object to include in the activity
-        String type : the type of activity (Create, Remove, Undo, ....)
-    @return -> the new activity
- */
-function toActivity(object, type){
-    return {
-        "@context": object['@context'],
-        type: type,
-        id: Date.now(),
-        actor: object['subject'],
-        object: object,
-        published : Date.now()
-    };
 
+/*
+    Retrieve all the recipients from their address in the to, bto, cc, bcc and audience fields of the activity
+        Request req : the request containing the activity to send
+    @return -> array of promises
+ */
+function getRecipientsList(req){
+    let token = req.headers.authorization;
+    let activity = req.body;
+    let promises = [];
+    recipientsField.forEach((field) => {
+        if(activity[field] !== undefined) {
+            let array = [].concat(activity[field] || []);
+            array.forEach((recipient) => {
+                promises.push(getFrom(token, recipient))
+            })
+        }
+    });
+    return Promise.all(promises);
 }
 
 /*
-    Verifies if [object] is already an activity
-        Object object : the object to check
-    @return -> boolean
+    Send a GET request to [location]
+        String token : jwt bearer token
+        String location : the URL of the service
+    @return -> promise
+
  */
-function isActivity(object){
-    return object.hasOwnProperty("type") && object.hasOwnProperty("id") && object.hasOwnProperty("actor") && object.hasOwnProperty("object") && object['type'] !== 'Block'
+function getFrom(token, location){
+    return new Promise((resolve, reject) => {
+        request.get({
+            headers: {"Content-Type": 'application/json', Authorization: token},
+            url: location,
+            json: true
+        }, function (error, response, body){
+            if (!error) resolve(body);
+            else reject(error)
+        });
+    });
 }
 
 module.exports = {
-    createBlock,
-    removeBlock,
-    undoBlock,
-    isActivity
-}
+    sendActivity
+};

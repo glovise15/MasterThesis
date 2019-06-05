@@ -7,7 +7,8 @@ const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
     Insert a new actor in the database
         String user: id of the user
         String type: type of the actor (Application, Group, Organization, Person, Service)
-        String id: actor's unique global identifier
+        String id: actor's reference to it's profile
+        String identifier: actor's unique identifier
         String name: name of the actor
         String summary: quick summary or bio by the user about themselves.
         [ActivityStreams] OrderedCollection inbox: reference to an ordered collection comprised of all the messages received by the actor
@@ -18,12 +19,9 @@ const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
         + additional fields
     @return -> success or error
  */
-function createActor (req) {
-    var newActor = {};
-    Object.keys(req.body).forEach(key => newActor[key] = req.body[key]);
-
+function createActor (actor) {
     return new Promise((resolve, reject) => {
-        actorDB.insert(newActor, req.body.id, (ko, ok) => {
+        actorDB.insert(actor, actor.identifier, (ko, ok) => {
             if (ko) {
                 console.log(ko)
                 log(ko);
@@ -35,20 +33,19 @@ function createActor (req) {
 
 /*
     Update an existing actor by inserting a newer version
-        String id : actor's unique global identifier
-        Different combinations of parameters possible between type, name and summary
+        String identifier : actor's unique identifier (not url)
+        Different combinations of parameters possible between preferredUsername, type, name and summary
    @return -> success or error
  */
-function updateActor (req) {
-    var id = req.body.id
+function updateActor (actor) {
     console.log('updateActor()')
     return new Promise((resolve, reject) => {
-        actorDB.get(id, (ko, ok) => {
+        actorDB.get(actor.identifier, (ko, ok) => {
             if (ko) {
                 log(ko)
                 reject(ko.reason)
             } else {
-                Object.keys(req.body).forEach(key => ok[key] = req.body[key])
+                Object.keys(actor).forEach(key => ok[key] = actor[key])
                 actorDB.insert(ok, (kko, okk) =>{
                     if (kko) {
                         console.log(kko)
@@ -62,19 +59,18 @@ function updateActor (req) {
 
 /*
     Remove an existing actor from the database
-        String id : actor's unique global identifier
+        Actor actor : actor's profile
    @return -> success or error
  */
-function removeActor (req) {
-    var id = req.body.id
-    console.log('removeActor()')
+function deleteActor (actor) {
+    console.log('deleteActor()')
     return new Promise((resolve, reject) => {
-        actorDB.get(id, (ko, ok) => {
+        actorDB.get(actor.identifier, (ko, ok) => {
             if (ko) {
                 log(ko)
                 reject(ko.reason)
             } else {
-                actorDB.destroy(id, ok._rev, (kko,okk) => {
+                actorDB.destroy(actor.identifier, ok._rev, (kko,okk) => {
                     if (kko){
                         log(kko);
                         reject(kko.reason)
@@ -88,5 +84,5 @@ function removeActor (req) {
 module.exports = {
     createActor,
     updateActor,
-    removeActor
+    deleteActor
 }

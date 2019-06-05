@@ -35,7 +35,7 @@ router.get('/from/:actor', (req, res) => {
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -49,6 +49,7 @@ router.get('/from/:actor', (req, res) => {
                 let replayedEvent = replayNote(array);
                 if (replayedEvent != null) noted.push(replayedEvent);
             });
+            console.log(noted)
             res.status(200).json({
                 status: 'success',
                 noted
@@ -59,6 +60,42 @@ router.get('/from/:actor', (req, res) => {
             console.log(err)
         });
 
+});
+
+/*
+    Retrieve a note object
+        String object : id of a note
+    @return -> note object
+ */
+router.get('/get/:object', (req, res) => {
+    wolkenkit.then((eventStore) => {
+        eventStore.lists.activities.read({
+            where: {
+                $and: [
+                    { 'activity.object.id' : { $contains: req.params.object }},
+                    { 'activity.object.type': { $contains: "Note" }}
+                ]
+            },
+            orderBy: { 'activity.published': 'ascending'}
+        }).
+        failed(err =>{
+            res.status(500).json({
+                status: 'error',
+                err
+            });
+        }).
+        finished(events => {
+            if(!Array.isArray(events)) return events.activity;
+            let replayedEvent = replayBlock(array);
+            res.status(200).json({
+                status: 'success',
+                replayedEvent
+            });
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 });
 
 /*
@@ -107,7 +144,7 @@ function replayNote(events){
     let prevStates = [];
 
     events.forEach(event => {
-        console.log(event.activity.type)
+        console.log(event.activity.type);
         switch(event.activity.type){
             case 'Create' :
                 currentState = event.activity.object;
@@ -120,12 +157,7 @@ function replayNote(events){
                 break;
             case 'Remove' :
                 remove = true;
-                prevAction = 'Remove';
-                break;
-            case 'Undo' :
-                if (prevAction === 'Update') currentState = prevStates.pop();
-                else remove = !remove;
-                prevAction = 'Undo';
+                prevAction = 'Delete';
                 break;
             default :
                 throw new Error("Unhandled activity type")

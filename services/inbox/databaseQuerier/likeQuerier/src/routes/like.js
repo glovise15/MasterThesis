@@ -30,12 +30,25 @@ router.get('/liked/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
-                $and: [
-                    { 'activity.actor' : { $contains: req.params.actor }},
-                    { 'activity.object.type': { $contains: "Like" }}
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Like" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Like" }},
+                            { 'activity.actor' : { $contains: req.params.actor }}
+                        ]
+                    }
+
                 ]
+
             },
-            orderBy: { 'activity.object.id': 'ascending'}
+            orderBy: { 'activity.published': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -60,6 +73,55 @@ router.get('/liked/:actor', (req, res) => {
             console.log(err)
         });
 
+});
+
+/*
+    Retrieve a like activity
+        String object : id of a like activity
+    @return -> like activity
+ */
+router.get('/get/:object', (req, res) => {
+    wolkenkit.then((eventStore) => {
+        eventStore.lists.activities.read({
+            where: {
+                $or: [
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Like" }},
+                            { 'activity.id' : { $contains: req.params.object }}
+                        ]
+                    },
+                    {
+                        $and: [
+                            { 'activity.type': { $contains: "Undo" }},
+                            { 'activity.object.type': { $contains: "Like" }},
+                            { 'activity.object.id' : { $contains: req.params.object }}
+                        ]
+                    }
+
+                ]
+
+            },
+            orderBy: { 'activity.published': 'ascending'}
+        }).
+        failed(err =>{
+            res.status(500).json({
+                status: 'error',
+                err
+            });
+        }).
+        finished(events => {
+            if(!Array.isArray(events)) return events.activity;
+            let replayedEvent = replayLike(events);
+            res.status(200).json({
+                status: 'success',
+                replayedEvent
+            });
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 });
 
 /*
@@ -111,10 +173,6 @@ function replayLike(events){
             case 'Create' :
                 currentState = event.activity.object;
                 prevAction = 'Create';
-                break;
-            case 'Remove' :
-                remove = true;
-                prevAction = 'Remove';
                 break;
             case 'Undo' :
                 remove = !remove;
