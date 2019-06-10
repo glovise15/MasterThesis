@@ -22,7 +22,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -32,7 +32,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -51,7 +51,7 @@ scenarios:
           json: "$.data.id"
           as: "actor1"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -70,7 +70,7 @@ scenarios:
           json: "$.data.id"
           as: "actor2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -99,7 +99,7 @@ scenarios:
           - json: "$.data[0].id"
             as: "blockID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -109,16 +109,16 @@ scenarios:
     - think: 1
 
     - get:
-        url: "/localhost:3109/block/blockedFrom/{{actor2}}"
+        url: "/localhost:3109/block/blocking/{{actor2}}"
         capture:
-          - json: "$.blocked[0]"
-            as: "blockedFrom"
+          - json: "$.blocking[0]"
+            as: "blocking"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "blocked"
+          - hasProperty: "blocking"
           - equals:
-            - "{{blockedFrom}}"
+            - "{{blocking}}"
             - "{{senderURL}}"
 
     - get:
@@ -127,7 +127,7 @@ scenarios:
           - json: "$.blocked[0]"
             as: "blocked"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "blocked"
           - equals:
@@ -137,10 +137,10 @@ scenarios:
     - get:
         url: "{{blockID}}"
         capture:
-          - json: "$.replayedEvent"
+          - json: "$.block"
             as: "getBlockActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - equals:
             - "{{blockActivity}}"
@@ -162,13 +162,13 @@ scenarios:
             id: "{{blockID}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{blockID}}"
         expect:
-          - statusCode: 500
+          - statusCode: 404
 
 

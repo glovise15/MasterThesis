@@ -25,3 +25,5 @@ cd likeQuerier && npm install && cd ..
 cd noteQuerier && npm install && cd ..
 cd shareQuerier && npm install && cd ../..
 cd eventStore && npm install -g wolkenkit@3.1.0 && wolkenkit start
+echo "If the wolkenkit application installation failed, move to services/inbox/eventStore and run:"
+echo "sudo npm install -g wolkenkit@3.1.0" && echo "sudo wolkenkit start"

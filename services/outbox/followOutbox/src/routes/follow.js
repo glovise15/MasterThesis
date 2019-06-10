@@ -75,7 +75,7 @@ function handleRequest(req, res, urn){
 function forwardRequest(req, res, urn){
     return inboxApi.sendActivity(req,urn)
         .then((data) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 data
             });

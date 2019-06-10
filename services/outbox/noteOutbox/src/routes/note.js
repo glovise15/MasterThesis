@@ -120,7 +120,7 @@ function forwardRequest(req, res, urn){
     req.body.id = noteQueryUrl +''+identifier;
     return inboxApi.sendActivity(req,urn)
         .then((data) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 data
             })

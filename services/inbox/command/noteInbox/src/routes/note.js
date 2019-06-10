@@ -83,7 +83,7 @@ function publish(activity, res){
 function forwardRequest(activity, res){
     return event_handler.publishNoteEvent(activity)
         .then((data) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 data
             })

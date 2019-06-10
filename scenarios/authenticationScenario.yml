@@ -20,7 +20,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -30,7 +30,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -39,7 +39,7 @@ scenarios:
         headers:
           authorization: "{{token}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
 
     - post:
@@ -55,7 +55,7 @@ scenarios:
           json: "$.data.id"
           as: "id"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -64,7 +64,7 @@ scenarios:
         headers:
           authorization: "{{token}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data.user"
           - hasProperty: "data.type"

@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="427ff9fd-b6ec-42e4-9330-47628d126669" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/npm-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/services/npm-install.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MasterThesis.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Master_thesis.pdf" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,7 +18,58 @@
     <favorites_list name="MasterThesis" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="createUpdatesTest.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loadTests/createUpdatesTest.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="requestsMashup.yml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/loadTests/requestsMashup.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gateway.config.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="724">
+              <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="retrieveReplayedActivity.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loadTests/retrieveReplayedActivity.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="populateUsersActorsDB.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loadTests/populateUsersActorsDB.yml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="authenticationTest.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loadTests/authenticationTest.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -28,20 +80,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>followed</find>
-      <find>HERE</find>
-      <find>note</find>
-      <find>blocked</find>
-      <find>mockObject</find>
-      <find>type: &quot;Share</find>
-      <find>ident</find>
-      <find>.log</find>
-      <find>/note/create</find>
-      <find>MichelActor1</find>
-      <find>username</find>
-      <find>10000</find>
-      <find>incorrect</find>
-      <find>/actor/</find>
       <find>remove</find>
       <find>Block</find>
       <find>Like</find>
@@ -58,10 +96,22 @@
       <find>/share/</find>
       <find>/block/</find>
       <find>/follow/</find>
+      <find>network</find>
+      <find>200</find>
+      <find>.timestamp</find>
+      <find>.time</find>
+      <find>replayed</find>
+      <find>repla</find>
+      <find>actors</find>
+      <find>get</find>
+      <find>.log</find>
+      <find>:</find>
+      <find>ollows</find>
+      <find>followActivi</find>
+      <find>getFo</find>
+      <find>500</find>
     </findStrings>
     <replaceStrings>
-      <replace>body\: \{actorname\: actorname\, activity\: activity\}\n        \}\,\(ko\, ok\, body\) \=\&gt; \{\n            if \(ko\) \{\n                log\(ko\)\n                reject\(ko\.reason\)\n            \} else resolve\(username\)\n        \}\)\;</replace>
-      <replace>Follow</replace>
       <replace>Mike</replace>
       <replace>follow</replace>
       <replace />
@@ -87,9 +137,11 @@
       <replace>note</replace>
       <replace>/likeIB/</replace>
       <replace>/noteIB/</replace>
-      <replace>/shareIB/</replace>
       <replace>/blockIB/</replace>
       <replace>/followIB/</replace>
+      <replace>/shareIB/</replace>
+      <replace>201</replace>
+      <replace>404</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/services/Actor/ActorQuery</dir>
@@ -130,57 +182,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/services/outbox/noteOutbox/package.json" />
-        <option value="$PROJECT_DIR$/services/actor/actorCommand/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/outbox/followOutbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/outbox/blockOutbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/outbox/likeOutbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/outbox/shareOutbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/blockInbox/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/command/followInbox/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/command/likeInbox/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/command/noteInbox/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/command/shareInbox/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/package.json" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/package.json" />
-        <option value="$PROJECT_DIR$/services/outbox/noteOutbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/gateway/config/system.config.yml" />
-        <option value="$PROJECT_DIR$/services/gateway/package.json" />
-        <option value="$PROJECT_DIR$/services/gateway/manifest.js" />
+        <option value="$PROJECT_DIR$/services/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/services/outbox/noteOutbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/outbox/likeOutbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/outbox/followOutbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/outbox/blockOutbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/outbox/shareOutbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/command/blockInbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/command/followInbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/command/likeInbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/command/noteInbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/command/shareInbox/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/Dockerfile" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/Dockerfile" />
+        <option value="$PROJECT_DIR$/scenarios/authenticationScenario.yml" />
         <option value="$PROJECT_DIR$/services/actor/actorCommand/src/routes/actor.js" />
+        <option value="$PROJECT_DIR$/services/actor/actorQuery/src/routes/actor.js" />
+        <option value="$PROJECT_DIR$/services/user/userQuery/src/routes/user.js" />
+        <option value="$PROJECT_DIR$/services/user/userCommand/src/routes/user.js" />
+        <option value="$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/block.js" />
         <option value="$PROJECT_DIR$/services/outbox/followOutbox/src/routes/follow.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/routes/follow.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/app.js" />
-        <option value="$PROJECT_DIR$/services/outbox/shareOutbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/outbox/noteOutbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/outbox/likeOutbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/outbox/followOutbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/outbox/blockOutbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/src/app.js" />
+        <option value="$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/like.js" />
+        <option value="$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/note.js" />
+        <option value="$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/share.js" />
         <option value="$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/inbox_api.js" />
+        <option value="$PROJECT_DIR$/services/inbox/command/blockInbox/src/routes/block.js" />
+        <option value="$PROJECT_DIR$/services/inbox/command/followInbox/src/routes/follow.js" />
+        <option value="$PROJECT_DIR$/services/inbox/command/likeInbox/src/routes/like.js" />
+        <option value="$PROJECT_DIR$/services/inbox/command/noteInbox/src/routes/note.js" />
+        <option value="$PROJECT_DIR$/services/inbox/command/shareInbox/src/routes/share.js" />
+        <option value="$PROJECT_DIR$/scenarios/noteServicesScenario.yml" />
         <option value="$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/inbox_api.js" />
         <option value="$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/inbox_api.js" />
         <option value="$PROJECT_DIR$/services/outbox/followOutbox/src/routes/inbox_api.js" />
         <option value="$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/inbox_api.js" />
+        <option value="$PROJECT_DIR$/scenarios/blockServicesScenario.yml" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/routes/share.js" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/src/routes/block.js" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/routes/follow.js" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/src/routes/like.js" />
+        <option value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/src/routes/note.js" />
+        <option value="$PROJECT_DIR$/scenarios/followServicesScenario.yml" />
+        <option value="$PROJECT_DIR$/scenarios/likeServicesScenario.yml" />
+        <option value="$PROJECT_DIR$/scenarios/shareServicesScenario.yml" />
+        <option value="$PROJECT_DIR$/loadTests/requestsMashup.yml" />
+        <option value="$PROJECT_DIR$/loadTests/retrieveReplayedActivity.yml" />
+        <option value="$PROJECT_DIR$/loadTests/authenticationTest.yml" />
+        <option value="$PROJECT_DIR$/loadTests/createUpdatesTest.yml" />
         <option value="$PROJECT_DIR$/services/gateway/config/gateway.config.yml" />
-        <option value="$PROJECT_DIR$/services/inbox/command/blockInbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/followInbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/likeInbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/noteInbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/shareInbox/src/app.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/blockInbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/followInbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/likeInbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/noteInbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/command/shareInbox/tests/test.js" />
-        <option value="$PROJECT_DIR$/services/inbox/eventStore/package.json" />
-        <option value="$PROJECT_DIR$/services/npm-install.sh" />
       </list>
     </option>
   </component>
@@ -189,29 +241,6 @@
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/services/actor/actorCommand/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/actor/actorQuery/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/gateway/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/command/blockInbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/command/followInbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/command/likeInbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/command/noteInbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/command/shareInbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/inbox/eventStore/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/outbox/blockOutbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/outbox/followOutbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/outbox/likeOutbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/outbox/noteOutbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/outbox/shareOutbox/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/user/userCommand/node_modules" />
-    <handled-path value="$PROJECT_DIR$/services/user/userQuery/node_modules" />
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
@@ -239,10 +268,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2560" />
-    <option name="y" value="-2" />
-    <option name="width" value="1920" />
-    <option name="height" value="1082" />
+    <option name="x" value="472" />
+    <option name="y" value="27" />
+    <option name="width" value="1910" />
+    <option name="height" value="810" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -262,59 +291,55 @@
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="loadTests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="scenarios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="blockOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="blockOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="blockQuerier" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="blockQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="blockOutbox" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="followOutbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="followOutbox" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="followOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="blockQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -322,47 +347,26 @@
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="likeOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="followQuerier" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="likeOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="followQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="likeOutbox" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="noteOutbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="noteOutbox" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="noteOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="followQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -370,31 +374,80 @@
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="noteOutbox" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="likeQuerier" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="shareOutbox" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="shareOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="likeQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
               <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
-              <item name="outbox" type="462c0819:PsiDirectoryNode" />
-              <item name="shareOutbox" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="likeQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="noteQuerier" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="noteQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="noteQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="shareQuerier" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="shareQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MasterThesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MasterThesis" type="462c0819:PsiDirectoryNode" />
+              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="inbox" type="462c0819:PsiDirectoryNode" />
+              <item name="databaseQuerier" type="462c0819:PsiDirectoryNode" />
+              <item name="shareQuerier" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -608,7 +661,7 @@
       <workItem from="1559722420952" duration="18826000" />
       <workItem from="1559977695956" duration="34510000" />
       <workItem from="1560061192059" duration="15973000" />
-      <workItem from="1560145380887" duration="20976000" />
+      <workItem from="1560145380887" duration="32855000" />
     </task>
     <servers />
   </component>
@@ -645,7 +698,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="329087000" />
+    <option name="totallyTimeSpent" value="340966000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -657,7 +710,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2560" y="-2" width="1920" height="1082" extended-state="6" />
+    <frame x="67" y="25" width="2493" height="1415" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49816102" weight="0.32917318" />
@@ -669,10 +723,10 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.496935" weight="0.32917318" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49897835" weight="0.3299532" />
-      <window_info active="true" anchor="bottom" x="2560" y="28" width="1920" height="1052" id="Terminal" order="12" sideWeight="0.5031201" side_tool="true" visible="true" weight="0.31928346" />
+      <window_info anchor="bottom" x="2560" y="28" width="1920" height="1052" id="Terminal" order="12" sideWeight="0.5031201" side_tool="true" visible="true" weight="0.26599064" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49687988" visible="true" weight="0.16915688" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49687988" weight="0.12954639" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info id="Structure" order="1" sideWeight="0.50116277" side_tool="true" weight="0.18062934" />
@@ -702,311 +756,334 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/noteInbox/src/routes/event_handler.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/noteInbox/src/routes/note.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/followInbox/src/routes/follow.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-612" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/followOutbox/src/npm-debug.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/tests/test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="111" column="35" lean-forward="true" selection-end-line="208" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/gateway/package.json">
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/gateway/config/system.config.yml">
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        <state relative-caret-position="195">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/gateway/manifest.js">
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="43" column="38" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state relative-caret-position="195">
+          <caret line="13" column="25" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scenarios/noteServicesScenario.yml">
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/src/app.js">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/src/routes/couchdb_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="9" column="52" lean-forward="true" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/src/routes/actor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="25" column="10" lean-forward="true" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
+        <state relative-caret-position="64">
+          <caret line="93" column="34" lean-forward="true" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/routes/follow.js">
+    <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/tests/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="84" column="36" lean-forward="true" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+        <state relative-caret-position="-105">
+          <caret line="18" column="60" lean-forward="true" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/package.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/app.js">
+    <entry file="file://$PROJECT_DIR$/services/user/userQuery/src/routes/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+        <state relative-caret-position="1110">
+          <caret line="78" column="26" selection-start-line="78" selection-start-column="26" selection-end-line="78" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/likeOutbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/followOutbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2687">
-          <caret line="96" column="15" selection-start-line="96" selection-start-column="15" selection-end-line="96" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/followInbox/src/app.js">
+    <entry file="file://$PROJECT_DIR$/services/user/userCommand/src/routes/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+          <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/src/app.js">
+    <entry file="file://$PROJECT_DIR$/services/actor/actorQuery/src/routes/couchdb_api.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+        <state relative-caret-position="180">
+          <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/noteInbox/src/app.js">
+    <entry file="file://$PROJECT_DIR$/services/actor/actorQuery/src/routes/actor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/shareInbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scenarios/authenticationScenario.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scenarios/blockServicesScenario.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1761">
-          <caret line="16" column="42" lean-forward="true" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/inbox_api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="44" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/followOutbox/src/routes/inbox_api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="45" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/inbox_api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="43" selection-start-line="1" selection-start-column="43" selection-end-line="1" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/inbox_api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="43" selection-start-line="1" selection-start-column="43" selection-end-line="1" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/inbox_api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-210">
-          <caret line="1" column="44" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/block.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/share.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/like.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/note.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="30" lean-forward="true" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
+        <state relative-caret-position="499">
+          <caret line="36" column="26" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/services/outbox/followOutbox/src/routes/follow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="80" column="15" selection-start-line="80" selection-start-column="15" selection-end-line="80" selection-end-column="15" />
+        <state relative-caret-position="1095">
+          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="77" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/tests/test.js">
+    <entry file="file://$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/like.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1623">
-          <caret line="126" column="32" selection-start-line="126" selection-start-column="32" selection-end-line="126" selection-end-column="32" />
+        <state relative-caret-position="1095">
+          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="77" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/tests/test.js">
+    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/share.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1623">
-          <caret line="126" column="31" selection-start-line="126" selection-start-column="31" selection-end-line="126" selection-end-column="31" />
+        <state relative-caret-position="1095">
+          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="77" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/noteInbox/tests/test.js">
+    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/note.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1593">
-          <caret line="182" column="31" selection-start-line="182" selection-start-column="31" selection-end-line="182" selection-end-column="31" />
+        <state relative-caret-position="165">
+          <caret line="15" column="31" lean-forward="true" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/shareInbox/tests/test.js">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/routes/event_handler.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
+        <state relative-caret-position="195">
+          <caret line="13" column="52" selection-start-line="13" selection-start-column="52" selection-end-line="13" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/eventStore/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="12" lean-forward="true" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/eventStore/server/writeModel/activityPub/activity.js">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/eventStore.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/followInbox/tests/test.js">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/app.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/routes/block.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2478">
-          <caret line="242" column="33" selection-start-line="242" selection-start-column="33" selection-end-line="242" selection-end-column="33" />
+        <state relative-caret-position="1005">
+          <caret line="71" column="26" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/npm-install.sh">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/followInbox/src/routes/follow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="1350">
+          <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/user/userQuery/package.json">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/src/routes/event_handler.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/package.json">
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/src/routes/like.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1065">
+          <caret line="71" column="26" selection-start-line="71" selection-start-column="26" selection-end-line="71" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/noteInbox/src/routes/note.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="85" column="26" selection-start-line="85" selection-start-column="26" selection-end-line="85" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/command/shareInbox/src/routes/share.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="694">
+          <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/eventStore.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/package.json">
+    <entry file="file://$PROJECT_DIR$/scenarios/authenticationScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="41" column="27" lean-forward="true" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/noteServicesScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="211" column="25" lean-forward="true" selection-start-line="211" selection-start-column="25" selection-end-line="211" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/block.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="77" column="26" selection-start-line="77" selection-start-column="26" selection-end-line="77" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/shareOutbox/src/routes/inbox_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="394">
+          <caret line="71" column="52" selection-start-line="71" selection-start-column="52" selection-end-line="71" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/noteOutbox/src/routes/inbox_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="71" column="16" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/followOutbox/src/routes/inbox_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="72" column="52" selection-start-line="72" selection-start-column="52" selection-end-line="72" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/likeOutbox/src/routes/inbox_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="74" column="52" selection-start-line="74" selection-start-column="52" selection-end-line="74" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/outbox/blockOutbox/src/routes/inbox_api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="679">
+          <caret line="81" column="48" lean-forward="true" selection-start-line="81" selection-start-column="48" selection-end-line="81" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/src/routes/note.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="55" column="30" selection-start-line="55" selection-start-column="30" selection-end-line="55" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/src/routes/block.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="68" column="30" selection-start-line="68" selection-start-column="30" selection-end-line="68" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/blockServicesScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="604">
+          <caret line="128" column="15" lean-forward="true" selection-start-line="128" selection-start-column="15" selection-end-line="128" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/followServicesScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-281">
+          <caret line="107" column="37" selection-start-line="107" selection-start-column="37" selection-end-line="107" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/src/routes/follow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2625">
+          <caret line="229" column="30" selection-start-line="229" selection-start-column="30" selection-end-line="229" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/functions.js">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/likeServicesScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="174" column="16" lean-forward="true" selection-start-line="174" selection-start-column="16" selection-end-line="174" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/src/routes/like.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1694">
+          <caret line="186" column="30" selection-start-line="186" selection-start-column="30" selection-end-line="186" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/routes/share.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2145">
+          <caret line="221" column="42" lean-forward="true" selection-start-line="221" selection-start-column="42" selection-end-line="221" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scenarios/shareServicesScenario.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="165" column="26" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/retrieveReplayedActivity.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/populateUsersActorsDB.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/authenticationTest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/createUpdatesTest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="724">
+          <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/requestsMashup.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

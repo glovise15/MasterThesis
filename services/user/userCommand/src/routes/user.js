@@ -21,7 +21,7 @@ router.post('/create', (req, res) => {
         // Insert into the database
         return userHelpers.createUser(req)
             .then((data) => {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     data
                 })

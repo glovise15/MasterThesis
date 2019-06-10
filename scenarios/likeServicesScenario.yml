@@ -23,7 +23,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -33,7 +33,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -52,7 +52,7 @@ scenarios:
           json: "$.data.id"
           as: "actor1"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -71,7 +71,7 @@ scenarios:
           json: "$.data.id"
           as: "actor2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
           
@@ -97,7 +97,7 @@ scenarios:
           - json: "$.data[0].object.id"
             as: "noteID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
 
     - post:
@@ -117,7 +117,7 @@ scenarios:
           - json: "$.data[0].object.id"
             as: "noteID2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
     - think: 1          
@@ -148,7 +148,7 @@ scenarios:
           - json: "$.data[0].id"
             as: "likeID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -158,27 +158,27 @@ scenarios:
     - think: 1
 
     - get:
-        url: "/localhost:3117/like/liked/{{actor1}}"
+        url: "/localhost:3117/like/likedBy/{{actor1}}"
         capture:
-          - json: "$.liked[0]"
-            as: "likedObject"
+          - json: "$.likes[0]"
+            as: "likedObjects"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "liked"
+          - hasProperty: "likes"
           - equals:
             - "{{noteID}}"
-            - "{{likedObject}}"
+            - "{{likedObjects}}"
 
     - get:
         url: "/localhost:3117/like/likes/{{noteIdentifier}}"
         capture:
-          - json: "$.liked[0]"
+          - json: "$.actors[0]"
             as: "actors"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "liked"
+          - hasProperty: "actors"
           - equals:
             - "{{actors}}"
             - "{{senderURL}}"
@@ -186,14 +186,14 @@ scenarios:
     - get:
         url: "{{likeID}}"
         capture:
-          - json: "$.replayedEvent"
-            as: "getLikeActivity"
+          - json: "$.like"
+            as: "like"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - equals:
             - "{{likeActivity}}"
-            - "{{getLikeActivity}}"
+            - "{{like}}"
 
     - post:
         url: "/localhost:3115/like/undo"
@@ -211,14 +211,14 @@ scenarios:
             id: "{{likeID}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{likeID}}"
         expect:
-          - statusCode: 500
+          - statusCode: 404
 
     - post:
         url: "/localhost:3115/like/create"
@@ -232,7 +232,7 @@ scenarios:
           object: "{{noteID}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
 
     - think: 1
@@ -249,17 +249,14 @@ scenarios:
           object: "{{noteID2}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
 
     - think: 1
 
     - get:
-        url: "/localhost:3117/like/liked/{{actor1}}"
-        capture:
-          - json: "$.liked[0]"
-            as: "likedObject"
+        url: "/localhost:3117/like/likedBy/{{actor1}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "liked"
+          - hasProperty: "likes"

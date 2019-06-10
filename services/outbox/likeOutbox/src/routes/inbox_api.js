@@ -72,7 +72,7 @@ function getRecipientsList(req){
         if(activity[field] !== undefined) {
             let array = [].concat(activity[field] || []);
             array.forEach((recipient) => {
-                promises.push(getFrom(token, recipient))
+                if (!recipient.includes("#public")) promises.push(getFrom(token, recipient))
             })
         }
     });

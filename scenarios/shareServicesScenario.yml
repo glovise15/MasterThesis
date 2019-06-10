@@ -23,7 +23,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -33,7 +33,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -52,7 +52,7 @@ scenarios:
           json: "$.data.id"
           as: "actor1"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -71,7 +71,7 @@ scenarios:
           json: "$.data.id"
           as: "actor2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
           
@@ -97,7 +97,7 @@ scenarios:
           - json: "$.data[0].object.id"
             as: "noteID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1          
 
@@ -127,7 +127,7 @@ scenarios:
           - json: "$.data[0].id"
             as: "shareID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -142,7 +142,7 @@ scenarios:
           - json: "$.shared[0]"
             as: "object"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "shared"
           - equals:
@@ -152,12 +152,12 @@ scenarios:
     - get:
         url: "/localhost:3125/share/sharedWith/{{noteIdentifier}}"
         capture:
-          - json: "$.shared[0]"
+          - json: "$.actors[0]"
             as: "actors"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "shared"
+          - hasProperty: "actors"
           - equals:
             - "{{actors}}"
             - "{{senderURL}}"
@@ -165,10 +165,10 @@ scenarios:
     - get:
         url: "{{shareID}}"
         capture:
-          - json: "$.replayedEvent"
+          - json: "$.share"
             as: "getShareActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - equals:
             - "{{shareActivity}}"
@@ -190,13 +190,13 @@ scenarios:
             id: "{{shareID}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{shareID}}"
         expect:
-          - statusCode: 500
+          - statusCode: 404
 
 

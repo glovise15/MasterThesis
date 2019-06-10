@@ -29,7 +29,7 @@ wolkenkit.then((eventStore) => {
         String actor : id of an actor
     @return -> array of followers
  */
-router.get('/follower/:actor', (req, res) => {
+router.get('/followed/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
@@ -74,21 +74,21 @@ router.get('/follower/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let follows = [];
+            let followers = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayFollow(array);
-                if (replayedEvent != null) follows.push(replayedEvent.actor);
+                if (replayedEvent != null) followers.push(replayedEvent.actor);
             });
-            if(follows === undefined || follows < 1) {
+            if(followers === undefined || followers < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    follows
+                    followers
                 });
             }
         });
@@ -149,21 +149,21 @@ router.get('/following/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let follows = [];
+            let following = [];
             groupById(events).forEach(array => {
                let replayedEvent = replayFollow(array);
-               if (replayedEvent != null) follows.push(replayedEvent.object);
+               if (replayedEvent != null) following.push(replayedEvent.object);
             });
-            if(follows === undefined || follows < 1) {
+            if(following === undefined || following < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    follows
+                    following
                 });
             }
         });
@@ -223,19 +223,18 @@ router.get('/get/:object', (req, res) => {
             });
         }).
         finished(events => {
-            console.log(events)
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayFollow(events);
-            if(replayedEvent === undefined || replayedEvent < 1) {
+            let follow = replayFollow(events);
+            if(follow === undefined || follow < 1) {
                 let err = "No activity found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    replayedEvent
+                    follow
                 });
             }
         });
@@ -319,6 +318,7 @@ function replayFollow(events){
     if( accept && !remove) return currentState;
     return null;
 }
+
 
 
 

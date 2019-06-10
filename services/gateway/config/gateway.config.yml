@@ -370,12 +370,14 @@ pipelines:
     apiEndpoints:
       - inbox-api
     policies:
-      expression:
-        - action:
-            jscode: |
-              let array = req.url.split("/");
-              req.actor = array[array.length-1];
+      rewrite:
+        condition:
+          name: pathmatch
+          match: /inbox/:actor
+        action:
+          rewrite: /follow/following/:actor
+          redirect: 201
       proxy:
         action:
-            serviceEndpoint: abc-service
+            url: http://localhost:3113/follow/following/actor
             changeOrigin: true

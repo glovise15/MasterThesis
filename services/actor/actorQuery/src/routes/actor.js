@@ -11,7 +11,7 @@ const actorHelpers = require('./couchdb_api')
 router.get('/getAll/:user', (req, res) => {
     return actorHelpers.getAll(req.params.user)
         .then((data) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 data
             })
@@ -34,7 +34,7 @@ router.get('/getAll/:user', (req, res) => {
 router.get('/get/:id', (req, res) => {
     return actorHelpers.get(req.params.id)
         .then((data) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 data
             })

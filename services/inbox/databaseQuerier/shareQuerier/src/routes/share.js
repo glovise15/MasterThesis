@@ -68,12 +68,12 @@ router.get('/sharedBy/:actor', (req, res) => {
             });
             if(shared === undefined || shared < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     shared
                 });
@@ -123,21 +123,21 @@ router.get('/sharedWith/:object', (req, res) => {
         }).
         finished(events => {
 
-            let shared = [];
+            let actors = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayShare(array);
-                if (replayedEvent != null) shared.push(replayedEvent.actor);
+                if (replayedEvent != null) actors.push(replayedEvent.actor);
             });
-            if(shared === undefined || shared < 1) {
+            if(actors === undefined || actors < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    shared
+                    actors
                 });
             }
         });
@@ -185,17 +185,17 @@ router.get('/get/:object', (req, res) => {
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayShare(events);
-            if(replayedEvent === undefined || replayedEvent < 1) {
+            let share = replayShare(events);
+            if(share === undefined || share < 1) {
                 let err = "No activity found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    replayedEvent
+                    share
                 });
             }
         });

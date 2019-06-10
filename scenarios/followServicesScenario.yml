@@ -22,7 +22,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -32,7 +32,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -51,7 +51,7 @@ scenarios:
           json: "$.data.id"
           as: "actor1"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -70,7 +70,7 @@ scenarios:
           json: "$.data.id"
           as: "actor2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -99,7 +99,7 @@ scenarios:
           - json: "$.data[0].id"
             as: "followID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -109,27 +109,27 @@ scenarios:
     - think: 1
 
     - get:
-        url: "/localhost:3113/follow/follower/{{actor2}}"
+        url: "/localhost:3113/follow/followed/{{actor2}}"
         capture:
-          - json: "$.follows[0]"
-            as: "follower"
+          - json: "$.followers[0]"
+            as: "followers"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "follows"
+          - hasProperty: "followers"
           - equals:
-            - "{{follower}}"
+            - "{{followers}}"
             - "{{senderURL}}"
 
     - get:
         url: "/localhost:3113/follow/following/{{actor1}}"
         capture:
-          - json: "$.follows[0]"
+          - json: "$.following[0]"
             as: "following"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
-          - hasProperty: "follows"
+          - hasProperty: "following"
           - equals:
             - "{{following}}"
             - "{{receiverURL}}"
@@ -137,14 +137,16 @@ scenarios:
     - get:
         url: "{{followID}}"
         capture:
-          - json: "$.replayedEvent"
-            as: "getFollowActivity"
+          - json: "$.follow"
+            as: "follow"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
+          - hasProperty: "follow"
           - equals:
+            - "{{follow}}"
             - "{{followActivity}}"
-            - "{{getFollowActivity}}"
+
 
     - post:
         url: "/localhost:3111/follow/undo"
@@ -162,14 +164,14 @@ scenarios:
             id: "{{followID}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{followID}}"
         expect:
-          - statusCode: 500
+          - statusCode: 404
 
 
 

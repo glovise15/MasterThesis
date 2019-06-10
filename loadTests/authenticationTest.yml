@@ -1,12 +1,12 @@
 config:
   target: 'http:/'
   phases:
-    - duration: 120
-      arrivalRate: 15
+    - duration: 1
+      arrivalRate: 2
   defaults:
     headers:
       content-type: 'application/json'
-scenarios6
+scenarios:
 
   - flow:
     - post:

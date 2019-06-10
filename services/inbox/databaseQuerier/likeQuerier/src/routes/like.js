@@ -28,7 +28,7 @@ wolkenkit.then((eventStore) => {
         String actor : id of an actor
     @return -> array of like object
  */
-router.get('/liked/:actor', (req, res) => {
+router.get('/likedBy/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
@@ -50,7 +50,7 @@ router.get('/liked/:actor', (req, res) => {
                 ]
 
             },
-            orderBy: { 'activity.timestamp': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -60,21 +60,21 @@ router.get('/liked/:actor', (req, res) => {
         }).
         finished(events => {
 
-            let liked = [];
+            let likes = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayLike(array);
-                if (replayedEvent != null) liked.push(replayedEvent.object);
+                if (replayedEvent != null) likes.push(replayedEvent.object);
             });
-            if(liked === undefined || liked < 1) {
+            if(likes === undefined || likes < 1) {
                 let err = "No objects found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    liked
+                    likes
                 });
             }
         });
@@ -109,7 +109,7 @@ router.get('/likes/:object', (req, res) => {
                 ]
 
             },
-            orderBy: { 'activity.timestamp': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -119,21 +119,21 @@ router.get('/likes/:object', (req, res) => {
         }).
         finished(events => {
 
-            let liked = [];
+            let actors = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayLike(array);
-                if (replayedEvent != null) liked.push(replayedEvent.actor);
+                if (replayedEvent != null) actors.push(replayedEvent.actor);
             });
-            if(liked === undefined || liked < 1) {
+            if(actors === undefined || actors < 1) {
                 let err = "No actors found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    liked
+                    actors
                 });
             }
         });
@@ -171,7 +171,7 @@ router.get('/get/:object', (req, res) => {
                 ]
 
             },
-            orderBy: { 'activity.timestamp': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -181,17 +181,17 @@ router.get('/get/:object', (req, res) => {
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayLike(events);
-            if(replayedEvent === undefined || replayedEvent < 1) {
+            let like = replayLike(events);
+            if(like === undefined || like < 1) {
                 let err = "No activity found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    replayedEvent
+                    like
                 });
             }
         });

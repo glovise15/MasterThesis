@@ -28,7 +28,7 @@ wolkenkit.then((eventStore) => {
         String actor : id of an actor
     @return -> block activity
  */
-router.get('/blockedFrom/:actor', (req, res) => {
+router.get('/blocking/:actor', (req, res) => {
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
@@ -59,21 +59,21 @@ router.get('/blockedFrom/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let blocked = [];
+            let blocking = [];
             groupById(events).forEach(array => {
-                let replayedEvent = replayBlock(events);
-                if (replayedEvent != null) blocked.push(replayedEvent.actor);
+                let replayedEvent = replayBlock(array);
+                if (replayedEvent != null) blocking.push(replayedEvent.actor);
             });
-            if(blocked === undefined || blocked < 1) {
+            if(blocking === undefined || blocking < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    blocked
+                    blocking
                 });
             }
         });
@@ -127,12 +127,12 @@ router.get('/blocked/:actor', (req, res) => {
             });
             if(blocked === undefined || blocked < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     blocked
                 });
@@ -171,7 +171,7 @@ router.get('/get/:object', (req, res) => {
                 ]
 
             },
-orderBy: { 'activity.timestamp': 'ascending'}
+orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -181,17 +181,17 @@ orderBy: { 'activity.timestamp': 'ascending'}
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayBlock(events);
-            if(replayedEvent === undefined || replayedEvent < 1) {
+            let block = replayBlock(events);
+            if(block === undefined || block < 1) {
                 let err = "No activity found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    replayedEvent
+                    block
                 });
             }
         });

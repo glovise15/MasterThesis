@@ -37,7 +37,7 @@ router.get('/from/:actor', (req, res) => {
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },
-            orderBy: { 'activity.timestamp': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -53,12 +53,12 @@ router.get('/from/:actor', (req, res) => {
             });
             if(notes === undefined || notes < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     notes
                 });
@@ -87,7 +87,7 @@ router.get('/to/:actor', (req, res) => {
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },
-            orderBy: { 'activity.timestamp': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -105,12 +105,12 @@ router.get('/to/:actor', (req, res) => {
 
             if(notes === undefined || notes < 1) {
                 let err = "No notes found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     notes
                 });
@@ -149,17 +149,17 @@ router.get('/get/:object', (req, res) => {
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayNote(events);
-            if(replayedEvent === undefined || replayedEvent < 1) {
+            let note = replayNote(events);
+            if(note === undefined || note < 1) {
                 let err = "No activity found";
-                res.status(500).json({
+                res.status(404).json({
                     status: 'error',
                     err
                 });
             } else {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
-                    replayedEvent
+                    note
                 });
             }
         });

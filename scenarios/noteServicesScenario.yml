@@ -22,7 +22,7 @@ scenarios:
           json: "$.data"
           as: "username"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: data
 
@@ -32,7 +32,7 @@ scenarios:
           json: "$.response.token"
           as: "token"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "response.token"
 
@@ -51,7 +51,7 @@ scenarios:
           json: "$.data.id"
           as: "actor1"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -70,7 +70,7 @@ scenarios:
           json: "$.data.id"
           as: "actor2"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data"
 
@@ -95,7 +95,7 @@ scenarios:
           - json: "$.data[0].object.id"
             as: "noteID"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -110,7 +110,7 @@ scenarios:
           - json: "$.notes[0]"
             as: "getCreateActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "notes"
           - equals:
@@ -122,7 +122,7 @@ scenarios:
           - json: "$.notes[0]"
             as: "getCreateActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "notes"
           - equals:
@@ -147,7 +147,7 @@ scenarios:
           actor: "http://172.25.0.1:3106/actor/get/{{actor1}}"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
 
     - post:
@@ -171,17 +171,17 @@ scenarios:
           json: "$.data[0]"
           as: "updatedActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{noteID}}"
         capture:
-          - json: "$.notes[0]"
+          - json: "$.note[0]"
             as: "getUpdateActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - equals:
             - "{{updateActivity}}"
@@ -204,17 +204,17 @@ scenarios:
           json: "$.data[0]"
           as: "removeActivity"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
     - think: 1
 
     - get:
         url: "{{noteID}}"
         capture:
-          - json: "$.notes[0]"
+          - json: "$.note[0]"
             as: "getUpdateActivity"
         expect:
-          - statusCode: 500
+          - statusCode: 404
           - contentType: json
 
     - post:
@@ -229,7 +229,7 @@ scenarios:
           content: "Content of the note"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -249,7 +249,7 @@ scenarios:
           content: "Content of the note"
           to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "data[0].type"
           - hasProperty: "data[0].actor"
@@ -261,6 +261,6 @@ scenarios:
     - get:
         url: "/localhost:3121/note/from/{{actor1}}"
         expect:
-          - statusCode: 200
+          - statusCode: 201
           - contentType: json
           - hasProperty: "notes"

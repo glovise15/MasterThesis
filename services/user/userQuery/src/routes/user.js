@@ -39,7 +39,7 @@ router.get('/authenticate/:username/:password', (req, res) => {
             return response
         })
         .then((response) => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success',
                 response
             })
@@ -76,7 +76,7 @@ router.get('/authorization/:username', (req, res) => {
     }
     return ensureAuthenticated(req)
         .then(() => {
-            res.status(200).json({
+            res.status(201).json({
                 status: 'success'
             })
         })

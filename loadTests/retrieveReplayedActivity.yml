@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:3121/note'
   phases:
-    - duration: 120
-      arrivalRate: 200
+    - duration: 1
+      arrivalRate: 2
   defaults:
     headers:
       content-type: 'application/json'

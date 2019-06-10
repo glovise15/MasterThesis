@@ -36,7 +36,7 @@ router.post('/create', (req, res) => {
 
         return actorHelpers.createActor(actor)
             .then((data) => {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     data
                 })
@@ -70,7 +70,7 @@ router.post('/update', (req, res) => {
 
         return actorHelpers.updateActor(actor)
             .then((data) => {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     data
                 })
@@ -117,7 +117,7 @@ router.post('/delete', (req, res) => {
         console.log(`try to delete actor :: actor=${id}`)
         return actorHelpers.deleteActor(actor)
             .then((data) => {
-                res.status(200).json({
+                res.status(201).json({
                     status: 'success',
                     data
                 })
