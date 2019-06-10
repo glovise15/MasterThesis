@@ -1,0 +1,105 @@
+# Run populateUsersActorsDB.yml first before doing this test
+config:
+  target: 'http://localhost:3119/note'
+  phases:
+    - duration: 120
+      arrivalRate: 5
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+    - post:
+        url: "/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          name: "Note"
+          type: "Note"
+          attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          content: "Content of the note"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+        capture:
+          - json: "$.data[0].object.id"
+            as: "noteID"
+
+    - post:
+        url: "/update"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Update"
+          object:
+            '@context': "https://www.w3.org/ns/activitystreams"
+            name: "Updated note"
+            type: "Note"
+            id: "{{noteID}}"
+            attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+            content: "Content of the updated note"
+            to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+    - post:
+        url: "/update"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Update"
+          object:
+            '@context': "https://www.w3.org/ns/activitystreams"
+            name: "Updated note"
+            type: "Note"
+            id: "{{noteID}}"
+            attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+            content: "Content of the updated note"
+            to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+    - post:
+        url: "/update"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Update"
+          object:
+            '@context': "https://www.w3.org/ns/activitystreams"
+            name: "Updated note"
+            type: "Note"
+            id: "{{noteID}}"
+            attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+            content: "Content of the updated note"
+            to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+    - post:
+        url: "/update"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Update"
+          object:
+            '@context': "https://www.w3.org/ns/activitystreams"
+            name: "Updated note"
+            type: "Note"
+            id: "{{noteID}}"
+            attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+            content: "Content of the updated note"
+            to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+
+
+

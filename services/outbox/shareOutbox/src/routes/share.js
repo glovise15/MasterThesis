@@ -81,6 +81,7 @@ function forwardRequest(req, res, urn){
             })
         })
         .catch((err) => {
+            console.log(err);
             res.status(500).json({
                 status: 'error',
                 message: String(err)

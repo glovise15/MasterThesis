@@ -1,0 +1,113 @@
+# Run populateUsersActorsDB.yml first before doing this test
+config:
+  target: 'http:/'
+  phases:
+    - duration: 120
+      arrivalRate: 12
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "User_{{$randomNumber(1,1000000)}}"
+          password: "mdp"
+        capture:
+          json: "$.data"
+          as: "username"
+
+    - get:
+        url: "/localhost:3103/user/authenticate/michel/mdp"
+        headers:
+          authorization: "{{token}}"
+        capture:
+          json: "$.response.token"
+          as: "token"
+
+    - post:
+        url: "/localhost:3119/note/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          name: "Note"
+          type: "Note"
+          attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          content: "Content of the note"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+        capture:
+          - json: "$.data[0].object.id"
+            as: "noteID"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "actor{{$randomNumber(1,1000000)}}"
+          name: "Cameron Hears"
+          preferredUsername: "cam"
+          summary: "Lisp enthusiast hailing from MIT"
+
+    - get:
+        url: "/localhost:3121/note/from/MichelActor1"
+        async: true
+        headers:
+          authorization: "{{token}}"
+
+    - post:
+        url: "/localhost:3119/note/update"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Update"
+          object:
+            '@context': "https://www.w3.org/ns/activitystreams"
+            name: "Updated note"
+            type: "Note"
+            id: "{{noteID}}"
+            attributedTo: "http://172.25.0.1:3106/actor/get/MichelActor1"
+            content: "Content of the updated note"
+            to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+    - get:
+        url: "{{noteID}}"
+        async: true
+        headers:
+          authorization: "{{token}}"
+
+    - post:
+        url: "/localhost:3115/like/create"
+        async: true
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Like"
+          actor: "http://172.25.0.1:3106/actor/get/MichelActor1"
+          summary: "Like activity summary"
+          object: "{{noteID}}"
+          to: "http://172.25.0.1:3106/actor/get/MichelActor2"
+
+    - get:
+        url: "/localhost:3103/user/authorization/michel"
+        async: true
+        headers:
+          authorization: "{{token}}"
+
+    - get:
+        url: "/localhost:3121/note/to/MichelActor2"
+        async: true
+        headers:
+          authorization: "{{token}}"
+

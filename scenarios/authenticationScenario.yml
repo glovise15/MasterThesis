@@ -1,0 +1,80 @@
+config:
+  target: 'http:/'
+  plugins:
+    expect: {}
+  phases:
+    - duration: 1
+      arrivalRate: 1
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+
+  - flow:
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "User_{{$randomNumber(1,10000)}}"
+          password: "mdp"
+        capture:
+          json: "$.data"
+          as: "username"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: data
+
+    - get:
+        url: "/localhost:3103/user/authenticate/{{username}}/mdp"
+        capture:
+          json: "$.response.token"
+          as: "token"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "response.token"
+
+    - get:
+        url: "/localhost:3103/user/authorization/{{username}}"
+        headers:
+          authorization: "{{token}}"
+        expect:
+          - statusCode: 200
+          - contentType: json
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "actor{{$randomNumber(1,10000)}}"
+          name: "Cameron Hears"
+          preferredUsername: "cam"
+          summary: "Lisp enthusiast hailing from MIT"
+        capture:
+          json: "$.data.id"
+          as: "id"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "data"
+
+    - get:
+        url: "/localhost:3106/actor/get/{{id}}"
+        headers:
+          authorization: "{{token}}"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "data.user"
+          - hasProperty: "data.type"
+          - hasProperty: "data.id"
+          - hasProperty: "data.name"
+          - hasProperty: "data.summary"
+          - hasProperty: "data.inbox"
+          - hasProperty: "data.outbox"
+          - hasProperty: "data.followers"
+          - hasProperty: "data.following"
+          - hasProperty: "data.liked"
+
+

@@ -1,0 +1,52 @@
+config:
+  target: 'http:/'
+  phases:
+    - duration: 120
+      arrivalRate: 15
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios6
+
+  - flow:
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "User_{{$randomNumber(1,1000000)}}"
+          password: "mdp"
+        capture:
+          json: "$.data"
+          as: "username"
+
+    - get:
+        url: "/localhost:3103/user/authenticate/{{username}}/mdp"
+        capture:
+          json: "$.response.token"
+          as: "token"
+
+    - get:
+        url: "/localhost:3103/user/authorization/{{username}}"
+        headers:
+          authorization: "{{token}}"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "actor{{$randomNumber(1,1000000)}}"
+          name: "Cameron Hears"
+          preferredUsername: "cam"
+          summary: "Lisp enthusiast hailing from MIT"
+        capture:
+          json: "$.data.id"
+          as: "id"
+
+    - get:
+        url: "/localhost:3106/actor/get/{{id}}"
+        headers:
+          authorization: "{{token}}"
+
+

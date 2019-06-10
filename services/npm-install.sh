@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+cd gateway && npm install && cd ..
 cd user/userCommand && npm install && cd ..
 cd userQuery && npm install && cd ../..
 
@@ -23,4 +23,5 @@ cd databaseQuerier/blockQuerier && npm install && cd ..
 cd followQuerier && npm install && cd ..
 cd likeQuerier && npm install && cd ..
 cd noteQuerier && npm install && cd ..
-cd shareQuerier && npm install && cd ../../..
+cd shareQuerier && npm install && cd ../..
+wolkenkit start

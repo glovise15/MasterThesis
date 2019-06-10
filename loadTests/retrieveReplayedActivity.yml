@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost:3121/note'
+  phases:
+    - duration: 120
+      arrivalRate: 200
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+  - flow:
+    - get:
+        url: "/from/MichelActor1"
+
+
+
+
+

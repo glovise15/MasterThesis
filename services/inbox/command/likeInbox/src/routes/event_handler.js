@@ -13,7 +13,7 @@ function publishLikeEvent (activity) {
             .then((eventStore) => {
                 eventStore.activityPub.activity().like(activity)
                     .failed(err => reject(err))
-                    .delivered(() => resolve("Like activity published"));
+                    .delivered(() => resolve(activity));
             }).catch((error) => {
             console.log(error);
         })

@@ -29,7 +29,7 @@ router.post('/create', (req, res) => {
         String summary : quick summary about the activity
     @return -> success or error
  */
-router.post('/delete', (req, res) => {
+router.post('/undo', (req, res) => {
     return publish(req.body,res)
 });
 

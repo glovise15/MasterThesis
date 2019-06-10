@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
+const actorHost = "http://172.25.0.1:3106/actor/get/"
+const blockHost = "http://172.25.0.1:3109/block/get/"
 
 /*
     Subscription to the block topic
@@ -34,21 +36,21 @@ router.get('/blockedFrom/:actor', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Block" }},
-                            { 'activity.object' : { $contains: req.params.actor }}
+                            { 'activity.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Block" }},
-                            { 'activity.object.object' : { $contains: req.params.actor }}
+                            { 'activity.object.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     }
 
                 ]
 
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -60,12 +62,20 @@ router.get('/blockedFrom/:actor', (req, res) => {
             let blocked = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayBlock(events);
-                if (replayedEvent != null) blocked.push(replayedEvent);
+                if (replayedEvent != null) blocked.push(replayedEvent.actor);
             });
-            res.status(200).json({
-                status: 'success',
-                blocked
-            });
+            if(blocked === undefined || blocked < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    blocked
+                });
+            }
         });
     })
         .catch((err) => {
@@ -87,21 +97,21 @@ router.get('/blocked/:actor', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Block" }},
-                            { 'activity.actor' : { $contains: req.params.actor }}
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Block" }},
-                            { 'activity.actor' : { $contains: req.params.actor }}
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     }
 
                 ]
 
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -113,12 +123,20 @@ router.get('/blocked/:actor', (req, res) => {
             let blocked = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayBlock(array);
-                if (replayedEvent != null) blocked.push(replayedEvent);
+                if (replayedEvent != null) blocked.push(replayedEvent.object);
             });
-            res.status(200).json({
-                status: 'success',
-                blocked
-            });
+            if(blocked === undefined || blocked < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    blocked
+                });
+            }
         });
     })
         .catch((err) => {
@@ -139,21 +157,21 @@ router.get('/get/:object', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Block" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.id' : { $contains: blockHost+""+req.params.object }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Block" }},
-                            { 'activity.object.id' : { $contains: req.params.object }}
+                            { 'activity.object.id' : { $contains: blockHost+""+req.params.object }}
                         ]
                     }
 
                 ]
 
             },
-orderBy: { 'activity.published': 'ascending'}
+orderBy: { 'activity.timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -163,11 +181,19 @@ orderBy: { 'activity.published': 'ascending'}
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayBlock(array);
-            res.status(200).json({
-                status: 'success',
-                replayedEvent
-            });
+            let replayedEvent = replayBlock(events);
+            if(replayedEvent === undefined || replayedEvent < 1) {
+                let err = "No activity found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    replayedEvent
+                });
+            }
         });
     })
         .catch((err) => {
@@ -213,7 +239,7 @@ function groupById(events){
  */
 function replayBlock(events){
     if( events === undefined ) return null;
-    else if(!Array.isArray(events)) return events.activity.object;
+    else if(!Array.isArray(events)) return events.activity;
 
     let remove = false;
     let prevAction = '';
@@ -222,7 +248,7 @@ function replayBlock(events){
     events.forEach(event => {
         switch(event.activity.type){
             case 'Block' :
-                currentState = event.activity.object;
+                currentState = event.activity;
                 prevAction = 'Block';
                 break;
             case 'Undo' :

@@ -26,8 +26,8 @@ router.post('/create', (req, res) => {
     }else{
         console.log(`Try to create new actor`);
         let actor = req.body;
-        actor['inbox'] = host + ':3100/' + actor.id + '/inbox';
-        actor['outbox'] = host + ':3100/' + actor.id + '/outbox';
+        actor['inbox'] = host + ':3100/' + 'inbox/' + actor.id ;
+        actor['outbox'] = host + ':3100/'+ 'outbox/' + actor.id ;
         actor['followers'] = host + ':3113/follow/follower/'+ actor.id;
         actor['following'] = host + ':3113/follow/following/'+ actor.id;
         actor['liked'] = host + ':3117/like/liked/'+ actor.id;

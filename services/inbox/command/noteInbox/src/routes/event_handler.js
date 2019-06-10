@@ -14,8 +14,9 @@ function publishNoteEvent (activity) {
                 eventStore.activityPub.activity().post(activity)
                     .failed(err => reject(err))
                     .delivered(() => resolve(activity));
-            }).catch((error) => {
-            console.log(error);
+            })
+            .catch((error) => {
+                reject(error);
         })
     });
 }

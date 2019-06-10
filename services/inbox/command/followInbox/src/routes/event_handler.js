@@ -13,7 +13,7 @@ function publishFollowEvent (activity) {
             .then((eventStore) => {
                 eventStore.activityPub.activity().follow(activity)
                     .failed(err => reject(err))
-                    .delivered(() => resolve("Follow activity published"));
+                    .delivered(() => resolve(activity));
             }).catch((error) => {
                 console.log(error);
             })

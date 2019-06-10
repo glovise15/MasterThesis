@@ -103,7 +103,7 @@ function handleRequest(req, res, urn){
     if(!isRequestValid(req)){
         return res.status(500).json({
             status: 'error',
-            message: "Fields required : " + activityFields + ") or incorrect activity type (should be Create, Update or Delete)"
+            message: "Fields required: " + activityFields + " and incorrect type required: Create, Update or Delete"
         });
     }else return forwardRequest(req, res, urn);
 }
@@ -126,6 +126,7 @@ function forwardRequest(req, res, urn){
             })
         })
         .catch((err) => {
+            console.log(err);
             res.status(500).json({
                 status: 'error',
                 message: String(err)

@@ -13,7 +13,7 @@ function publishShareEvent (activity) {
             .then((eventStore) => {
                 eventStore.activityPub.activity().share(activity)
                     .failed(err => reject(err))
-                    .delivered(() => resolve("Share activity published"));
+                    .delivered(() => resolve(activity));
             }).catch((error) => {
             console.log(error);
         })

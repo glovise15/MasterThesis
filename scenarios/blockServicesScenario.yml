@@ -1,0 +1,174 @@
+config:
+  target: 'http:/'
+  plugins:
+    expect: {}
+  phases:
+    - duration: 1
+      arrivalRate: 1
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+# ----------------------------------------------------------------------------------------------------------------------
+# Actors creation required for testing the blocks
+# ----------------------------------------------------------------------------------------------------------------------
+  - flow:
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "User_{{$randomNumber(1,10000)}}"
+          password: "mdp"
+        capture:
+          json: "$.data"
+          as: "username"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: data
+
+    - get:
+        url: "/localhost:3103/user/authenticate/{{username}}/mdp"
+        capture:
+          json: "$.response.token"
+          as: "token"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "response.token"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "actor{{$randomNumber(1,10000)}}"
+          name: "Cameron Hears"
+          preferredUsername: "cam"
+          summary: "Lisp enthusiast hailing from MIT"
+        capture:
+          json: "$.data.id"
+          as: "actor1"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "data"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "{{ username }}"
+          type: "Person"
+          id: "actor{{$randomNumber(1,10000)}}"
+          name: "Jean Lupin"
+          preferredUsername: "cJeanam"
+          summary: "Lisp enthusiast hailing from MIT"
+        capture:
+          json: "$.data.id"
+          as: "actor2"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "data"
+
+# ----------------------------------------------------------------------------------------------------------------------
+# Block services testing
+# ----------------------------------------------------------------------------------------------------------------------
+
+    - post:
+        url: "/localhost:3107/block/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Block"
+          actor: "http://172.25.0.1:3106/actor/get/{{actor1}}"
+          summary: "Block activity summary"
+          object: "http://172.25.0.1:3106/actor/get/{{actor2}}"
+          to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
+        capture:
+          - json: "$.data[0]"
+            as: "blockActivity"
+          - json: "$.data[0].actor"
+            as: "senderURL"
+          - json: "$.data[0].to"
+            as: "receiverURL"
+          - json: "$.data[0].id"
+            as: "blockID"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "data[0].type"
+          - hasProperty: "data[0].actor"
+          - hasProperty: "data[0].object"
+          - hasProperty: "data[0].to"
+          - hasProperty: "data[0].id"
+    - think: 1
+
+    - get:
+        url: "/localhost:3109/block/blockedFrom/{{actor2}}"
+        capture:
+          - json: "$.blocked[0]"
+            as: "blockedFrom"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "blocked"
+          - equals:
+            - "{{blockedFrom}}"
+            - "{{senderURL}}"
+
+    - get:
+        url: "/localhost:3109/block/blocked/{{actor1}}"
+        capture:
+          - json: "$.blocked[0]"
+            as: "blocked"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "blocked"
+          - equals:
+            - "{{blocked}}"
+            - "{{receiverURL}}"
+
+    - get:
+        url: "{{blockID}}"
+        capture:
+          - json: "$.replayedEvent"
+            as: "getBlockActivity"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - equals:
+            - "{{blockActivity}}"
+            - "{{getBlockActivity}}"
+
+    - post:
+        url: "/localhost:3107/block/undo"
+        headers:
+          authorization: "{{token}}"
+        json:
+          '@context': "https://www.w3.org/ns/activitystreams"
+          type: "Undo"
+          actor: "http://172.25.0.1:3106/actor/get/{{actor1}}"
+          summary: "block activity summary"
+          object:
+            type: "Block"
+            actor: "http://172.25.0.1:3106/actor/get/{{actor1}}"
+            object: "http://172.25.0.1:3106/actor/get/{{actor2}}"
+            id: "{{blockID}}"
+          to: "http://172.25.0.1:3106/actor/get/{{actor2}}"
+        expect:
+          - statusCode: 200
+          - contentType: json
+    - think: 1
+
+    - get:
+        url: "{{blockID}}"
+        expect:
+          - statusCode: 500
+
+

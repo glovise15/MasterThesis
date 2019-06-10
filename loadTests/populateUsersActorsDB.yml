@@ -1,0 +1,55 @@
+config:
+  target: 'http:/'
+  phases:
+    - duration: 1
+      arrivalRate: 1
+  defaults:
+    headers:
+      content-type: 'application/json'
+scenarios:
+
+  - flow:
+    - post:
+        url: "/localhost:3102/user/create"
+        json:
+          username: "michel"
+          password: "mdp"
+
+    - get:
+        url: "/localhost:3103/user/authenticate/michel/mdp"
+        capture:
+          json: "$.response.token"
+          as: "token"
+        expect:
+          - statusCode: 200
+          - contentType: json
+          - hasProperty: "response.token"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "michel"
+          type: "Person"
+          id: "MichelActor1"
+          name: "Cameron Hears"
+          preferredUsername: "cam"
+          summary: "Lisp enthusiast hailing from MIT"
+
+    - post:
+        url: "/localhost:3105/actor/create"
+        headers:
+          authorization: "{{token}}"
+        json:
+          user: "michel"
+          type: "Person"
+          id: "MichelActor2"
+          name: "Louis Segtt"
+          preferredUsername: "sergt"
+          summary: "Lisp enthusiast hailing from MIT"
+
+
+
+
+

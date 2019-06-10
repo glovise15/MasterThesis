@@ -7,12 +7,12 @@ WORKDIR /usr/src/app
 ENV DB_HOST actor-db
 ENV COUCHDB_PORT 5984
 ENV COUCHDB_DB_URL http://admin:admin@${DB_HOST}:${COUCHDB_PORT}/actor
+# Required by couchDB
+ENV _USERS_DB_URL http://admin:admin@${DB_HOST}:${COUCHDB_PORT}/_users
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends curl
 RUN npm install debug
 
-COPY views ./views
-COPY func_to_string.js ./
 COPY wait-for-couchdb.sh ./
 
 RUN ["chmod", "+x", "./wait-for-couchdb.sh"]

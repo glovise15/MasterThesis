@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
+const actorHost = "http://172.25.0.1:3106/actor/get/"
+const noteHost = "http://172.25.0.1:3121/note/get/"
 
 /*
     Subscription to the note topic
@@ -14,7 +16,7 @@ wolkenkit.then((eventStore) => {
         /*
             This is where we can handle the received event and eventually forward it to a database or other service such as the front end
          */
-        console.log(event.data.type);
+        console.log(event.data.type + " activity received");
     });
 })
     .catch((err) => {
@@ -31,11 +33,11 @@ router.get('/from/:actor', (req, res) => {
         eventStore.lists.activities.read({
             where: {
                 $and: [
-                    { 'activity.actor' : { $contains: req.params.actor }},
+                    { 'activity.actor' : { $contains:actorHost+""+req.params.actor }},
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'activity.timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -44,23 +46,83 @@ router.get('/from/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let noted = [];
+            let notes = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayNote(array);
-                if (replayedEvent != null) noted.push(replayedEvent);
+                if (replayedEvent != null) notes.push(replayedEvent);
             });
-            console.log(noted)
-            res.status(200).json({
-                status: 'success',
-                noted
-            });
+            if(notes === undefined || notes < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    notes
+                });
+            }
+
         });
     })
         .catch((err) => {
-            console.log(err)
+            throw new Error(err)
         });
 
 });
+
+
+/*
+    Retrieve the notes written to [actor]
+        String actor : id of an actor
+    @return -> array of note object
+ */
+router.get('/to/:actor', (req, res) => {
+    wolkenkit.then((eventStore) => {
+        eventStore.lists.activities.read({
+            where: {
+                $and: [
+                    { 'activity.to' : { $contains:actorHost+""+req.params.actor }},
+                    { 'activity.object.type': { $contains: "Note" }}
+                ]
+            },
+            orderBy: { 'activity.timestamp': 'ascending'}
+        }).
+        failed(err =>{
+            res.status(500).json({
+                status: 'error',
+                err
+            });
+        }).
+        finished(events => {
+            let notes = [];
+
+            groupById(events).forEach(array => {
+                let replayedEvent = replayNote(array);
+                if (replayedEvent != null) notes.push(replayedEvent);
+            });
+
+            if(notes === undefined || notes < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    notes
+                });
+            }
+        });
+    })
+        .catch((err) => {
+            throw new Error(err)
+        });
+
+});
+
 
 /*
     Retrieve a note object
@@ -68,15 +130,16 @@ router.get('/from/:actor', (req, res) => {
     @return -> note object
  */
 router.get('/get/:object', (req, res) => {
+    console.log("GET : "+ req.params.object)
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
                 $and: [
-                    { 'activity.object.id' : { $contains: req.params.object }},
+                    { 'activity.object.id' : { $contains:noteHost+""+req.params.object }},
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -86,15 +149,23 @@ router.get('/get/:object', (req, res) => {
         }).
         finished(events => {
             if(!Array.isArray(events)) return events.activity;
-            let replayedEvent = replayBlock(array);
-            res.status(200).json({
-                status: 'success',
-                replayedEvent
-            });
+            let replayedEvent = replayNote(events);
+            if(replayedEvent === undefined || replayedEvent < 1) {
+                let err = "No activity found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    replayedEvent
+                });
+            }
         });
     })
         .catch((err) => {
-            console.log(err)
+            throw new Error(err)
         });
 });
 
@@ -135,16 +206,14 @@ function groupById(events){
     @return -> the final state of the object
  */
 function replayNote(events){
-    if( events === undefined ) return null;
-    else if(!Array.isArray(events)) return events.activity.object;
+    if( events === undefined ) return [];
+    else if(!Array.isArray(events)) return events.activity;
 
     let remove = false;
     let prevAction = '';
-    let currentState = {};
+    let currentState;
     let prevStates = [];
-
     events.forEach(event => {
-        console.log(event.activity.type);
         switch(event.activity.type){
             case 'Create' :
                 currentState = event.activity.object;
@@ -155,7 +224,7 @@ function replayNote(events){
                 currentState = event.activity.object;
                 prevAction = 'Update';
                 break;
-            case 'Remove' :
+            case 'Delete' :
                 remove = true;
                 prevAction = 'Delete';
                 break;
@@ -164,7 +233,7 @@ function replayNote(events){
         }
     });
 
-    if(!remove) return currentState;
+    if(!remove && currentState !== undefined) return currentState;
     return null;
 }
 

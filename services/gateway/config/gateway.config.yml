@@ -8,7 +8,8 @@ apiEndpoints:
   user-command-api:
     host: 'localhost'
     methods: 'POST'
-    paths: ['/user','/user/*']
+    paths:
+      - '/user/*'
   user-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -33,7 +34,7 @@ apiEndpoints:
     host: 'localhost'
     methods: 'POST'
     paths:
-      - '/block/*'
+      - '/blockIB/*'
   block-inbox-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -48,7 +49,7 @@ apiEndpoints:
     host: 'localhost'
     methods: 'POST'
     paths:
-      - '/follow/*'
+      - '/followIB/*'
   follow-inbox-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -63,7 +64,7 @@ apiEndpoints:
     host: 'localhost'
     methods: 'POST'
     paths:
-      - '/like/*'
+      - '/likeIB/*'
   like-inbox-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -78,7 +79,7 @@ apiEndpoints:
     methods: 'POST'
     host: 'localhost'
     paths:
-      - '/note/*'
+      - '/noteIB/*'
   note-inbox-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -93,22 +94,22 @@ apiEndpoints:
     host: 'localhost'
     methods: 'POST'
     paths:
-      - '/share/*'
+      - '/shareIB/*'
   share-inbox-query-api:
     host: 'localhost'
     methods: 'GET'
     paths:
       - '/share/*'
-  outbox-collection-inbox-command-api:
-    host: 'localhost'
-    methods: 'POST'
-    paths:
-      - '/outbox/*'
-  outbox-collection-inbox-query-api:
+  outbox-api:
     host: 'localhost'
     methods: 'GET'
     paths:
-      - '/outbox/*'
+      - '/outbox/:actor'
+  inbox-api:
+    host: 'localhost'
+    methods: 'GET'
+    paths:
+      - '/inbox/:actor'
 
 serviceEndpoints:
   user-command-service:
@@ -149,10 +150,12 @@ serviceEndpoints:
     url: 'http://localhost:3124'
   share-inbox-query-service:
     url: 'http://localhost:3125'
-  outbox-collection-inbox-command-service:
-    url: 'http://localhost:3127'
-  outbox-collection-inbox-query-service:
-    url: 'http://localhost:3128'
+  outbox-service:
+    url: 'http://localhost:3113'
+  inbox-service:
+    url: 'http://localhost:3100'
+  default-service:
+    url: 'http://localhost:8080'
 
 policies:
   - basic-auth
@@ -164,6 +167,7 @@ policies:
   - oauth2
   - proxy
   - rate-limit
+  - rewrite
 
 pipelines:
   user-command:
@@ -345,19 +349,33 @@ pipelines:
             serviceEndpoint: share-inbox-query-service
             changeOrigin: true
 
-  outbox-collection-inbox-command:
+  outbox:
     apiEndpoints:
-      - outbox-collection-inbox-command-api
+      - outbox-api
     policies:
+      rewrite:
+        condition:
+          name: pathmatch
+          match: /outbox/:actor
+        action:
+          rewrite: /follow/follower/:actor
+          redirect: 201
       proxy:
         action:
-            serviceEndpoint: outbox-collection-inbox-command-service
+            url: http://localhost:3113/follow/follower/actor
             changeOrigin: true
-  outbox-collection-inbox-query:
+
+
+  inbox:
     apiEndpoints:
-      - outbox-collection-inbox-query-api
+      - inbox-api
     policies:
+      expression:
+        - action:
+            jscode: |
+              let array = req.url.split("/");
+              req.actor = array[array.length-1];
       proxy:
         action:
-            serviceEndpoint: outbox-collection-inbox-query-service
+            serviceEndpoint: abc-service
             changeOrigin: true

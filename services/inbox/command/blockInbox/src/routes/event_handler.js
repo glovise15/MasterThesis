@@ -13,7 +13,7 @@ function publishBlockEvent (activity) {
             .then((eventStore) => {
                 eventStore.activityPub.activity().block(activity)
                     .failed(err => reject(err))
-                    .delivered(() => resolve("Block activity published"));
+                    .delivered(() => resolve(activity));
             }).catch((error) => {
             console.log(error);
         })

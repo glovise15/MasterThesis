@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3112/follow/';
+const host = 'http://172.25.0.1:3112/followIB/';
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*
@@ -20,7 +20,7 @@ function sendActivity(req, urn){
     @return -> array of promises
  */
 function postToAllRecipients(req, urn){
-    let regExp = /https?:\/\/([0-9]{1,3}\.){3,3}[0-9]:[0-9]+\/([A-Z]*[a-z]*)+\/inbox/gi;
+    let regExp = /https?:\/\/([0-9]{1,3}\.){3,3}[0-9]:[0-9]+(\/inbox)?\/([A-Z]*[a-z]*[0-9]*)+/gi;
     return getRecipientsList(req)
         .then((recipients) => {
             let promises = [];
@@ -31,7 +31,7 @@ function postToAllRecipients(req, urn){
             return Promise.all(promises);
         })
         .catch((err) => {
-            console.log("Error while posting to recipients : " + err)
+            throw new Error("Error while posting to recipients, " + err)
         });
 }
 
@@ -42,7 +42,7 @@ function postToAllRecipients(req, urn){
     @return -> promise
  */
 function postTo(location, req){
-    console.log(req.body)
+
     return new Promise((resolve, reject) => {
         request.post({
             headers: {"Content-Type": 'application/json', Authorization: req.headers.authorization},
@@ -50,8 +50,8 @@ function postTo(location, req){
             body: req.body,
             json: true
         }, function (error, response, body){
-            if (!error) resolve(response);
-            else reject(error)
+            if (!error && body.status !== 'error') resolve(body.data);
+            else reject(error ? error : "incorrect get url : "+location)
         });
     });
 }
@@ -91,8 +91,8 @@ function getFrom(token, location){
             url: location,
             json: true
         }, function (error, response, body){
-            if (!error) resolve(body);
-            else reject(error)
+            if (!error && body.status !== 'error') resolve(body);
+            else reject(error ? error : "incorrect get url : "+location)
         });
     });
 }

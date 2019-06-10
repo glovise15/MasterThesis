@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
+const actorHost = "http://172.25.0.1:3106/actor/get/"
+const followHost = "http://172.25.0.1:3113/follow/get/"
+
 
 /*
     Subscription to the follow topic
@@ -14,7 +17,7 @@ wolkenkit.then((eventStore) => {
         /*
             This is where we can handle the received event and eventually forward it to a database or other service such as the front end
          */
-        console.log(event.data.type);
+        console.log("Event received : " + event.data.type);
     });
 })
 .catch((err) => {
@@ -34,33 +37,35 @@ router.get('/follower/:actor', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Follow" }},
-                            { 'activity.object' : { $contains: req.params.actor }}
+                            { 'activity.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Follow" }},
-                            { 'activity.object.object' : { $contains: req.params.actor }}
+                            { 'activity.object.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Accept" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.object.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Reject" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.object.object' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     }
 
                 ]
 
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -69,15 +74,23 @@ router.get('/follower/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let followed = [];
+            let follows = [];
             groupById(events).forEach(array => {
                 let replayedEvent = replayFollow(array);
-                if (replayedEvent != null) followed.push(replayedEvent);
+                if (replayedEvent != null) follows.push(replayedEvent.actor);
             });
-            res.status(200).json({
-                status: 'success',
-                followed
-            });
+            if(follows === undefined || follows < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    follows
+                });
+            }
         });
     })
         .catch((err) => {
@@ -99,33 +112,35 @@ router.get('/following/:actor', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Follow" }},
-                            { 'activity.actor' : { $contains: req.params.actor }}
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Follow" }},
-                            { 'activity.actor' : { $contains: req.params.actor }}
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Accept" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Reject" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.actor' : { $contains: actorHost+""+req.params.actor }}
                         ]
                     }
 
                 ]
 
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -134,15 +149,23 @@ router.get('/following/:actor', (req, res) => {
             });
         }).
         finished(events => {
-            let followed = [];
+            let follows = [];
             groupById(events).forEach(array => {
                let replayedEvent = replayFollow(array);
-               if (replayedEvent != null) followed.push(replayedEvent);
+               if (replayedEvent != null) follows.push(replayedEvent.object);
             });
-            res.status(200).json({
-                status: 'success',
-                followed
-            });
+            if(follows === undefined || follows < 1) {
+                let err = "No notes found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    follows
+                });
+            }
         });
     })
     .catch((err) => {
@@ -163,33 +186,35 @@ router.get('/get/:object', (req, res) => {
                     {
                         $and: [
                             { 'activity.type': { $contains: "Follow" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.id' : { $contains: followHost+""+req.params.object }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Undo" }},
                             { 'activity.object.type': { $contains: "Follow" }},
-                            { 'activity.object.id' : { $contains: req.params.object }}
+                            { 'activity.object.id' : { $contains: followHost+""+req.params.object }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Accept" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.object.id' : { $contains: followHost+""+req.params.object }}
                         ]
                     },
                     {
                         $and: [
                             { 'activity.type': { $contains: "Reject" }},
-                            { 'activity.id' : { $contains: req.params.object }}
+                            { 'activity.object.type': { $contains: "Follow" }},
+                            { 'activity.object.id' : { $contains: followHost+""+req.params.object }}
                         ]
                     }
 
                 ]
 
             },
-            orderBy: { 'activity.published': 'ascending'}
+            orderBy: { 'timestamp': 'ascending'}
         }).
         failed(err =>{
             res.status(500).json({
@@ -198,12 +223,21 @@ router.get('/get/:object', (req, res) => {
             });
         }).
         finished(events => {
+            console.log(events)
             if(!Array.isArray(events)) return events.activity;
             let replayedEvent = replayFollow(events);
-            res.status(200).json({
-                status: 'success',
-                replayedEvent
-            });
+            if(replayedEvent === undefined || replayedEvent < 1) {
+                let err = "No activity found";
+                res.status(500).json({
+                    status: 'error',
+                    err
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
+                    replayedEvent
+                });
+            }
         });
     })
         .catch((err) => {
@@ -249,7 +283,7 @@ function groupById(events){
  */
 function replayFollow(events){
     if( events === undefined ) return null;
-    else if(!Array.isArray(events)) return events.activity.object;
+    else if(!Array.isArray(events)) return events.activity;
 
     let accept = true;
     let remove = false;
@@ -257,12 +291,14 @@ function replayFollow(events){
     let currentState = {};
 
     events.forEach(event => {
+
         switch(event.activity.type){
-            case 'Create' :
-                currentState = event.activity.object;
-                prevAction = 'Create';
+            case 'Follow' :
+                currentState = event.activity;
+                prevAction = 'Follow';
                 break;
             case 'Undo' :
+
                 if(prevAction === 'Accept' || prevAction === 'Reject') accept = !accept;
                 else remove = !remove;
                 prevAction = 'Undo';
@@ -276,7 +312,7 @@ function replayFollow(events){
                 prevAction = 'Reject';
                 break;
             default :
-                throw new Error("Unhandled activity type")
+                throw new Error("Unhandled activity type : "+event.activity.type)
         }
     });
 
