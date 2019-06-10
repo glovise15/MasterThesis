@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="427ff9fd-b6ec-42e4-9330-47628d126669" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MasterThesis.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Master_thesis.pdf" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +38,8 @@
       <file leaf-file-name="gateway.config.yml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="724">
-              <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
+            <state relative-caret-position="5505">
+              <caret line="367" selection-start-line="367" selection-end-line="367" />
             </state>
           </provider>
         </entry>
@@ -53,11 +51,6 @@
               <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="populateUsersActorsDB.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loadTests/populateUsersActorsDB.yml">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="authenticationTest.yml" pinned="false" current-in-tab="false">
@@ -243,29 +236,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="NodePackageJsonFileManager">
-    <packageJsonPaths>
-      <path value="$PROJECT_DIR$/services/actor/actorCommand/package.json" />
-      <path value="$PROJECT_DIR$/services/actor/actorQuery/package.json" />
-      <path value="$PROJECT_DIR$/services/gateway/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/command/blockInbox/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/command/followInbox/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/command/likeInbox/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/command/noteInbox/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/command/shareInbox/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/databaseQuerier/blockQuerier/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/databaseQuerier/likeQuerier/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/databaseQuerier/noteQuerier/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/package.json" />
-      <path value="$PROJECT_DIR$/services/inbox/eventStore/package.json" />
-      <path value="$PROJECT_DIR$/services/outbox/blockOutbox/package.json" />
-      <path value="$PROJECT_DIR$/services/outbox/followOutbox/package.json" />
-      <path value="$PROJECT_DIR$/services/outbox/likeOutbox/package.json" />
-      <path value="$PROJECT_DIR$/services/outbox/noteOutbox/package.json" />
-      <path value="$PROJECT_DIR$/services/outbox/shareOutbox/package.json" />
-      <path value="$PROJECT_DIR$/services/user/userCommand/package.json" />
-      <path value="$PROJECT_DIR$/services/user/userQuery/package.json" />
-    </packageJsonPaths>
+    <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="472" />
@@ -281,6 +252,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -455,7 +427,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
       <pane id="Scope" />
     </panes>
@@ -661,7 +632,8 @@
       <workItem from="1559722420952" duration="18826000" />
       <workItem from="1559977695956" duration="34510000" />
       <workItem from="1560061192059" duration="15973000" />
-      <workItem from="1560145380887" duration="32855000" />
+      <workItem from="1560145380887" duration="32960000" />
+      <workItem from="1560185324169" duration="7000" />
     </task>
     <servers />
   </component>
@@ -698,7 +670,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="340966000" />
+    <option name="totallyTimeSpent" value="341078000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -711,7 +683,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="2493" height="1415" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49816102" weight="0.32917318" />
@@ -721,20 +692,20 @@
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010217" side_tool="true" weight="0.32917318" />
       <window_info anchor="right" id="Maven Projects" order="7" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.496935" weight="0.32917318" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49897835" weight="0.3299532" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.496935" weight="0.32917318" />
       <window_info anchor="bottom" x="2560" y="28" width="1920" height="1052" id="Terminal" order="12" sideWeight="0.5031201" side_tool="true" visible="true" weight="0.26599064" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49687988" weight="0.12954639" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49687988" visible="true" weight="0.13036372" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info id="Structure" order="1" sideWeight="0.50116277" side_tool="true" weight="0.18062934" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info id="Favorites" order="5" sideWeight="0.50116277" side_tool="true" weight="0.18062934" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="5" sideWeight="0.50116277" side_tool="true" weight="0.18062934" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
@@ -756,6 +727,41 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/loadTests/createUpdatesTest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5505">
+          <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/retrieveReplayedActivity.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/authenticationTest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loadTests/requestsMashup.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/followQuerier/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -790,9 +796,6 @@
           <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/src/app.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/services/actor/actorCommand/src/routes/couchdb_api.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -878,12 +881,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/eventStore.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/app.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/services/inbox/command/blockInbox/src/routes/block.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1005">
@@ -897,9 +894,6 @@
           <caret line="94" column="26" selection-start-line="94" selection-start-column="26" selection-end-line="94" selection-end-column="26" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/src/routes/event_handler.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/services/inbox/command/likeInbox/src/routes/like.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -921,9 +915,6 @@
           <caret line="70" column="26" selection-start-line="70" selection-start-column="26" selection-end-line="70" selection-end-column="26" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/inbox/databaseQuerier/shareQuerier/src/eventStore.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/scenarios/authenticationScenario.yml">
       <provider selected="true" editor-type-id="text-editor">
@@ -1016,9 +1007,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scenarios/functions.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/scenarios/likeServicesScenario.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="451">
@@ -1054,9 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loadTests/populateUsersActorsDB.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/loadTests/authenticationTest.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1073,8 +1058,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/services/gateway/config/gateway.config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="724">
-          <caret line="367" lean-forward="true" selection-start-line="367" selection-end-line="367" />
+        <state relative-caret-position="5505">
+          <caret line="367" selection-start-line="367" selection-end-line="367" />
         </state>
       </provider>
     </entry>
