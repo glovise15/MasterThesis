@@ -24,4 +24,4 @@ cd followQuerier && npm install && cd ..
 cd likeQuerier && npm install && cd ..
 cd noteQuerier && npm install && cd ..
 cd shareQuerier && npm install && cd ../..
-wolkenkit start
+cd eventStore && npm install -g wolkenkit@3.1.0 && wolkenkit start

@@ -19,7 +19,8 @@
     "mocha": "^5.2.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.7",
-    "wolkenkit-client": "^3.1.0"
+    "wolkenkit-client": "^3.1.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {},
   "scripts": {
