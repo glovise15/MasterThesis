@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const router = express.Router();
 const userHelpers = require('./couchdb_api')
 
-const key = "2URIWeWGe5s14OptNidOyP"
+const key = "OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh";
 
 /*
     Log in an user
@@ -23,7 +23,6 @@ router.get('/authenticate/:username/:password', (req, res) => {
     console.log(`try to log in: username=${username} & password=${password}`)
     return userHelpers.getUser(username)
         .then((response) => {
-            console.log(response)
             if (!response) {
                 throw new Error(`${username} is not in DB`)
             }
@@ -32,7 +31,7 @@ router.get('/authenticate/:username/:password', (req, res) => {
                 throw new Error(`Incorrect password for ${username}`)
             }
             // Creation of the JsonWebToken
-            response["token"] = jwt.sign({username:response.username}, key, {
+            response["token"] = jwt.sign({sub: username}, key, {
                 expiresIn: 604800
             });
 
@@ -70,7 +69,6 @@ function comparePass (userPassword, databasePassword) {
  */
 router.get('/authorization/:username', (req, res) => {
     var username = req.params.username
-    console.log(`checks whether the token of ${username} is valid`);
     if (req.headers['authorization'] === undefined || !req.headers['authorization'] || !username) {
         throw new Error(`Missing user or token value`);
     }
@@ -95,8 +93,9 @@ router.get('/authorization/:username', (req, res) => {
  */
 function ensureAuthenticated (req) {
     return new Promise((resolve, reject) => {
-        var token = req.headers['authorization'];
+        var token = req.headers['authorization'].replace('Bearer ','');
         jwt.verify(token,key, function(err, decoded) {
+            console.log(decoded)
             if (err) {
                 console.log(err)
                 reject(new Error(`Token for ${req.params.username} is not valid : ${token}`));

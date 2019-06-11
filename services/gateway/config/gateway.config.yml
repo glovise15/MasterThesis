@@ -19,7 +19,7 @@ apiEndpoints:
     host: 'localhost'
     methods: 'POST'
     paths:
-      - '/actor'
+      - '/actor/*'
   actor-query-api:
     host: 'localhost'
     methods: 'GET'
@@ -104,12 +104,12 @@ apiEndpoints:
     host: 'localhost'
     methods: 'GET'
     paths:
-      - '/outbox/:actor'
+      - '/outbox/*'
   inbox-api:
     host: 'localhost'
     methods: 'GET'
     paths:
-      - '/inbox/:actor'
+      - '/inbox/*'
 
 serviceEndpoints:
   user-command-service:
@@ -150,30 +150,23 @@ serviceEndpoints:
     url: 'http://localhost:3124'
   share-inbox-query-service:
     url: 'http://localhost:3125'
-  outbox-service:
-    url: 'http://localhost:3121'
-  inbox-service:
-    url: 'http://localhost:3121'
-  default-service:
-    url: 'http://localhost:8080'
-  multiples:
+  outbox-recipients:
     urls:
-      - 'http://localhost:3109'
-      - 'http://localhost:3113'
-      - 'http://localhost:3117'
-      - 'http://localhost:3121'
-      - 'http://localhost:3125'
+      - 'http://localhost:3121/note/from'
+      - 'http://localhost:3109/block/blocked'
+      - 'http://localhost:3113/follow/following'
+      - 'http://localhost:3117/like/likedBy'
+      - 'http://localhost:3125/share/sharedBy'
+  inbox-recipients:
+    urls:
+      - 'http://localhost:3121/note/to'
+      - 'http://localhost:3109/block/blocking'
+      - 'http://localhost:3113/follow/followed'
 
 policies:
-  - basic-auth
   - jwt
-  - cors
   - expression
-  - key-auth
-  - log
-  - oauth2
   - proxy
-  - rate-limit
   - rewrite
 
 pipelines:
@@ -183,7 +176,7 @@ pipelines:
     policies:
       jwt:
         action:
-          secretOrPublicKey: 2URIWeWGe5s14OptNidOyP
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
           checkCredentialExistence: false
       proxy:
         action:
@@ -194,6 +187,10 @@ pipelines:
     apiEndpoints:
       - user-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: user-query-service
@@ -205,7 +202,7 @@ pipelines:
     policies:
       jwt:
         action:
-          secretOrPublicKey: 2URIWeWGe5s14OptNidOyP
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
           checkCredentialExistence: false
       proxy:
         action:
@@ -216,6 +213,10 @@ pipelines:
     apiEndpoints:
       - actor-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: actor-query-service
@@ -225,6 +226,10 @@ pipelines:
     apiEndpoints:
       - block-outbox-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: block-outbox-service
@@ -234,6 +239,10 @@ pipelines:
     apiEndpoints:
       - block-inbox-command-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: block-inbox-command-service
@@ -243,6 +252,10 @@ pipelines:
     apiEndpoints:
       - block-inbox-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: block-inbox-query-service
@@ -252,6 +265,10 @@ pipelines:
     apiEndpoints:
       - follow-outbox-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: follow-outbox-service
@@ -261,6 +278,10 @@ pipelines:
     apiEndpoints:
       - follow-inbox-command-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: follow-inbox-command-service
@@ -270,6 +291,10 @@ pipelines:
     apiEndpoints:
       - follow-inbox-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: follow-inbox-query-service
@@ -279,6 +304,10 @@ pipelines:
     apiEndpoints:
       - like-outbox-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: like-outbox-service
@@ -288,6 +317,10 @@ pipelines:
     apiEndpoints:
       - like-inbox-command-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: like-inbox-command-service
@@ -297,6 +330,10 @@ pipelines:
     apiEndpoints:
       - like-inbox-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: like-inbox-query-service
@@ -306,6 +343,10 @@ pipelines:
     apiEndpoints:
       - note-outbox-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: note-outbox-service
@@ -315,6 +356,10 @@ pipelines:
     apiEndpoints:
       - note-inbox-command-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: note-inbox-command-service
@@ -324,6 +369,10 @@ pipelines:
     apiEndpoints:
       - note-inbox-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: note-inbox-query-service
@@ -333,6 +382,10 @@ pipelines:
     apiEndpoints:
       - share-outbox-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: share-outbox-service
@@ -342,6 +395,10 @@ pipelines:
     apiEndpoints:
       - share-inbox-command-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: share-inbox-command-service
@@ -351,6 +408,10 @@ pipelines:
     apiEndpoints:
       - share-inbox-query-api
     policies:
+      jwt:
+        action:
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
       proxy:
         action:
             serviceEndpoint: share-inbox-query-service
@@ -360,23 +421,28 @@ pipelines:
     apiEndpoints:
       - outbox-api
     policies:
-      rewrite:
-        condition:
-          name: pathmatch
-          match: /outbox/:actor
+      jwt:
         action:
-          rewrite: /note/from/:actor
-          redirect: 302
-
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
+      proxy:
+        strategy: all
+        action:
+            serviceEndpoint: outbox-recipients
+            changeOrigin: true
+            stripPath: true
 
   inbox:
     apiEndpoints:
       - inbox-api
     policies:
-      rewrite:
-        condition:
-          name: pathmatch
-          match: /inbox/:actor
+      jwt:
         action:
-          rewrite: /note/to/:actor
-          redirect: 302
+          secretOrPublicKey: OCOpN93FYCbGlszCH8yu9CXvAHqcYHxh
+          checkCredentialExistence: false
+      proxy:
+        strategy: all
+        action:
+            serviceEndpoint: inbox-recipients
+            changeOrigin: true
+            stripPath: true
