@@ -23,5 +23,5 @@ $ artillery run testName.yml
 ## Common issues
 If you encounter issues at any time during the installation, try executing each command as root (**sudo**). If you face issues during deployment with Wolkenkit or with services not managing to connect to the event-store (problem with ConfiguraitonWatcher), try changing the **HOST** variable to your machine address. This variable can be found in the *services/.env* file and you can obtain your address with the following command:
 ```
-ip -4 addr show docker0 | grep -Po 'inet \K[\d.]+'
+ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1
 ```
