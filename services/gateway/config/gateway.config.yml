@@ -151,11 +151,18 @@ serviceEndpoints:
   share-inbox-query-service:
     url: 'http://localhost:3125'
   outbox-service:
-    url: 'http://localhost:3113'
+    url: 'http://localhost:3121'
   inbox-service:
-    url: 'http://localhost:3100'
+    url: 'http://localhost:3121'
   default-service:
     url: 'http://localhost:8080'
+  multiples:
+    urls:
+      - 'http://localhost:3109'
+      - 'http://localhost:3113'
+      - 'http://localhost:3117'
+      - 'http://localhost:3121'
+      - 'http://localhost:3125'
 
 policies:
   - basic-auth
@@ -359,11 +366,7 @@ pipelines:
           match: /outbox/:actor
         action:
           rewrite: /note/from/:actor
-          redirect: 201
-      proxy:
-        action:
-            url: http://localhost:3121/note/from/actor
-            changeOrigin: true
+          redirect: 302
 
 
   inbox:
@@ -376,8 +379,4 @@ pipelines:
           match: /inbox/:actor
         action:
           rewrite: /note/to/:actor
-          redirect: 201
-      proxy:
-        action:
-            url: http://localhost:3121/note/to/actor
-            changeOrigin: true
+          redirect: 302

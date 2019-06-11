@@ -40,10 +40,8 @@ const plugin = {
 
                     if (!actionParams.redirect) {
                         req.url = toUrl;
-                        console.log("To url :"+ req.url);
                         return next();
                     }
-
                     res.redirect(actionParams.redirect, toUrl);
                 }
             }
