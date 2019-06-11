@@ -1,7 +1,6 @@
 const log = require('debug')('actor-db')
-//const actorDB = require('nano')(process.env.COUCHDB_DB_URL)
-//console.log(process.env.COUCHDB_DB_URL)
-const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
+const actorDB = require('nano')(process.env.COUCHDB_DB_URL)
+//const actorDB = require('nano')("http://admin:admin@actor-db:5984/actor")
 
 /*
     Insert a new actor in the database

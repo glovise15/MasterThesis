@@ -358,11 +358,11 @@ pipelines:
           name: pathmatch
           match: /outbox/:actor
         action:
-          rewrite: /follow/follower/:actor
+          rewrite: /note/from/:actor
           redirect: 201
       proxy:
         action:
-            url: http://localhost:3113/follow/follower/actor
+            url: http://localhost:3121/note/from/actor
             changeOrigin: true
 
 
@@ -375,9 +375,9 @@ pipelines:
           name: pathmatch
           match: /inbox/:actor
         action:
-          rewrite: /follow/following/:actor
+          rewrite: /note/to/:actor
           redirect: 201
       proxy:
         action:
-            url: http://localhost:3113/follow/following/actor
+            url: http://localhost:3121/note/to/actor
             changeOrigin: true

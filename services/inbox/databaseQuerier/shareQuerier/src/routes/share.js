@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
-const actorHost = "http://172.25.0.1:3106/actor/get/";
-const noteHost = "http://172.25.0.1:3121/note/get/";
-const shareHost = "http://172.25.0.1:3125/share/get/";
+const actorHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.ACTOR_QUERY_PORT+"/actor/get/";
+const noteHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.NOTE_QUERY_PORT+"/note/get/";
+const shareHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.SHARE_QUERY_PORT+"/share/get/";
 
 /*
     Subscription to the share topic
@@ -67,7 +67,7 @@ router.get('/sharedBy/:actor', (req, res) => {
                 if (replayedEvent != null) shared.push(replayedEvent.object);
             });
             if(shared === undefined || shared < 1) {
-                let err = "No notes found";
+                let err = "No shared found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -129,7 +129,7 @@ router.get('/sharedWith/:object', (req, res) => {
                 if (replayedEvent != null) actors.push(replayedEvent.actor);
             });
             if(actors === undefined || actors < 1) {
-                let err = "No notes found";
+                let err = "No actors found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -216,10 +216,10 @@ function groupById(events){
 
     let array = [];
     let arrays = [];
-    let prevId = events[0].activity.object.id;
+    let prevId = events[0].activity.id;
 
     events.forEach(event => {
-        let id = event.activity.object.id;
+        let id = event.activity.type === "Announce" ? event.activity.id : event.activity.object.id;
 
         if( prevId !== id) {
             arrays.push(array);

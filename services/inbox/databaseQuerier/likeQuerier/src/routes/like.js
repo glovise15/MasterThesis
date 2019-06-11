@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
-const actorHost = "http://172.25.0.1:3106/actor/get/";
-const noteHost = "http://172.25.0.1:3121/note/get/";
-const likeHost = "http://172.25.0.1:3117/like/get/";
+const actorHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.ACTOR_QUERY_PORT+"/actor/get/";
+const noteHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.NOTE_QUERY_PORT+"/note/get/";
+const likeHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.LIKE_QUERY_PORT+"/like/get/";
 /*
     Subscription to the like topic
  */
@@ -212,10 +212,9 @@ function groupById(events){
 
     let array = [];
     let arrays = [];
-    let prevId = events[0].activity.object.id;
-
+    let prevId = events[0].activity.id;
     events.forEach(event => {
-        let id = event.activity.object.id;
+        let id = event.activity.type === "Like" ? event.activity.id : event.activity.object.id;
 
         if( prevId !== id) {
             arrays.push(array);
@@ -244,7 +243,6 @@ function replayLike(events){
     let remove = false;
     let prevAction = '';
     let currentState = {};
-
     events.forEach(event => {
         switch(event.activity.type){
             case 'Like' :

@@ -10,7 +10,9 @@ services:
     volumes:
       - './user/userDB:/app/src'
     ports:
-      - '3101:5984'
+      - '${USER_DB_PORT}:${COUCHDB_PORT}'
+    env_file:
+      - '.env'
 
   user-init-db:
     container_name: user-init-db
@@ -27,7 +29,9 @@ services:
     volumes:
       - './user/userCommand:/app/src'
     ports:
-      - '3102:3100'
+      - '${USER_COMMAND_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
   user-query-service:
     container_name: user-query-service
@@ -35,7 +39,9 @@ services:
     volumes:
       - './user/userQuery:/app/src'
     ports:
-      - '3103:3100'
+      - '${USER_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
 #------------------------Actor------------------------------
 
@@ -45,7 +51,9 @@ services:
     volumes:
       - './actor/actorDB:/app/src'
     ports:
-      - '3104:5984'
+      - '${ACTOR_DB_PORT}:${COUCHDB_PORT}'
+    env_file:
+      - '.env'
 
   actor-init-db:
     container_name: actor-init-db
@@ -61,7 +69,9 @@ services:
     volumes:
       - './actor/actorCommand:/app/src'
     ports:
-      - '3105:3100'
+      - '${ACTOR_COMMAND_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
   actor-query-service:
     container_name: actor-query-service
@@ -69,7 +79,9 @@ services:
     volumes:
       - './actor/actorQuery:/app/src'
     ports:
-      - '3106:3100'
+      - '${ACTOR_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
 #------------------------Block------------------------------
 
@@ -79,7 +91,9 @@ services:
     volumes:
       - './outbox/blockOutbox:/app/src'
     ports:
-      - '3107:3100'
+      - '${BLOCK_OUTBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
   block-inbox-command-service:
     container_name : block-inbox-command-service
@@ -87,9 +101,11 @@ services:
     volumes:
       - './inbox/command/blockInbox:/app/src'
     ports:
-      - '3108:3100'
+      - '${BLOCK_INBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
   block-inbox-query-service:
     container_name : block-inbox-query-service
@@ -97,9 +113,11 @@ services:
     volumes:
       - './inbox/databaseQuerier/blockQuerier:/app/src'
     ports:
-      - '3109:3100'
+      - '${BLOCK_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
 #------------------------Follow------------------------------
 
@@ -108,8 +126,10 @@ services:
     build: ./outbox/followOutbox
     volumes:
       - './outbox/followOutbox:/app/src'
+    env_file:
+      - '.env'
     ports:
-      - '3111:3100'
+      - '${FOLLOW_OUTBOX_PORT}:${HOST_PORT}'
 
   follow-inbox-command-service:
     container_name : follow-inbox-command-service
@@ -117,9 +137,11 @@ services:
     volumes:
       - './inbox/command/followInbox:/app/src'
     ports:
-      - '3112:3100'
+      - '${FOLLOW_INBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
   follow-inbox-query-service:
     container_name : follow-inbox-query-service
@@ -127,9 +149,11 @@ services:
     volumes:
       - './inbox/databaseQuerier/followQuerier:/app/src'
     ports:
-      - '3113:3100'
+      - '${FOLLOW_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
 #------------------------Like------------------------------
 
@@ -139,7 +163,10 @@ services:
     volumes:
       - './outbox/likeOutbox:/app/src'
     ports:
-      - '3115:3100'
+      - '${LIKE_OUTBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
+
 
   like-inbox-command-service:
     container_name : like-inbox-command-service
@@ -147,9 +174,11 @@ services:
     volumes:
       - './inbox/command/likeInbox:/app/src'
     ports:
-      - '3116:3100'
+      - '${LIKE_INBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
   like-inbox-query-service:
     container_name : like-inbox-query-service
@@ -157,9 +186,11 @@ services:
     volumes:
       - './inbox/databaseQuerier/likeQuerier:/app/src'
     ports:
-      - '3117:3100'
+      - '${LIKE_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
 #------------------------Note------------------------------
 
@@ -169,7 +200,9 @@ services:
     volumes:
       - './outbox/noteOutbox:/app/src'
     ports:
-      - '3119:3100'
+      - '${NOTE_OUTBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
   note-inbox-command-service:
     container_name : note-inbox-command-service
@@ -177,9 +210,11 @@ services:
     volumes:
       - './inbox/command/noteInbox:/app/src'
     ports:
-      - '3120:3100'
+      - '${NOTE_INBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
   note-inbox-query-service:
     container_name : note-inbox-query-service
@@ -187,9 +222,11 @@ services:
     volumes:
       - './inbox/databaseQuerier/noteQuerier:/app/src'
     ports:
-      - '3121:3100'
+      - '${NOTE_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
 #------------------------Share------------------------------
 
@@ -199,7 +236,9 @@ services:
     volumes:
       - './outbox/shareOutbox:/app/src'
     ports:
-      - '3123:3100'
+      - '${SHARE_OUTBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
 
   share-inbox-command-service:
     container_name : share-inbox-command-service
@@ -207,9 +246,11 @@ services:
     volumes:
       - './inbox/command/shareInbox:/app/src'
     ports:
-      - '3124:3100'
+      - '${SHARE_INBOX_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
   share-inbox-query-service:
     container_name : share-inbox-query-service
@@ -217,9 +258,11 @@ services:
     volumes:
       - './inbox/databaseQuerier/shareQuerier:/app/src'
     ports:
-      - '3125:3100'
+      - '${SHARE_QUERY_PORT}:${HOST_PORT}'
+    env_file:
+      - '.env'
     extra_hosts:
-      - "local.wolkenkit.io:172.25.0.1"
+      - "local.wolkenkit.io:${HOST}"
 
 
 

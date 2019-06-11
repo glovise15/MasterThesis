@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3112/followIB/';
+const host = process.env.PREFIX+''+process.env.HOST+':'+process.env.FOLLOW_INBOX_PORT+"/followIB/";
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*
@@ -42,16 +42,18 @@ function postToAllRecipients(req, urn){
     @return -> promise
  */
 function postTo(location, req){
-
     return new Promise((resolve, reject) => {
         request.post({
             headers: {"Content-Type": 'application/json', Authorization: req.headers.authorization},
             url: location,
             body: req.body,
             json: true
-        }, function (error, response, body){
-            if (!error && body.status !== 'error') resolve(body.data);
-            else reject(error ? error : "incorrect get url : "+location)
+        }, function (err, response, body){
+            if (!err && body.status !== 'error') resolve(body.data);
+            else {
+                if (!err) err = body.message;
+                reject(err ? err : "incorrect get url : " + location)
+            }
         });
     });
 }
@@ -85,6 +87,7 @@ function getRecipientsList(req){
 
  */
 function getFrom(token, location){
+
     return new Promise((resolve, reject) => {
         request.get({
             headers: {"Content-Type": 'application/json', Authorization: token},

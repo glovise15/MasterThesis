@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
-const actorHost = "http://172.25.0.1:3106/actor/get/"
-const blockHost = "http://172.25.0.1:3109/block/get/"
+const actorHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.ACTOR_QUERY_PORT+"/actor/get/";
+const blockHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.BLOCK_QUERY_PORT+"/block/get/";
 
 /*
     Subscription to the block topic
@@ -65,7 +65,7 @@ router.get('/blocking/:actor', (req, res) => {
                 if (replayedEvent != null) blocking.push(replayedEvent.actor);
             });
             if(blocking === undefined || blocking < 1) {
-                let err = "No notes found";
+                let err = "No block found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -126,7 +126,7 @@ router.get('/blocked/:actor', (req, res) => {
                 if (replayedEvent != null) blocked.push(replayedEvent.object);
             });
             if(blocked === undefined || blocked < 1) {
-                let err = "No notes found";
+                let err = "No block found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -212,10 +212,10 @@ function groupById(events){
 
     let array = [];
     let arrays = [];
-    let prevId = events[0].activity.object.id;
+    let prevId = events[0].activity.id;
 
     events.forEach(event => {
-        let id = event.activity.object.id;
+        let id = event.activity.type === "Follow" ? event.activity.id : event.activity.object.id;
 
         if( prevId !== id) {
             arrays.push(array);

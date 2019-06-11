@@ -3,7 +3,7 @@ const inboxApi = require('./inbox_api')
 const router = express.Router();
 const fields = ['summary','type','actor','object', 'to'];
 const supportedTypes = ['Block', 'Undo'];
-const blockQueryUrl = 'http://172.25.0.1:3109/block/get/';
+const blockQueryUrl = process.env.PREFIX+''+process.env.HOST+':'+process.env.BLOCK_QUERY_PORT+"/block/get/";
 
 // The purpose of this service is send block activities the appropriate inboxes
 

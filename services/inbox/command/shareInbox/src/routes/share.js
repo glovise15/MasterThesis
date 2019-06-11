@@ -45,8 +45,8 @@ function isActivityValid(activity){
 }
 
 /*
-    Publish a note activity to the eventStore
-        Activity activity : the activity containing the note
+    Publish a block activity to the eventStore
+        Activity activity : the activity containing the block
         Response res : request response
     @return -> success or error
  */
@@ -61,7 +61,7 @@ function publish(activity, res){
 
 /*
     Forward the activity to all recipients
-        Activity activity : the activity containing the note
+        Activity activity : the activity containing the block
         Request res : request response
     @return -> success or error
  */

@@ -3,7 +3,7 @@ const inboxApi = require('./inbox_api')
 const router = express.Router();
 const fields = ['summary','type','actor','object', 'to'];
 const supportedTypes = ['Like', 'Undo'];
-const likeQueryUrl = 'http://172.25.0.1:3117/like/get/';
+const likeQueryUrl = process.env.PREFIX+''+process.env.HOST+':'+process.env.LIKE_QUERY_PORT+"/like/get/";
 
 // The purpose of this service is send like activities the appropriate inboxes
 

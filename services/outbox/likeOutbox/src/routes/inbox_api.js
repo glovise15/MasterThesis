@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3116/likeIB/';
+const host = process.env.PREFIX+''+process.env.HOST+':'+process.env.LIKE_INBOX_PORT+"/likeIB/";
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*

@@ -3,7 +3,7 @@ const inboxApi = require('./inbox_api')
 const router = express.Router();
 const fields = ['summary','type','actor','object', 'to'];
 const supportedTypes = ['Announce', 'Undo'];
-const shareQueryUrl = 'http://172.25.0.1:3125/share/get/';
+const shareQueryUrl = process.env.PREFIX+''+process.env.HOST+':'+process.env.SHARE_QUERY_PORT+"/share/get/";
 
 // The purpose of this service is send share (announce) activities the appropriate inboxes
 

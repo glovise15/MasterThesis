@@ -1,8 +1,7 @@
 const log = require('debug')('user-db')
 const bcrypt = require('bcryptjs')
-//const userDB = require('nano')(process.env.COUCHDB_DB_URL)
-//console.log(process.env.COUCHDB_DB_URL)
-const userDB = require('nano')("http://admin:admin@user-db:5984/user")
+const userDB = require('nano')(process.env.COUCHDB_DB_URL)
+//const userDB = require('nano')("http://admin:admin@user-db:5984/user")
 
 /*
     Insert the new user in the database

@@ -2,7 +2,6 @@ const express = require('express');
 const log = require('debug')('actor-db')
 const router = express.Router();
 const actorHelpers = require('./couchdb_api')
-const host = 'http://172.25.0.1';
 
 // MUST HAVE fields for an actor
 const fields = ['user', 'type', 'id','name','summary'];
@@ -26,13 +25,13 @@ router.post('/create', (req, res) => {
     }else{
         console.log(`Try to create new actor`);
         let actor = req.body;
-        actor['inbox'] = host + ':3100/' + 'inbox/' + actor.id ;
-        actor['outbox'] = host + ':3100/'+ 'outbox/' + actor.id ;
-        actor['followers'] = host + ':3113/follow/follower/'+ actor.id;
-        actor['following'] = host + ':3113/follow/following/'+ actor.id;
-        actor['liked'] = host + ':3117/like/liked/'+ actor.id;
+        actor['inbox'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.HOST_PORT + '/inbox/' + actor.id ;
+        actor['outbox'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.HOST_PORT + '/outbox/' + actor.id ;
+        actor['followers'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.FOLLOW_QUERY_PORT + '/follow/follower/'+ actor.id;
+        actor['following'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.FOLLOW_QUERY_PORT + '/follow/following/'+ actor.id;
+        actor['liked'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.LIKE_QUERY_PORT + '/like/liked/'+ actor.id;
         actor['identifier'] = actor.id;
-        actor['id'] = host + ':3106/actor/get/' + actor.id;
+        actor['id'] = process.env.PREFIX +''+ process.env.HOST +':'+ process.env.ACTOR_QUERY_PORT + '/actor/get/' + actor.id;
 
         return actorHelpers.createActor(actor)
             .then((data) => {

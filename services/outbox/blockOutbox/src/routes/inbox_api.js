@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3108/blockIB/';
+const host = process.env.PREFIX+''+process.env.HOST+':'+process.env.BLOCK_INBOX_PORT+"/blockIB/";
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*

@@ -6,14 +6,22 @@ const wolkenkit = require("../eventStore");
         Activity activity : the activity to publish
     @return -> success or error
  */
-function publishFollowEvent (activity) {
-    console.log('publishFollowEvent()')
+function publishFollowEvent (folllowActivity, approvalActivity) {
+
     return new Promise((resolve, reject) => {
         wolkenkit
             .then((eventStore) => {
-                eventStore.activityPub.activity().follow(activity)
+                eventStore.activityPub.activity().follow(folllowActivity)
                     .failed(err => reject(err))
-                    .delivered(() => resolve(activity));
+                    .delivered(() => {
+                        if(approvalActivity != null){
+                            eventStore.activityPub.activity().follow(approvalActivity)
+                                .failed(err => reject(err))
+                                .delivered(() => resolve(folllowActivity))
+                        }
+                        else resolve(folllowActivity)
+                    })
+
             }).catch((error) => {
                 console.log(error);
             })

@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3124/shareIB/';
+const host = process.env.PREFIX+''+process.env.HOST+':'+process.env.SHARE_INBOX_PORT+"/shareIB/";
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*

@@ -1,7 +1,7 @@
 const express = require('express');
 const inboxApi = require('./inbox_api');
 const router = express.Router();
-const noteQueryUrl = 'http://172.25.0.1:3121/note/get/';
+const noteQueryUrl = process.env.PREFIX+''+process.env.HOST+':'+process.env.NOTE_QUERY_PORT+"/note/get/";
 const activityFields = ['type','actor','object', 'to'];
 const objectFields = ['type', 'content', 'attributedTo', 'to'];
 const supportedTypes = ['Create', 'Update', 'Delete'];

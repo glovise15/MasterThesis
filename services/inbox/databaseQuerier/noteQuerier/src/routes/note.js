@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
-const actorHost = "http://172.25.0.1:3106/actor/get/"
-const noteHost = "http://172.25.0.1:3121/note/get/"
+const actorHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.ACTOR_QUERY_PORT+"/actor/get/";
+const noteHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.NOTE_QUERY_PORT+"/note/get/";
 
 /*
     Subscription to the note topic
@@ -130,12 +130,12 @@ router.get('/to/:actor', (req, res) => {
     @return -> note object
  */
 router.get('/get/:object', (req, res) => {
-    console.log("GET : "+ req.params.object)
+    console.log("HERE : "+noteHost+""+req.params.object)
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
                 $and: [
-                    { 'activity.object.id' : { $contains:noteHost+""+req.params.object }},
+                    { 'activity.object.id' : { $contains: noteHost+""+req.params.object }},
                     { 'activity.object.type': { $contains: "Note" }}
                 ]
             },

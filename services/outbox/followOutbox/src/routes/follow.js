@@ -3,7 +3,7 @@ const inboxApi = require('./inbox_api')
 const router = express.Router();
 const fields = ['summary','type','actor','object', 'to'];
 const supportedTypes = ['Follow', 'Undo'];
-const followQueryUrl = 'http://172.25.0.1:3113/follow/get/';
+const followQueryUrl = process.env.PREFIX+''+process.env.HOST+':'+process.env.FOLLOW_QUERY_PORT+"/follow/get/";
 
 // The purpose of this service is send follow activities the appropriate inboxes
 

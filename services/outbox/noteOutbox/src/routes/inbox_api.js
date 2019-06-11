@@ -1,5 +1,5 @@
 const request = require('request');
-const host = 'http://172.25.0.1:3120/noteIB/';
+const host = process.env.PREFIX+''+process.env.HOST+':'+process.env.NOTE_INBOX_PORT+"/noteIB/";
 const recipientsField = ['to','cc','bto','bcc','audience']
 
 /*

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const wolkenkit = require("../eventStore");
-const actorHost = "http://172.25.0.1:3106/actor/get/"
-const followHost = "http://172.25.0.1:3113/follow/get/"
+const actorHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.ACTOR_QUERY_PORT+"/actor/get/";
+const followHost = process.env.PREFIX+''+process.env.HOST+':'+process.env.FOLLOW_QUERY_PORT+"/follow/get/";
 
 
 /*
@@ -30,6 +30,7 @@ wolkenkit.then((eventStore) => {
     @return -> array of followers
  */
 router.get('/followed/:actor', (req, res) => {
+    console.log(actorHost+""+req.params.actor);
     wolkenkit.then((eventStore) => {
         eventStore.lists.activities.read({
             where: {
@@ -80,7 +81,7 @@ router.get('/followed/:actor', (req, res) => {
                 if (replayedEvent != null) followers.push(replayedEvent.actor);
             });
             if(followers === undefined || followers < 1) {
-                let err = "No notes found";
+                let err = "No followers found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -155,7 +156,7 @@ router.get('/following/:actor', (req, res) => {
                if (replayedEvent != null) following.push(replayedEvent.object);
             });
             if(following === undefined || following < 1) {
-                let err = "No notes found";
+                let err = "No following found";
                 res.status(404).json({
                     status: 'error',
                     err
@@ -255,10 +256,10 @@ function groupById(events){
 
     let array = [];
     let arrays = [];
-    let prevId = events[0].activity.object.id;
+    let prevId = events[0].activity.id;
 
     events.forEach(event => {
-        let id = event.activity.object.id;
+        let id = event.activity.type === "Follow" ? event.activity.id : event.activity.object.id;
 
         if( prevId !== id) {
             arrays.push(array);
@@ -284,7 +285,7 @@ function replayFollow(events){
     if( events === undefined ) return null;
     else if(!Array.isArray(events)) return events.activity;
 
-    let accept = true;
+    let accept = false;
     let remove = false;
     let prevAction = '';
     let currentState = {};
@@ -297,7 +298,6 @@ function replayFollow(events){
                 prevAction = 'Follow';
                 break;
             case 'Undo' :
-
                 if(prevAction === 'Accept' || prevAction === 'Reject') accept = !accept;
                 else remove = !remove;
                 prevAction = 'Undo';
